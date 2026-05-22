@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fitler MBA · Presentations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0F1B2D;
+  --ink-2: #1A2942;
+  --paper: #F4ECD8;
+  --paper-2: #EBE1C7;
+  --gold: #B8924A;
+  --gold-2: #8A6A2E;
+  --rust: #9A3A2A;
+  --muted: #6B6357;
+  --rule: rgba(15,27,45,.18);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { min-height: 100%; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
+  color: var(--paper);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+header {
+  padding: 4rem 2rem 2.5rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(244,236,216,.12);
+}
+.eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: .9rem;
+}
+h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--paper);
+}
+.subtitle {
+  margin-top: .75rem;
+  font-size: .9rem;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+main {
+  max-width: 680px;
+  margin: 3rem auto;
+  padding: 0 2rem 4rem;
+}
+
+.session-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+.session-list a {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.1rem 1.4rem;
+  background: rgba(244,236,216,.05);
+  border: 1px solid rgba(244,236,216,.10);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--paper);
+  transition: background .18s ease, border-color .18s ease, transform .15s ease;
+}
+.session-list a:hover {
+  background: rgba(184,146,74,.12);
+  border-color: rgba(184,146,74,.35);
+  transform: translateX(3px);
+}
+
+.session-num {
+  font-family: 'Fraunces', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--gold);
+  min-width: 2.4rem;
+  line-height: 1;
+}
+.session-info { flex: 1; }
+.session-title {
+  font-size: .95rem;
+  font-weight: 500;
+  color: var(--paper);
+  line-height: 1.3;
+}
+.session-label {
+  font-size: .75rem;
+  color: var(--muted);
+  margin-top: .2rem;
+  font-weight: 300;
+}
+.arrow {
+  color: var(--gold);
+  font-size: 1.1rem;
+  opacity: .6;
+  transition: opacity .18s ease;
+}
+.session-list a:hover .arrow { opacity: 1; }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">Fitler Club · MBA Program</p>
+  <h1>Course Presentations</h1>
+  <p class="subtitle">Click a session to open the slides</p>
+</header>
+
+<main>
+  <ul class="session-list">
+
+    <li>
+      <a href="Fitler_MBA_S00.html">
+        <span class="session-num">00</span>
+        <span class="session-info">
+          <span class="session-title">Designing the Program</span>
+          <span class="session-label">Session 0 · Introduction</span>
+        </span>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+
+    <!-- Add new sessions below as they are created:
+
+    <li>
+      <a href="Fitler_MBA_S01.html">
+        <span class="session-num">01</span>
+        <span class="session-info">
+          <span class="session-title">Session Title Here</span>
+          <span class="session-label">Session 1 · Topic</span>
+        </span>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+
+    -->
+
+  </ul>
+</main>
+
+</body>
+</html>
