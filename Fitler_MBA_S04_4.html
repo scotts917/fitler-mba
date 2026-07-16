@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitler MBA — S04: Financial Foundations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b2541; --ink-2:#33405f; --ink-mut:#6a7390;
+  --paper:#f4efe4; --paper-2:#ece5d6; --card:#fbf8f1;
+  --gold:#b0894e; --gold-2:#c8a45f; --gold-ink:#8c6a36;
+  --rule:rgba(27,37,65,.16);
+  --maxw:1180px;
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#0d1426;color:var(--ink);font-family:var(--sans);overflow:hidden}
+.deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;
+  padding:clamp(36px,5.2vw,86px);background:var(--paper);
+  opacity:0;transition:opacity .42s ease}
+.slide.active{display:flex;opacity:1;animation:fade .5s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.slide.active{animation:none}.slide{transition:none}}
+.slide--navy{background:
+   radial-gradient(120% 100% at 18% 0%,#243154 0%,#1b2541 46%,#141d36 100%);
+   color:var(--paper)}
+.slide--navy .display{color:var(--paper)}
+.slide--navy .rule{background:rgba(244,239,228,.22)}
+.eyebrow{font-family:var(--sans);font-weight:600;font-size:clamp(11px,1.05vw,13px);
+  letter-spacing:.34em;text-transform:uppercase;color:var(--gold-ink)}
+.slide--navy .eyebrow{color:var(--gold-2)}
+.display{font-family:var(--serif);font-weight:500;line-height:1.02;
+  letter-spacing:-.01em;font-size:clamp(40px,6.6vw,92px);color:var(--ink)}
+.display.sm{font-size:clamp(34px,4.6vw,62px)}
+.kicker{font-family:var(--serif);font-style:italic;font-weight:500;
+  font-size:clamp(20px,2.5vw,34px);color:var(--gold-ink)}
+.slide--navy .kicker{color:var(--gold-2)}
+.lede{font-size:clamp(16px,1.55vw,21px);line-height:1.5;color:var(--ink-2);max-width:46ch}
+.slide--navy .lede{color:#d9dcea}
+.tiny{font-family:var(--sans);font-size:clamp(12px,1.1vw,14px);color:var(--ink-mut);letter-spacing:.01em}
+.slide--navy .tiny{color:#aeb6cf}
+.rule{height:1px;background:var(--rule);width:100%}
+b,strong{font-weight:600}
+.gold{color:var(--gold-ink)} .slide--navy .gold{color:var(--gold-2)}
+.head{display:flex;flex-direction:column;gap:14px}
+.body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:clamp(18px,2.4vw,30px)}
+.foot{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
+.maxw{max-width:var(--maxw);width:100%;margin-inline:auto}
+.center{align-items:center;text-align:center}
+.center .lede{margin-inline:auto}
+.mono{width:1em;height:1em;display:inline-block;vertical-align:-.16em}
+.brandline{display:flex;align-items:center;gap:12px;font-family:var(--serif);
+  font-size:clamp(17px,1.7vw,22px);color:var(--ink)}
+.slide--navy .brandline{color:var(--paper)}
+.brandline .slash{color:var(--gold)}
+.bullets{display:flex;flex-direction:column;gap:clamp(11px,1.5vw,18px)}
+.bullets li{list-style:none;position:relative;padding-left:24px;
+  font-size:clamp(16px,1.55vw,21px);line-height:1.4;color:var(--ink-2)}
+.bullets li::before{content:"";position:absolute;left:0;top:.55em;width:8px;height:8px;
+  border-radius:50%;background:var(--gold)}
+.slide--navy .bullets li{color:#d9dcea}
+.callout{border-left:3px solid var(--gold);padding:.2em 0 .2em 18px;
+  font-family:var(--serif);font-style:italic;font-size:clamp(19px,2.1vw,28px);
+  line-height:1.22;color:var(--ink)}
+.slide--navy .callout{color:var(--paper)}
+.tags{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.tag{font-family:var(--sans);font-size:clamp(13px,1.35vw,17px);font-weight:500;
+  padding:.5em .95em;border:1px solid var(--rule);border-radius:8px;color:var(--ink-2);
+  background:var(--card)}
+.tip{border-left:3px solid var(--gold);padding:10px 0 10px 16px;background:linear-gradient(90deg,rgba(176,137,78,.08),transparent);
+  font-family:var(--sans);font-size:clamp(13px,1.35vw,17px);line-height:1.4;color:var(--ink-2)}
+.tip b{color:var(--gold-ink)}
+.cols{display:grid;gap:clamp(20px,3vw,46px)}
+.cols.two{grid-template-columns:1fr 1fr}
+@media(max-width:760px){.cols.two{grid-template-columns:1fr}.display{font-size:clamp(34px,9vw,52px)}}
+
+/* camera-angle cards */
+.caserow{display:grid;gap:clamp(12px,1.6vw,20px);grid-template-columns:repeat(3,1fr);width:100%;max-width:1040px;margin-inline:auto}
+.case{background:var(--card);border:1px solid var(--rule);border-radius:11px;
+  padding:clamp(16px,2vw,26px);display:flex;flex-direction:column;gap:10px;text-align:left}
+.case svg{width:clamp(34px,3.6vw,48px);height:auto;stroke:var(--ink-2);fill:none;
+  stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.case .cn{font-family:var(--serif);font-size:clamp(20px,2.1vw,29px);color:var(--ink);line-height:1.05}
+.case .cm{font-family:var(--serif);font-style:italic;font-size:clamp(15px,1.5vw,20px);color:var(--gold-ink);line-height:1.15}
+.case .ct{font-family:var(--sans);font-size:clamp(12px,1.15vw,14.5px);color:var(--ink-mut);line-height:1.4}
+.case.gold{border-color:rgba(176,137,78,.55);background:linear-gradient(165deg,rgba(200,164,95,.13),var(--card))}
+.case.gold svg{stroke:var(--gold-ink)}
+.case.gold .cn{color:var(--gold-ink)}
+.case.dim{opacity:.55}
+@media(max-width:760px){.caserow{grid-template-columns:1fr}}
+
+/* identity pill (slide 4) */
+.identity{display:flex;flex-direction:column;align-items:center;gap:18px}
+.identity .eq{font-family:var(--serif);font-size:clamp(30px,4.4vw,58px);line-height:1.12;color:var(--paper)}
+.identity .eq .op{color:var(--gold-2)}
+.chipdemo{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(244,239,228,.3);
+  border-radius:999px;padding:10px 20px;font-family:var(--sans);font-size:clamp(13px,1.4vw,17px);
+  font-weight:600;color:var(--paper);font-variant-numeric:tabular-nums;background:rgba(244,239,228,.07)}
+.chipdemo .dot{width:11px;height:11px;border-radius:50%;background:#6fbf8a;box-shadow:0 0 9px rgba(111,191,138,.8)}
+
+/* trickle-down cascade (slide 5) — echoes the artifact's P&L */
+.cascade{width:100%;max-width:760px;margin-inline:auto;font-variant-numeric:tabular-nums}
+.cascade .crow{display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+  padding:clamp(7px,1vw,11px) 14px;border-radius:6px;
+  font-size:clamp(15px,1.6vw,21px);color:var(--ink-2)}
+.cascade .crow .op{font-family:var(--sans);font-weight:600;font-size:clamp(12px,1.2vw,15px);
+  color:var(--ink-mut);letter-spacing:.06em;text-transform:uppercase}
+.cascade .crow.sub{border-top:1px solid var(--ink);font-weight:600;margin-top:2px}
+.cascade .crow.sub .nm{font-family:var(--serif);font-size:clamp(18px,1.95vw,26px);color:var(--ink)}
+.cascade .crow.key{background:linear-gradient(90deg,rgba(176,137,78,.14),transparent 85%)}
+.cascade .crow.fin{border-top:3px double var(--ink);font-weight:600;margin-top:2px}
+.cascade .crow.fin .nm{font-family:var(--serif);font-size:clamp(20px,2.2vw,30px);color:var(--gold-ink)}
+.cascade .crow.dim{opacity:.45}
+.cascade .crow.dim .nm{font-style:italic}
+
+/* parked-for-tonight map (slide 4) */
+.park{display:flex;flex-direction:column;gap:clamp(10px,1.3vw,16px);max-width:880px;width:100%;margin-inline:auto}
+.park .prow{display:flex;justify-content:space-between;align-items:baseline;gap:18px;
+  padding:clamp(8px,1.1vw,13px) 16px;border:1px solid var(--rule);border-radius:9px;background:var(--card)}
+.park .pt{font-family:var(--serif);font-size:clamp(19px,2vw,27px);color:var(--ink);white-space:nowrap}
+.park .pw{font-family:var(--sans);font-size:clamp(13px,1.3vw,16.5px);color:var(--ink-mut);text-align:right;line-height:1.35}
+.park .pw b{color:var(--gold-ink)}
+
+/* balance-sheet T-chart (slide 5) */
+.tchart{width:100%;max-width:900px;margin-inline:auto;display:grid;grid-template-columns:1fr 1fr;
+  border-top:3px solid var(--ink)}
+.tchart .tcol{padding:clamp(10px,1.4vw,18px) clamp(14px,2vw,28px);display:flex;flex-direction:column}
+.tchart .tcol.left{border-right:2px solid var(--ink)}
+.tchart .ttop{font-family:var(--serif);font-weight:600;font-size:clamp(19px,2.1vw,28px);color:var(--gold-ink);
+  padding-bottom:8px;border-bottom:3px double var(--ink)}
+.tchart .tsec{font-family:var(--serif);font-weight:600;font-size:clamp(17px,1.8vw,24px);color:var(--ink);
+  padding:clamp(8px,1.2vw,14px) 0 clamp(3px,.5vw,6px)}
+.tchart .trow{font-size:clamp(14px,1.5vw,19px);color:var(--ink-2);padding:clamp(4px,.7vw,8px) 0 clamp(4px,.7vw,8px) 16px}
+
+/* rear-view vs windshield (slide 7) */
+.mirror{display:flex;flex-direction:column;gap:10px}
+.mirror .mt{font-family:var(--serif);font-size:clamp(22px,2.5vw,34px);color:var(--ink);line-height:1.05}
+.mirror .mm{font-family:var(--serif);font-style:italic;font-size:clamp(15px,1.5vw,20px);color:var(--gold-ink)}
+.mirror ul{margin-top:4px}
+
+.hud{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;
+  justify-content:space-between;padding:10px clamp(18px,3vw,34px);
+  font-family:var(--sans);font-size:12px;color:var(--ink-mut);
+  pointer-events:none;z-index:40;letter-spacing:.04em}
+.hud .count{font-variant-numeric:tabular-nums}
+.progress{position:fixed;left:0;top:0;height:3px;background:var(--gold);z-index:50;transition:width .35s ease}
+.help{pointer-events:auto;opacity:.7}
+.note-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;
+  background:#10182c;color:#e7e9f1;border-top:2px solid var(--gold);
+  font-family:var(--sans);font-size:clamp(13px,1.4vw,16px);line-height:1.45;
+  padding:16px clamp(18px,3vw,34px);transform:translateY(110%);
+  transition:transform .3s ease;max-height:42vh;overflow:auto}
+.note-bar.show{transform:none}
+.note-bar .nlab{font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold-2);margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="progress" id="bar"></div>
+<div class="deck">
+
+<!-- 1 · TITLE -->
+<section class="slide slide--navy center" data-note="~2 min. Open with energy. Tonight is the literacy session — not accounting class, literacy: by the end of the night they will READ both core statements, because they'll have BUILT them, one event at a time, on a bagel shop. Promise the payoff up front: 'ninety minutes from now, a balance sheet will feel obvious.' Do not define anything yet.">
+  <div class="body center maxw" style="gap:24px">
+    <svg class="mono" viewBox="0 0 100 100" style="width:clamp(54px,7vw,86px);height:auto;color:var(--paper)"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="2.4"/><text x="50" y="50" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, serif" font-style="italic" font-size="46" fill="currentColor">F<tspan fill="#b0894e">/</tspan>c</text></svg>
+    <div class="eyebrow">Fitler MBA &middot; Session 04</div>
+    <h1 class="display">Financial Foundations</h1>
+    <div class="kicker">Three camera angles on one company.</div>
+  </div>
+  <div class="foot maxw"><span class="brandline"><svg class="mono" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="2.4"/><text x="50" y="50" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, serif" font-style="italic" font-size="46" fill="currentColor">F<tspan class="slash" fill="#b0894e">/</tspan>c</text></svg> Fitler MBA</span><span class="tiny">Read the numbers by building them</span></div>
+</section>
+
+<!-- 2 · BRIDGE FROM S03 -->
+<section class="slide" data-note="~3 min — the continuity bridge. S03 closed on the business model and unit economics, with the promise that S04 = the financial model. Deliver on it in one line: 'Last time you mapped the model — the bets, and the unit economics. Tonight: does the business make money — and what does it own and owe?' Then set the honest scope: tonight is the statements (the language); next session is the model you can drive (the spreadsheet). Keep this tight — the room wants to build.">
+  <div class="head maxw">
+    <div class="eyebrow">Where we left off</div>
+    <h2 class="display sm">You mapped the model.</h2>
+  </div>
+  <div class="body maxw">
+    <div class="callout">Tonight: does the business make money &mdash; and what does it own and owe?</div>
+    <ul class="bullets">
+      <li><b>S03</b> gave you the model &mdash; the set of bets, and the unit economics.</li>
+      <li><b>Tonight</b> is the language those bets are written in: the financial statements.</li>
+      <li><b>Next session</b> is the machine: a financial model you can drive.</li>
+    </ul>
+  </div>
+  <div class="foot maxw"><span class="tiny">Fitler MBA &middot; S04</span><span class="tiny">2 / 11</span></div>
+</section>
+
+<!-- 3 · THREE CAMERA ANGLES -->
+<section class="slide" data-note="~4 min. The only conceptual frame of the night — three camera angles on ONE company. Balance Sheet: a PHOTO of one instant (what it owns, owes, and the owner's slice). P&L: a FILM of one period (did the month make money). Cash Flow: the BANK-ACCOUNT TRUTH — name it, promise it for S05, and move on; it's deliberately dimmed on the slide. Do NOT define line items here — that's what the empty board is for. One sentence to land: 'Same company, three lenses. Tonight we build the first two — from nothing.'">
+  <div class="head maxw">
+    <div class="eyebrow">The frame</div>
+    <h2 class="display sm">Three camera angles, one company</h2>
+  </div>
+  <div class="body maxw">
+    <div class="caserow">
+      <div class="case gold">
+        <svg viewBox="0 0 48 48"><rect x="6" y="12" width="36" height="28" rx="3"/><circle cx="24" cy="26" r="8"/><path d="M16 12l3-5h10l3 5"/></svg>
+        <div class="cn">Balance Sheet</div>
+        <div class="cm">A photo of one instant</div>
+        <div class="ct">What the company owns, what it owes, and the owner&rsquo;s slice &mdash; frozen at a moment in time.</div>
+      </div>
+      <div class="case gold">
+        <svg viewBox="0 0 48 48"><rect x="5" y="10" width="38" height="28" rx="3"/><path d="M5 18h38M5 30h38M13 10v8M13 30v8M35 10v8M35 30v8"/></svg>
+        <div class="cn">P&amp;L</div>
+        <div class="cm">A film of one period</div>
+        <div class="ct">Revenue in, costs out &mdash; did the month make money? A story with a beginning and an end.</div>
+      </div>
+      <div class="case dim">
+        <svg viewBox="0 0 48 48"><path d="M8 34c4-10 10-10 16-6s12 4 16-6"/><path d="M6 12v28h36"/></svg>
+        <div class="cn">Cash Flow</div>
+        <div class="cm">The bank-account truth</div>
+        <div class="ct">Profit is an opinion; cash is a fact. The third angle &mdash; we build it next session.</div>
+      </div>
+    </div>
+    <div class="tip"><b>Tonight:</b> we build the first two &mdash; from nothing, one event at a time.</div>
+  </div>
+  <div class="foot maxw"><span class="tiny">Fitler MBA &middot; S04</span><span class="tiny">3 / 11</span></div>
+</section>
+
+<!-- 4 · PARKED FOR TONIGHT -->
+<section class="slide" data-note="~2 min. The parking-lot move — this is scoping, NOT teaching. The room has heard every one of these words; name where each lives so nobody derails the spine at minute 40 asking about taxes or valuation. Do not define anything beyond the phrase on screen. THE ONE TO LAND: book value vs. company value — 'the balance sheet you're about to build says what the shop OWNS, not what the company is WORTH.' That single sentence inoculates against the #1 misreading of a balance sheet. Deliver the whole slide standing still, then move.">
+  <div class="head maxw">
+    <div class="eyebrow">Parked for tonight</div>
+    <h2 class="display sm">Words you know, deliberately not tonight</h2>
+  </div>
+  <div class="body maxw">
+    <div class="park">
+      <div class="prow"><span class="pt">Pro forma</span><span class="pw">these same statements pointed <b>forward</b> — tonight&rsquo;s closer, built in <b>S05</b></span></div>
+      <div class="prow"><span class="pt">Taxes</span><span class="pw">Franklin&rsquo;s runs pre-tax tonight — taxes enter the cascade in <b>S05</b></span></div>
+      <div class="prow"><span class="pt">Free cash flow</span><span class="pw">belongs to the third statement — <b>S05</b></span></div>
+      <div class="prow"><span class="pt">Book value vs. company value</span><span class="pw">the balance sheet says what the shop <b>owns</b>, not what the company is <b>worth</b> — that gap is its own session</span></div>
+    </div>
+    <div class="tip"><b>The deal:</b> you know these words — park them for ninety minutes. Each one has an address in this program.</div>
+  </div>
+  <div class="foot maxw"><span class="tiny">Fitler MBA &middot; S04</span><span class="tiny">4 / 11</span></div>
+</section>
+
+<!-- 5 · DOUBLE ENTRY -->
+<section class="slide" data-note="~3 min. Ground zero. SAY GAAP/FASB HERE, verbally: 'everything we build tonight follows a rulebook — GAAP — with a standards body behind it — FASB — and double entry is that rulebook's core invention, five centuries old.' Read the T from the TOP LINE first: Total Assets on the left, Total Liabilities & Equity on the right — and those two numbers are ALWAYS equal. Everything below is just the breakdown. Left column: what the company owns. Right column: liabilities (lenders' claims) and equity (the owner's claim) — every dollar of stuff on the left was funded by someone on the right, which is why the tops always match. Walk a few categories in your own words; keep it generic — no company yet. Two verbal examples, gesturing at the columns: an owner invests 50k — cash lands on the left, paid-in capital on the right, both columns grow together, still equal. The company buys 24k of equipment — money moves WITHIN the left column (cash down, equipment up), the right column never moves, still equal. Those two cases are the whole logic space: grow both sides together, or trade within one side. Then arm the predict game explicitly: 'so when I ask WHERE DOES THIS LAND, the answer is always AT LEAST TWO LINES — one line is never a legal answer.' That sentence is the rules of tonight's game. Details live in the exercise — do not linger here.">
+  <div class="head maxw">
+    <div class="eyebrow">The core invention</div>
+    <h2 class="display sm">Understanding Double Entry Accounting</h2>
+  </div>
+  <div class="body maxw">
+    <div class="tchart">
+      <div class="tcol left">
+        <div class="ttop">Total Assets</div>
+        <div class="tsec">Assets</div>
+        <div class="trow">Cash</div>
+        <div class="trow">Accounts Receivable</div>
+        <div class="trow">Inventory</div>
+        <div class="trow">Prepaid Expenses</div>
+        <div class="trow">Property &amp; Equipment</div>
+        <div class="trow">Intangible Assets</div>
+        <div class="trow">Long-Term Investments</div>
+      </div>
+      <div class="tcol">
+        <div class="ttop">Total Liabilities &amp; Equity</div>
+        <div class="tsec">Liabilities</div>
+        <div class="trow">Accounts Payable</div>
+        <div class="trow">Accrued Expenses</div>
+        <div class="trow">Deferred Revenue</div>
+        <div class="trow">Short-Term Debt</div>
+        <div class="trow">Long-Term Debt</div>
+        <div class="tsec">Equity</div>
+        <div class="trow">Paid-in Capital</div>
+        <div class="trow">Retained Earnings</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot maxw"><span class="tiny">Fitler MBA &middot; S04</span><span class="tiny">5 / 11</span></div>
+</section>
+
+<!-- 6 · THE TRICKLE-DOWN -->
+<section class="slide" data-note="~2 min. The P&L's shape, oriented upfront — the balance sheet got its T on the last slide; this is the second container, so the board can run uninterrupted once we switch. Read the cascade top to bottom ONCE: revenue, less the cost of what you sold = gross profit; less the cost of running the shop = EBITDA; less wear-and-tear and the bank's cut = net income. The dimmed Taxes row: point once — 'parked, remember' — and keep moving. Plant the bridge, one sentence: 'net income doesn't stop at the bottom line — it lands inside the balance sheet, in retained earnings. You'll SEE it fly on the board tonight.' Do not define line items beyond the phrases on screen — the board earns them.">
+  <div class="head maxw">
+    <div class="eyebrow">The second container &middot; the P&amp;L</div>
+    <h2 class="display sm">The trickle-down</h2>
+  </div>
+  <div class="body maxw">
+    <div class="cascade">
+      <div class="crow"><span class="nm">Revenue</span><span class="op">everything sold</span></div>
+      <div class="crow"><span class="nm">Cost of Goods Sold</span><span class="op">&minus; the cost of what you sold</span></div>
+      <div class="crow sub"><span class="nm">Gross Profit</span><span class="op">the product works</span></div>
+      <div class="crow"><span class="nm">Operating Expenses</span><span class="op">&minus; the cost of running the shop</span></div>
+      <div class="crow sub key"><span class="nm">EBITDA</span><span class="op">the operation works</span></div>
+      <div class="crow"><span class="nm">Depreciation &amp; Amortization</span><span class="op">&minus; wear and tear</span></div>
+      <div class="crow sub"><span class="nm">EBIT</span><span class="op">the business works</span></div>
+      <div class="crow"><span class="nm">Interest</span><span class="op">&minus; the bank&rsquo;s cut</span></div>
+      <div class="crow dim"><span class="nm">Taxes</span><span class="op">parked &middot; S05</span></div>
+      <div class="crow fin key"><span class="nm">Net Income</span><span class="op">&rarr; retained earnings</span></div>
+    </div>
+    <div class="tip"><b>Watch for it tonight:</b> net income doesn&rsquo;t stop at the bottom line &mdash; it flows into the Balance Sheet. That bridge is the whole idea.</div>
+  </div>
+  <div class="foot maxw"><span class="tiny">Fitler MBA &middot; S04</span><span class="tiny">6 / 11</span></div>
+</section>
+
+<!-- 7 · HANDOFF — MEET FRANKLIN'S -->
+<section class="slide slide--navy center" data-note="~1 min on this slide, then SWITCH TO THE ARTIFACT and stay there ~35 min — Tiers A and B straight through, events 1–8, no deck return until the break. Introduce the shop in one breath — a Philly bagel shop, month one, and we build its books live, one event at a time. Both containers are already armed (the T and the trickle-down) — do NOT re-teach; when the board opens, point at the green chip: 'there's the T from two slides ago, live — and watch: it never breaks.' Empty board (~4 min): walk the three regions — owns / owes / owner's slice — pointing at the labeled zero-dollar lines. Tier A, events 1–4: reveal each card, ask 'where does this land?', take calls, post, let the chip pulse. Event 3 (buying ovens): first time cash goes DOWN and it still balances — dwell one beat. Tier B, events 5–8: THE MOMENT OF THE NIGHT — when event 5 posts, the gold dot flies from Net Income into Retained Earnings. Say it plainly: 'the P&L's bottom line doesn't disappear — it lands inside equity. Two statements, one system. There's the trickle-down's last row, live.' Let the room sit with it, then run 6–8 and break.">
+  <div class="body center maxw" style="gap:20px">
+    <div class="eyebrow">Time to build</div>
+    <h2 class="display sm">Meet Franklin&rsquo;s Bagels</h2>
+    <div class="lede">A Philly bagel shop, month one, built live &mdash; one financial event at a time.</div>
+  </div>
+  <div class="foot maxw"><span class="tiny">&rarr; switch to the live board &middot; events 1&ndash;8</span><span class="tiny">7 / 11</span></div>
+</section>
+
+<!-- 8 · GLOSSARY, EARNED -->
+<section class="slide" data-note="~5 min, AFTER Tier C (post-break run: events 9–12b — A/P, A/R, depreciation, principal vs. interest, the reclass — ~18 min on the board, predict every one). On event 10 (the law-firm invoice), plant the S05 seed out loud: profit just went UP $750 and cash didn't move an inch — that gap is a real business's oxygen problem, and it's exactly what the third statement measures. This glossary is REINFORCEMENT, never introduction: every term on screen surfaced live on the board tonight. Run it as a rapid-fire beat: point at three or four tags and have the ROOM define them back to you — 'someone give me accrual, in bagel terms.' If a term draws silence, step the board back to the event that taught it. That's what step-back is for.">
+  <div class="head maxw">
+    <div class="eyebrow">Reinforcement &middot; you built all of these</div>
+    <h2 class="display sm">The vocabulary you earned tonight</h2>
+  </div>
+  <div class="body maxw center">
+    <div class="tags">
+      <span class="tag">Double entry</span>
+      <span class="tag">Paid-in capital</span>
+      <span class="tag">Long-term vs. current debt</span>
+      <span class="tag">Inventory</span>
+      <span class="tag">COGS</span>
+      <span class="tag">Gross vs. net</span>
+      <span class="tag">Operating expense</span>
+      <span class="tag">EBITDA</span>
+      <span class="tag">Depreciation</span>
+      <span class="tag">Accrual &amp; accounts payable</span>
+      <span class="tag">Accounts receivable</span>
+      <span class="tag">Principal vs. interest</span>
+      <span class="tag">Retained earnings</span>
+    </div>
+    <div class="callout" style="max-width:760px">Every one of these appeared on the board before it appeared on a slide. That order is the point.</div>
+  </div>
+  <div class="foot maxw"><span class="tiny">Fitler MBA &middot; S04</span><span class="tiny">8 / 11</span></div>
+</section>
+
+<!-- 9 · REAR-VIEW VS WINDSHIELD -->
+<section class="slide" data-note="~4 min. The pivot from literacy to modeling. Left: everything built tonight is the REAR-VIEW MIRROR — true, precise, and entirely about the past. Right: the pro forma is the SAME statements pointed forward, driven by assumptions instead of events. Land the engineering point for this room: the reason a model lives in a spreadsheet is that the links you watched tonight — COGS follows revenue, net income lands in retained earnings — become FORMULAS. Then the cliffhanger, verbatim: 'Next session, we build one you can drive.'">
+  <div class="head maxw">
+    <div class="eyebrow">From literacy to modeling</div>
+    <h2 class="display sm">Rear-view mirror, windshield</h2>
+  </div>
+  <div class="body maxw">
+    <div class="cols two">
+      <div class="mirror">
+        <div class="mt">What we built tonight</div>
+        <div class="mm">The rear-view mirror</div>
+        <ul class="bullets">
+          <li>Historical statements &mdash; what already happened.</li>
+          <li>True, precise, and audited by one green chip.</li>
+          <li>Every number came from a real event.</li>
+        </ul>
+      </div>
+      <div class="mirror">
+        <div class="mt">The pro forma</div>
+        <div class="mm">The windshield</div>
+        <ul class="bullets">
+          <li>The <b>same statements</b>, pointed forward.</li>
+          <li>Driven by assumptions instead of events.</li>
+          <li>The links become <b>formulas</b> &mdash; which is why it lives in a spreadsheet.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Next session: we build one you can drive.</div>
+  </div>
+  <div class="foot maxw"><span class="tiny">Fitler MBA &middot; S04</span><span class="tiny">9 / 11</span></div>
+</section>
+
+<!-- 10 · HOMEWORK -->
+<section class="slide" data-note="~3 min. Homework is the artifact itself — it travels. Explore mode skips the prediction pauses for the couch. Three asks, pick one minimum: (1) run a SECOND month of Franklin's — your own events; (2) map YOUR business's month one on the same board; (3) the take-home tier — amortization (depreciation's twin), plus the standing question 'what would cash-basis books show?' for each event. Everyone posts their board or their stuck-point to Discourse before next session — the thread is where the cohort sharpens it. Say Discourse, point at the URL, done.">
+  <div class="head maxw">
+    <div class="eyebrow">Homework &middot; the board goes home with you</div>
+    <h2 class="display sm">Run your own month</h2>
+  </div>
+  <div class="body maxw">
+    <ul class="bullets">
+      <li><b>Replay it</b> &mdash; flip to Explore mode and run Franklin&rsquo;s month again at your own pace.</li>
+      <li><b>Extend it</b> &mdash; run a second month of Franklin&rsquo;s with your own events, or map <em>your</em> business&rsquo;s month one.</li>
+      <li><b>Go deeper</b> &mdash; the take-home tier: amortization (depreciation&rsquo;s twin for intangibles), and for every event ask: <em>what would cash-basis books show?</em></li>
+    </ul>
+    <div class="tip"><b>Post to Discourse</b> at fitlermba.com &mdash; your board, your second month, or the event that broke your brain. That thread is next session&rsquo;s fuel.</div>
+  </div>
+  <div class="foot maxw"><span class="tiny">Fitler MBA &middot; S04</span><span class="tiny">10 / 11</span></div>
+</section>
+
+<!-- 11 · CLOSE -->
+<section class="slide slide--navy center" data-note="~1 min. Close on the emotional anchor: the chip never went red. One closing line: 'Every event tonight touched at least two places, and it always balanced. That's not accounting trivia — that's the system you'll be modeling.' Tease S05 with tonight's own numbers: the P&L says $2,050 of profit, the bank says $57,500 — and $750 of that 'profit' is sitting in a law firm's AP queue. Profit is an opinion, cash is a fact: the third camera angle, plus a model you can drive. Thank the room; point at Discourse once more on the way out.">
+  <div class="body center maxw" style="gap:22px">
+    <div class="chipdemo"><span class="dot"></span> A $82,850 &nbsp;=&nbsp; L $30,800 &nbsp;+&nbsp; E $52,050</div>
+    <h2 class="display sm">It always balances.</h2>
+    <div class="kicker">Next: the third camera angle &mdash; and a model you can drive.</div>
+    <div class="lede">S05 &middot; Financial Modeling: cash flow, the pro forma, and the month ahead.</div>
+  </div>
+  <div class="foot maxw"><span class="brandline"><svg class="mono" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="2.4"/><text x="50" y="50" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, serif" font-style="italic" font-size="46" fill="currentColor">F<tspan class="slash" fill="#b0894e">/</tspan>c</text></svg> Fitler MBA</span><span class="tiny">fitlermba.com</span></div>
+</section>
+
+</div>
+
+<div class="hud">
+  <span class="help">&larr; &rarr; navigate &middot; F fullscreen &middot; N notes</span>
+  <span class="count"><span id="cur">1</span> / <span id="tot">9</span></span>
+</div>
+<div class="note-bar" id="notebar"><div class="nlab">Facilitator note</div><div id="notetext"></div></div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let i=0; const tot=slides.length;
+document.getElementById('tot').textContent=tot;
+const bar=document.getElementById('bar');
+const notebar=document.getElementById('notebar');
+const notetext=document.getElementById('notetext');
+let notesOn=false;
+function show(n){
+  i=Math.max(0,Math.min(tot-1,n));
+  slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  document.getElementById('cur').textContent=i+1;
+  bar.style.width=((i+1)/tot*100)+'%';
+  notetext.textContent=slides[i].dataset.note||'-';
+  const dark=slides[i].classList.contains('slide--navy');
+  document.querySelector('.hud').style.color = dark ? 'rgba(244,239,228,.6)' : '';
+}
+function next(){show(i+1)} function prev(){show(i-1)}
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();next()}
+  else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();prev()}
+  else if(e.key==='Home'){show(0)} else if(e.key==='End'){show(tot-1)}
+  else if(e.key==='f'||e.key==='F'){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen()}
+  else if(e.key==='n'||e.key==='N'||e.key==='s'||e.key==='S'){notesOn=!notesOn;notebar.classList.toggle('show',notesOn)}
+});
+let sx=null;
+addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50){dx<0?next():prev()}sx=null},{passive:true});
+show(0);
+</script>
+</body>
+</html>

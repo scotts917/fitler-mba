@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carpenter Hall Marketing — Month One | Fitler MBA S04b</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1b2541;
+    --navy-soft: #2a3757;
+    --navy-mist: rgba(27, 37, 65, 0.08);
+    --ivory: #f4efe4;
+    --ivory-deep: #ece5d4;
+    --gold: #b0894e;
+    --gold-bright: #d4a960;
+    --gold-mist: rgba(176, 137, 78, 0.14);
+    --green: #3d7a52;
+    --red: #a04338;
+    --serif: 'Cormorant Garamond', 'Georgia', serif;
+    --sans: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: var(--ivory); color: var(--navy); font-family: var(--sans); }
+  body { min-height: 100vh; }
+
+  /* ---------- Header ---------- */
+  header {
+    background: var(--navy); color: var(--ivory);
+    padding: 18px 28px;
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  .brand h1 { font-family: var(--serif); font-weight: 600; font-size: 30px; line-height: 1.05; letter-spacing: 0.01em; }
+  .brand .sub { font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-bright); margin-top: 3px; font-weight: 600; }
+  .header-right { margin-left: auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+  .balance-chip {
+    display: flex; align-items: center; gap: 9px;
+    background: rgba(244,239,228,0.08);
+    border: 1px solid rgba(244,239,228,0.25);
+    border-radius: 999px; padding: 8px 16px;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .balance-chip .dot { width: 10px; height: 10px; border-radius: 50%; background: #6fbf8a; box-shadow: 0 0 8px rgba(111,191,138,0.8); transition: background 0.3s, box-shadow 0.3s; }
+  .balance-chip.broken .dot { background: #e07060; box-shadow: 0 0 8px rgba(224,112,96,0.8); }
+  .balance-chip.pulse { animation: chipPulse 0.7s ease; }
+  @keyframes chipPulse { 30% { box-shadow: 0 0 0 6px rgba(111,191,138,0.25); border-color: #6fbf8a; } }
+
+  .mode-toggle {
+    display: flex; border: 1px solid rgba(244,239,228,0.3); border-radius: 999px; overflow: hidden;
+  }
+  .mode-toggle button {
+    background: transparent; color: var(--ivory); border: none; cursor: pointer;
+    font-family: var(--sans); font-size: 11.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 8px 14px; transition: background 0.2s, color 0.2s;
+  }
+  .mode-toggle button.active { background: var(--gold); color: var(--navy); }
+
+  /* ---------- Layout ---------- */
+  .app { display: grid; grid-template-columns: 320px 1fr; gap: 22px; padding: 22px 28px 40px; max-width: 1480px; margin: 0 auto; }
+  @media (max-width: 1080px) {
+    .app { grid-template-columns: 1fr; padding: 16px; }
+  }
+
+  /* ---------- Event rail ---------- */
+  .rail { display: flex; flex-direction: column; gap: 14px; }
+
+  .stage-card {
+    background: #fff; border: 1px solid var(--navy-mist); border-radius: 12px;
+    padding: 18px; box-shadow: 0 2px 10px rgba(27,37,65,0.06);
+  }
+  .stage-card .eyebrow { font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 7px; }
+  .stage-card h2 { font-family: var(--serif); font-size: 23px; font-weight: 600; line-height: 1.15; margin-bottom: 6px; }
+  .stage-card .day { font-size: 12px; color: var(--navy-soft); opacity: 0.75; margin-bottom: 12px; }
+  .predict-prompt {
+    background: var(--gold-mist); border-left: 3px solid var(--gold);
+    padding: 10px 12px; border-radius: 0 8px 8px 0;
+    font-size: 14px; line-height: 1.45; margin-bottom: 14px;
+    font-family: var(--serif); font-style: italic; font-size: 16.5px;
+  }
+  .effects { list-style: none; margin-bottom: 12px; }
+  .effects li {
+    font-size: 13.5px; font-variant-numeric: tabular-nums; font-weight: 500;
+    padding: 6px 0 6px 20px; position: relative; border-bottom: 1px dashed var(--navy-mist);
+  }
+  .effects li:last-child { border-bottom: none; }
+  .effects li::before { content: '→'; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+  .term-tag {
+    display: inline-block; background: var(--navy); color: var(--ivory);
+    font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
+    padding: 5px 11px; border-radius: 999px; margin-bottom: 4px;
+  }
+  .done-note { font-size: 13px; color: var(--navy-soft); opacity: 0.8; line-height: 1.5; }
+
+  .controls { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
+    font-family: var(--sans); font-size: 13.5px; font-weight: 600; cursor: pointer;
+    border-radius: 8px; padding: 11px 18px; border: 1px solid var(--navy);
+    transition: transform 0.12s, box-shadow 0.12s, background 0.15s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--navy); color: var(--ivory); flex: 1; }
+  .btn-primary:hover { background: var(--navy-soft); box-shadow: 0 3px 10px rgba(27,37,65,0.25); }
+  .btn-primary:disabled { opacity: 0.35; cursor: default; box-shadow: none; }
+  .btn-ghost { background: transparent; color: var(--navy); border-color: rgba(27,37,65,0.3); }
+  .btn-ghost:hover { border-color: var(--navy); }
+  .btn-ghost:disabled { opacity: 0.35; cursor: default; }
+
+  .feed { background: #fff; border: 1px solid var(--navy-mist); border-radius: 12px; padding: 14px 0; overflow: hidden; }
+  .feed h3 { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--navy-soft); font-weight: 700; padding: 0 18px 10px; }
+  .tier-label {
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700;
+    color: var(--gold); padding: 10px 18px 4px; border-top: 1px solid var(--navy-mist); margin-top: 4px;
+  }
+  .tier-label .tier-desc { display: block; color: var(--navy-soft); opacity: 0.7; font-weight: 500; letter-spacing: 0.02em; text-transform: none; font-size: 11px; margin-top: 2px; }
+  .feed-item {
+    display: flex; gap: 10px; align-items: baseline;
+    padding: 7px 18px; font-size: 13px; line-height: 1.35;
+    transition: background 0.2s;
+  }
+  .feed-item .n { font-variant-numeric: tabular-nums; font-weight: 700; font-size: 11.5px; color: var(--gold); min-width: 22px; }
+  .feed-item.posted { color: var(--navy); }
+  .feed-item.posted .n::after { content: ' ✓'; color: var(--green); }
+  .feed-item.current { background: var(--gold-mist); font-weight: 600; }
+  .feed-item.upcoming { color: var(--navy); opacity: 0.38; }
+
+  /* ---------- Statements ---------- */
+  .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
+  @media (max-width: 860px) { .stage { grid-template-columns: 1fr; } }
+
+  .statement {
+    background: #fff; border: 1px solid var(--navy-mist); border-radius: 12px;
+    overflow: hidden; box-shadow: 0 2px 10px rgba(27,37,65,0.06);
+  }
+  .statement-head {
+    background: var(--navy); color: var(--ivory); padding: 14px 20px;
+  }
+  .statement-head h2 { font-family: var(--serif); font-size: 24px; font-weight: 600; }
+  .statement-head .frame { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-bright); font-weight: 600; margin-top: 2px; }
+  .statement-body { padding: 12px 20px 18px; }
+
+  .sec-label {
+    font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700;
+    color: var(--gold); padding: 12px 0 4px;
+  }
+  .row {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    padding: 6px 8px; margin: 0 -8px; border-radius: 6px; font-size: 14.5px;
+    transition: background 0.25s;
+  }
+  .row .lbl { color: var(--navy); }
+  .row .val { font-variant-numeric: tabular-nums; font-weight: 500; white-space: nowrap; }
+  .row .val.zero { opacity: 0.3; }
+  .row .val.neg { color: var(--navy-soft); }
+  .row.contra .lbl { padding-left: 14px; font-size: 13.5px; opacity: 0.85; }
+  .row.subtotal { border-top: 1px solid var(--navy); margin-top: 3px; padding-top: 8px; font-weight: 600; }
+  .row.subtotal .lbl { font-family: var(--serif); font-size: 17px; font-weight: 600; }
+  .row.total { border-top: 3px double var(--navy); margin-top: 4px; padding-top: 9px; font-weight: 700; }
+  .row.total .lbl { font-family: var(--serif); font-size: 18px; font-weight: 700; }
+  .row.keyline { background: linear-gradient(90deg, var(--gold-mist), transparent 85%); }
+  .row.flash { animation: rowFlash 1.1s ease; }
+  @keyframes rowFlash {
+    0% { background: var(--gold-mist); }
+    25% { background: rgba(176,137,78,0.35); }
+    100% { background: transparent; }
+  }
+  .row.flash.keyline { animation: rowFlashKey 1.1s ease; }
+  @keyframes rowFlashKey {
+    25% { background: rgba(176,137,78,0.45); }
+    100% { background: linear-gradient(90deg, var(--gold-mist), transparent 85%); }
+  }
+  .row.changed .lbl, .row.changed .val { font-weight: 700; }
+  .row.dormant { display: none; }
+  .row.dormant.awake { display: flex; }
+  .marginpct { font-family: var(--sans); font-size: 11.5px; color: var(--gold); font-weight: 700; letter-spacing: 0.04em; margin-left: 8px; }
+
+  /* ---------- Bridge ---------- */
+  #bridge-layer { position: fixed; inset: 0; pointer-events: none; z-index: 60; }
+  .bridge-dot {
+    position: absolute; width: 14px; height: 14px; border-radius: 50%;
+    background: var(--gold-bright);
+    box-shadow: 0 0 12px 4px rgba(212,169,96,0.65), 0 0 3px rgba(27,37,65,0.4);
+  }
+  .bridge-trail {
+    position: absolute; height: 3px; border-radius: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold-bright));
+    transform-origin: left center; opacity: 0.75;
+  }
+
+  /* ---------- Ledger ---------- */
+  .ledger { grid-column: 1 / -1; background: #fff; border: 1px solid var(--navy-mist); border-radius: 12px; overflow: hidden; }
+  .ledger summary {
+    cursor: pointer; padding: 13px 20px; font-size: 12px; letter-spacing: 0.14em;
+    text-transform: uppercase; font-weight: 700; color: var(--navy-soft);
+    user-select: none; list-style: none; display: flex; align-items: center; gap: 8px;
+  }
+  .ledger summary::before { content: '▸'; color: var(--gold); transition: transform 0.2s; }
+  .ledger[open] summary::before { transform: rotate(90deg); }
+  .ledger table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .ledger th, .ledger td { text-align: left; padding: 7px 20px; border-top: 1px solid var(--navy-mist); }
+  .ledger th { font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+  .ledger td.amt { font-variant-numeric: tabular-nums; text-align: right; }
+  .ledger .ev-first td { border-top: 2px solid rgba(27,37,65,0.25); }
+
+  .hint {
+    grid-column: 1 / -1; text-align: center; font-size: 12px; color: var(--navy-soft); opacity: 0.65;
+    padding-top: 4px;
+  }
+  kbd {
+    font-family: var(--sans); font-size: 10.5px; background: #fff; border: 1px solid rgba(27,37,65,0.25);
+    border-bottom-width: 2px; border-radius: 4px; padding: 1px 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1>Carpenter Hall Marketing</h1>
+    <div class="sub">Month One &middot; Fitler MBA &middot; S04b Service-Business Foundations</div>
+  </div>
+  <div class="header-right">
+    <div class="balance-chip" id="chip">
+      <span class="dot"></span>
+      <span id="chip-text">A $0 = L $0 + E $0</span>
+    </div>
+    <div class="mode-toggle" role="group" aria-label="Mode">
+      <button id="mode-fac" class="active" title="Predict-before-reveal — for the room">Facilitate</button>
+      <button id="mode-exp" title="Reveal immediately — for the couch">Explore</button>
+    </div>
+  </div>
+</header>
+
+<div class="app">
+
+  <aside class="rail">
+    <div class="stage-card" id="stage-card">
+      <!-- filled by render -->
+    </div>
+    <div class="controls">
+      <button class="btn btn-ghost" id="btn-back" title="Step back (←)">← Back</button>
+      <button class="btn btn-primary" id="btn-main">Next event</button>
+      <button class="btn btn-ghost" id="btn-reset">Reset</button>
+    </div>
+    <div class="feed" id="feed"></div>
+  </aside>
+
+  <main>
+    <div class="stage">
+
+      <section class="statement" aria-label="Income statement">
+        <div class="statement-head">
+          <h2>P&amp;L — Income Statement</h2>
+          <div class="frame">A film of one period</div>
+        </div>
+        <div class="statement-body" id="pl-body">
+          <div class="sec-label">Revenue</div>
+          <div class="row" data-acct="revenue"><span class="lbl">Service Revenue</span><span class="val">$0</span></div>
+          <div class="sec-label">Cost of Services</div>
+          <div class="row" data-acct="cos_salaries"><span class="lbl">Consultant Salaries</span><span class="val">$0</span></div>
+          <div class="row" data-acct="cos_travel"><span class="lbl">Client Travel</span><span class="val">$0</span></div>
+          <div class="row dormant" data-acct="cos_contractors"><span class="lbl">Contractors</span><span class="val">$0</span></div>
+          <div class="row subtotal keyline" data-derived="gross"><span class="lbl">Gross Profit<span class="marginpct" id="gp-margin"></span></span><span class="val">$0</span></div>
+          <div class="sec-label">Selling, General &amp; Administrative</div>
+          <div class="row" data-acct="sga_salaries"><span class="lbl">Principal &amp; Ops Salaries</span><span class="val">$0</span></div>
+          <div class="row" data-acct="marketing"><span class="lbl">Online Marketing</span><span class="val">$0</span></div>
+          <div class="row subtotal keyline" data-derived="ebitda"><span class="lbl">EBITDA</span><span class="val">$0</span></div>
+          <div class="sec-label">Depreciation &amp; Amortization</div>
+          <div class="row" data-acct="dep_exp"><span class="lbl">Depreciation</span><span class="val">$0</span></div>
+          <div class="row total keyline" data-derived="ni" id="row-ni"><span class="lbl">Net Income</span><span class="val">$0</span></div>
+        </div>
+      </section>
+
+      <section class="statement" aria-label="Balance sheet">
+        <div class="statement-head">
+          <h2>Balance Sheet</h2>
+          <div class="frame">A photo of one instant</div>
+        </div>
+        <div class="statement-body" id="bs-body">
+          <div class="sec-label">Assets — what the firm owns</div>
+          <div class="row" data-acct="cash"><span class="lbl">Cash</span><span class="val">$0</span></div>
+          <div class="row" data-acct="ar"><span class="lbl">Accounts Receivable</span><span class="val">$0</span></div>
+          <div class="row" data-acct="ppe"><span class="lbl">Equipment (Laptops)</span><span class="val">$0</span></div>
+          <div class="row contra" data-acct="accum_dep"><span class="lbl">less: Accumulated Depreciation</span><span class="val">$0</span></div>
+          <div class="row total" data-derived="assets"><span class="lbl">Total Assets</span><span class="val">$0</span></div>
+          <div class="sec-label">Liabilities — what it owes</div>
+          <div class="row" data-acct="deferred_rev"><span class="lbl">Deferred Revenue</span><span class="val">$0</span></div>
+          <div class="row dormant" data-acct="ap"><span class="lbl">Accounts Payable</span><span class="val">$0</span></div>
+          <div class="row subtotal" data-derived="liab"><span class="lbl">Total Liabilities</span><span class="val">$0</span></div>
+          <div class="sec-label">Equity — the owner&rsquo;s slice</div>
+          <div class="row" data-acct="paid_in"><span class="lbl">Paid-in Capital</span><span class="val">$0</span></div>
+          <div class="row keyline" data-derived="retained" id="row-re"><span class="lbl">Retained Earnings</span><span class="val">$0</span></div>
+          <div class="row subtotal" data-derived="equity"><span class="lbl">Total Equity</span><span class="val">$0</span></div>
+          <div class="row total" data-derived="le"><span class="lbl">Liabilities + Equity</span><span class="val">$0</span></div>
+        </div>
+      </section>
+
+      <details class="ledger" id="ledger">
+        <summary>Running ledger — every posting so far</summary>
+        <table>
+          <thead><tr><th>#</th><th>Event</th><th>Account</th><th class="amt" style="text-align:right">Change</th></tr></thead>
+          <tbody id="ledger-body"><tr><td colspan="4" style="opacity:0.5">Nothing posted yet — the board is blank and balanced.</td></tr></tbody>
+        </table>
+      </details>
+
+      <div class="hint">
+        <kbd>Space</kbd> / <kbd>→</kbd> advance &nbsp;·&nbsp; <kbd>←</kbd> step back &nbsp;·&nbsp; <kbd>L</kbd> ledger &nbsp;·&nbsp; every event touches at least two places, and it <em>always</em> balances
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div id="bridge-layer"></div>
+
+<script>
+/* ============================================================
+   CORE — pure data + pure computation. No DOM below this line
+   until the RENDER marker. Testable in isolation.
+   ============================================================ */
+// @@CORE-START@@
+
+// ---- Chart of accounts (the nodes) ----
+// statement: 'BS' | 'PL'
+// role: asset (+), contra_asset (−), liability (+), equity (+),
+//       revenue (+ to NI), expense (− from NI)
+const ACCOUNTS = {
+  cash:            { name: 'Cash',                        statement: 'BS', role: 'asset' },
+  ar:              { name: 'Accounts Receivable',         statement: 'BS', role: 'asset' },
+  ppe:             { name: 'Equipment (Laptops)',         statement: 'BS', role: 'asset' },
+  accum_dep:       { name: 'Accumulated Depreciation',    statement: 'BS', role: 'contra_asset' },
+  deferred_rev:    { name: 'Deferred Revenue',            statement: 'BS', role: 'liability' },
+  ap:              { name: 'Accounts Payable',            statement: 'BS', role: 'liability' },
+  paid_in:         { name: 'Paid-in Capital',             statement: 'BS', role: 'equity' },
+  revenue:         { name: 'Service Revenue',             statement: 'PL', role: 'revenue' },
+  cos_salaries:    { name: 'Consultant Salaries',         statement: 'PL', role: 'expense' },
+  cos_travel:      { name: 'Client Travel',               statement: 'PL', role: 'expense' },
+  cos_contractors: { name: 'Contractors',                 statement: 'PL', role: 'expense' },
+  sga_salaries:    { name: 'Principal & Ops Salaries',    statement: 'PL', role: 'expense' },
+  marketing:       { name: 'Online Marketing',            statement: 'PL', role: 'expense' },
+  dep_exp:         { name: 'Depreciation',                statement: 'PL', role: 'expense' },
+};
+
+// ---- The event ladder (the edges) ----
+// The cast: 1 principal (sells & runs the firm — SG&A), 3 consultants
+// (billable delivery — Cost of Services), 1 ops coordinator (SG&A).
+// Deltas are in natural financial direction. No debits or credits anywhere.
+const EVENTS = [
+  { id: 1,  tier: 'A', day: 'Day 1',
+    label: 'The principal invests $40,000 to launch the firm',
+    term: 'Owner\u2019s equity \u00b7 Paid-in capital',
+    plainEffects: ['Cash +$40,000', 'Paid-in Capital +$40,000'],
+    postings: [ { account: 'cash', delta: 40000 }, { account: 'paid_in', delta: 40000 } ] },
+
+  { id: 2,  tier: 'A', day: 'Day 2',
+    label: 'Buys 5 laptops for the team, $10,000 cash',
+    term: 'Capitalize vs. expense \u00b7 Fixed assets',
+    plainEffects: ['Equipment +$10,000', 'Cash \u2212$10,000', 'P&L: untouched \u2014 an asset, not a cost (yet)'],
+    postings: [ { account: 'ppe', delta: 10000 }, { account: 'cash', delta: -10000 } ] },
+
+  { id: 3,  tier: 'B', day: 'Day 8',
+    label: 'Invoices Visit Bucks County $30,000 for the month\u2019s brand program',
+    term: 'Service revenue \u00b7 Invoiced = earned',
+    plainEffects: ['Accounts Receivable +$30,000', 'Service Revenue +$30,000', 'Cash: unchanged \u2014 invoiced, not collected'],
+    postings: [ { account: 'ar', delta: 30000 }, { account: 'revenue', delta: 30000 } ] },
+
+  { id: 4,  tier: 'B', day: 'Day 20',
+    label: 'Visit Bucks County pays $18,000 of the invoice',
+    term: 'Collections \u2260 revenue',
+    plainEffects: ['Cash +$18,000', 'Accounts Receivable \u2212$18,000', 'Revenue: unchanged \u2014 collecting isn\u2019t earning'],
+    postings: [ { account: 'cash', delta: 18000 }, { account: 'ar', delta: -18000 } ] },
+
+  { id: 5,  tier: 'B', day: 'Day 22',
+    label: 'Discover Lancaster pays a $12,000 retainer for next month\u2019s program',
+    term: 'Deferred revenue \u2014 cash before the work',
+    plainEffects: ['Cash +$12,000', 'Deferred Revenue +$12,000', 'Revenue: unchanged \u2014 the work isn\u2019t done yet'],
+    postings: [ { account: 'cash', delta: 12000 }, { account: 'deferred_rev', delta: 12000 } ] },
+
+  { id: 6,  tier: 'B', day: 'Day 30',
+    label: 'Pays the three consultants \u2014 $15,000 in salaries',
+    term: 'Salaries in Cost of Services',
+    plainEffects: ['Consultant Salaries +$15,000', 'Cash \u2212$15,000', 'These people ARE the product \u2014 delivery cost'],
+    postings: [ { account: 'cos_salaries', delta: 15000 }, { account: 'cash', delta: -15000 } ] },
+
+  { id: 7,  tier: 'B', day: 'Day 30',
+    label: 'Pays the principal and ops coordinator \u2014 $9,000 in salaries',
+    term: 'Salaries in SG&A \u2014 the split',
+    plainEffects: ['Principal & Ops Salaries +$9,000', 'Cash \u2212$9,000', 'Same expense type, different home \u2014 running the firm, not delivering the work'],
+    postings: [ { account: 'sga_salaries', delta: 9000 }, { account: 'cash', delta: -9000 } ] },
+
+  { id: 8,  tier: 'C', day: 'Day 30',
+    label: 'Travel for the Bucks County engagement \u2014 $1,800',
+    term: 'Delivery travel \u2192 Cost of Services',
+    plainEffects: ['Client Travel +$1,800', 'Cash \u2212$1,800', 'Incurred to deliver the work \u2192 above the gross-profit line'],
+    postings: [ { account: 'cos_travel', delta: 1800 }, { account: 'cash', delta: -1800 } ] },
+
+  { id: 9,  tier: 'C', day: 'Day 30',
+    label: 'Runs $1,200 of online ads promoting Carpenter Hall itself',
+    term: 'Own marketing \u2192 SG&A',
+    plainEffects: ['Online Marketing +$1,200', 'Cash \u2212$1,200', 'A marketing firm buying marketing \u2014 but it\u2019s not client delivery, so SG&A'],
+    postings: [ { account: 'marketing', delta: 1200 }, { account: 'cash', delta: -1200 } ] },
+
+  { id: 10, tier: 'C', day: 'Day 30',
+    label: 'Books $300 of depreciation on the laptops',
+    term: 'Non-cash expense \u00b7 D&A',
+    plainEffects: ['Depreciation expense +$300', 'Accumulated Depreciation +$300', 'Cash: unchanged \u2014 the laptops earn their cost over time'],
+    postings: [ { account: 'dep_exp', delta: 300 }, { account: 'accum_dep', delta: 300 } ] },
+
+  { id: 11, tier: 'TH', day: 'Take-home',
+    label: 'Delivers $6,000 of the Lancaster program early \u2014 recognizes it',
+    term: 'Deferred revenue unwinds',
+    plainEffects: ['Deferred Revenue \u2212$6,000', 'Service Revenue +$6,000', 'Cash: unchanged \u2014 it arrived back on Day 22'],
+    postings: [ { account: 'deferred_rev', delta: -6000 }, { account: 'revenue', delta: 6000 } ] },
+
+  { id: 12, tier: 'TH', day: 'Take-home',
+    label: 'A freelance designer invoices $2,400 for Bucks County creative \u2014 unpaid',
+    term: 'Contractors \u2192 Cost of Services \u00b7 A/P',
+    plainEffects: ['Contractors +$2,400', 'Accounts Payable +$2,400', 'Cash: unchanged \u2014 delivery cost, accrued'],
+    postings: [ { account: 'cos_contractors', delta: 2400 }, { account: 'ap', delta: 2400 } ] },
+];
+
+const TIERS = {
+  A:  { title: 'Tier A \u00b7 Balance sheet only', desc: 'Capital in, laptops bought \u2014 the P&L stays dark.' },
+  B:  { title: 'Tier B \u00b7 Revenue without cash', desc: 'Invoices, collections, a retainer \u2014 and the salary split.' },
+  C:  { title: 'Tier C \u00b7 Delivery vs. overhead', desc: 'Which side of the gross-profit line does each cost live on?' },
+  TH: { title: 'Take-home tier', desc: 'For the couch: the retainer unwinds into revenue; the freelancer hits Cost of Services.' },
+};
+
+// ---- Pure computation: fold postings 0..cursor into a trial balance ----
+function computeBalances(events, cursor) {
+  const bal = {};
+  for (const id in ACCOUNTS) bal[id] = 0;
+  for (let i = 0; i < cursor; i++) {
+    for (const p of events[i].postings) bal[p.account] += p.delta;
+  }
+  const d = {};
+  d.cos    = bal.cos_salaries + bal.cos_travel + bal.cos_contractors;
+  d.gross  = bal.revenue - d.cos;
+  d.sga    = bal.sga_salaries + bal.marketing;
+  d.ebitda = d.gross - d.sga;
+  d.ni     = d.ebitda - bal.dep_exp;   // no debt, no interest — capital-light
+  d.retained = d.ni; // single period: retained earnings = period net income
+  d.margin = bal.revenue > 0.005 ? d.gross / bal.revenue : null;
+  d.assets = bal.cash + bal.ar + bal.ppe - bal.accum_dep;
+  d.liab   = bal.deferred_rev + bal.ap;
+  d.equity = bal.paid_in + d.retained;
+  d.le     = d.liab + d.equity;
+  d.balanced = Math.abs(d.assets - d.le) < 0.005;
+  return { bal, d };
+}
+
+// Dev-mode assertion: every prefix of the ladder must satisfy the identity.
+function assertLadder(events) {
+  for (let c = 0; c <= events.length; c++) {
+    const { d } = computeBalances(events, c);
+    if (!d.balanced) throw new Error('Identity broken after event index ' + (c - 1) +
+      ': Assets ' + d.assets + ' != L+E ' + d.le);
+  }
+  return true;
+}
+
+// @@CORE-END@@
+
+/* ============================================================
+   RENDER + INTERACTION
+   ============================================================ */
+(function () {
+  'use strict';
+
+  // Authoring insurance — throws loudly if any event ever breaks the identity.
+  assertLadder(EVENTS);
+
+  const $  = (s) => document.querySelector(s);
+  const $$ = (s) => Array.from(document.querySelectorAll(s));
+
+  const state = {
+    cursor: 0,            // events posted
+    armed: false,         // facilitate mode: event revealed, awaiting Post
+    mode: 'facilitate',   // 'facilitate' | 'explore'
+    lastPosted: null,     // event just posted (for the stage card)
+  };
+
+  const fmt = (v) => {
+    const n = Math.round(Math.abs(v));
+    const s = '$' + n.toLocaleString('en-US');
+    return v < -0.005 ? '(' + s + ')' : s;
+  };
+  // Contra accounts read as reductions: show (…) when they carry a balance.
+  const fmtContra = (v) => (v > 0.005 ? '(' + fmt(v).replace(/[()]/g, '') + ')' : '$0');
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- number ticking ---------- */
+  const shown = {};   // key -> currently displayed numeric value
+  function setVal(el, key, value, contra, animate) {
+    const prev = shown[key] ?? 0;
+    shown[key] = value;
+    const render = (v) => {
+      el.textContent = contra ? fmtContra(v) : fmt(v);
+      el.classList.toggle('zero', Math.abs(value) < 0.005);
+      el.classList.toggle('neg', !contra && value < -0.005);
+    };
+    if (!animate || reduceMotion || Math.abs(value - prev) < 0.005) { render(value); return; }
+    const t0 = performance.now(), dur = 550;
+    (function tick(t) {
+      const p = Math.min((t - t0) / dur, 1);
+      const e = 1 - Math.pow(1 - p, 3);
+      render(prev + (value - prev) * e);
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+
+  /* ---------- statements ---------- */
+  // Which account rows and derived rows does an event move?
+  function computeTouched(ev) {
+    if (!ev) return { accts: new Set(), derived: new Set() };
+    const accts = new Set(ev.postings.map((p) => p.account));
+    const derived = new Set();
+    const pl = ['revenue','cos_salaries','cos_travel','cos_contractors','sga_salaries','marketing','dep_exp'];
+    const plTouched = pl.some((a) => accts.has(a));
+    if (accts.has('revenue') || accts.has('cos_salaries') || accts.has('cos_travel') || accts.has('cos_contractors')) derived.add('gross');
+    if (plTouched) ['ebitda','ni','retained','equity','le'].forEach((k) => derived.add(k));
+    if (['cash','ar','ppe','accum_dep'].some((a) => accts.has(a))) derived.add('assets');
+    if (['deferred_rev','ap'].some((a) => accts.has(a))) { derived.add('liab'); derived.add('le'); }
+    if (accts.has('paid_in')) { derived.add('equity'); derived.add('le'); }
+    return { accts, derived };
+  }
+
+  function renderStatements(animate) {
+    const { bal, d } = computeBalances(EVENTS, state.cursor);
+    // Persistent highlight: the rows moved by the most recently posted event
+    const hl = computeTouched(state.cursor > 0 ? EVENTS[state.cursor - 1] : null);
+
+    $$('[data-acct]').forEach((row) => {
+      const id = row.dataset.acct;
+      const role = ACCOUNTS[id].role;
+      const paren = role === 'contra_asset' || role === 'expense'; // both read as reductions: (…)
+      // dormant advanced rows wake once they carry a balance
+      if (row.classList.contains('dormant')) row.classList.toggle('awake', Math.abs(bal[id]) > 0.005);
+      setVal(row.querySelector('.val'), 'a:' + id, bal[id], paren, animate);
+      row.classList.toggle('changed', hl.accts.has(id));
+      if (animate && hl.accts.has(id)) flashRow(row);
+    });
+
+    $$('[data-derived]').forEach((row) => {
+      const k = row.dataset.derived;
+      setVal(row.querySelector('.val'), 'd:' + k, d[k], false, animate);
+      // Derived rows ripple (flash) but never hold the persistent mark —
+      // the bold belongs to the event's direct postings only.
+      if (animate && hl.derived.has(k)) flashRow(row);
+    });
+
+    // Gross margin — the health metric of a services firm
+    $('#gp-margin').textContent = d.margin === null ? '' : Math.round(d.margin * 100) + '% margin';
+
+    // chip
+    const chip = $('#chip');
+    $('#chip-text').textContent =
+      'A ' + fmt(d.assets) + '  =  L ' + fmt(d.liab) + '  +  E ' + fmt(d.equity);
+    chip.classList.toggle('broken', !d.balanced);
+    if (animate && !reduceMotion) {
+      chip.classList.remove('pulse'); void chip.offsetWidth; chip.classList.add('pulse');
+    }
+    return d;
+  }
+
+  function flashRow(row) {
+    row.classList.remove('flash'); void row.offsetWidth; row.classList.add('flash');
+  }
+
+  /* ---------- the bridge ---------- */
+  function animateBridge() {
+    if (reduceMotion) return;
+    const a = $('#row-ni').getBoundingClientRect();
+    const b = $('#row-re').getBoundingClientRect();
+    const layer = $('#bridge-layer');
+    const start = { x: a.right - 30, y: a.top + a.height / 2 };
+    const end   = { x: b.right - 30, y: b.top + b.height / 2 };
+    const mid   = { x: (start.x + end.x) / 2, y: Math.min(start.y, end.y) - 70 };
+
+    const dot = document.createElement('div');
+    dot.className = 'bridge-dot';
+    layer.appendChild(dot);
+    const t0 = performance.now(), dur = 900;
+    (function step(t) {
+      const p = Math.min((t - t0) / dur, 1);
+      const e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      const u = 1 - e;
+      const x = u * u * start.x + 2 * u * e * mid.x + e * e * end.x;
+      const y = u * u * start.y + 2 * u * e * mid.y + e * e * end.y;
+      dot.style.left = (x - 7) + 'px';
+      dot.style.top  = (y - 7) + 'px';
+      dot.style.opacity = p > 0.85 ? String(1 - (p - 0.85) / 0.15) : '1';
+      if (p < 1) requestAnimationFrame(step);
+      else { dot.remove(); flashRow($('#row-re')); }
+    })(t0);
+  }
+
+  /* ---------- stage card ---------- */
+  function renderStage() {
+    const card = $('#stage-card');
+    const next = EVENTS[state.cursor];
+    const progress = state.cursor + ' of ' + EVENTS.length + ' posted';
+
+    if (state.armed && next) {
+      card.innerHTML =
+        '<div class="eyebrow">Event ' + next.id + ' \u00b7 ' + TIERS[next.tier].title.split(' \u00b7 ')[0] + ' \u00b7 ' + next.day + '</div>' +
+        '<h2>' + next.label + '</h2>' +
+        '<div class="predict-prompt">Where does this land? Call the lines that move \u2014 then post it.</div>';
+      $('#btn-main').textContent = 'Post it';
+      $('#btn-main').disabled = false;
+    } else if (state.lastPosted) {
+      const ev = state.lastPosted;
+      card.innerHTML =
+        '<div class="eyebrow">Posted \u00b7 Event ' + ev.id + ' \u00b7 ' + ev.day + '</div>' +
+        '<h2>' + ev.label + '</h2>' +
+        '<ul class="effects">' + ev.plainEffects.map((e) => '<li>' + e + '</li>').join('') + '</ul>' +
+        '<span class="term-tag">' + ev.term + '</span>' +
+        '<div class="done-note" style="margin-top:8px">' + progress + (next ? '' : ' \u2014 month one is closed. Step back to replay, or reset and run your own month.') + '</div>';
+      $('#btn-main').textContent = next ? (state.mode === 'facilitate' ? 'Next event' : 'Post next event') : 'Month complete';
+      $('#btn-main').disabled = !next;
+    } else {
+      card.innerHTML =
+        '<div class="eyebrow">Before Day 1</div>' +
+        '<h2>The board is blank &mdash; and it already balances.</h2>' +
+        '<div class="done-note">Same two statements as Franklin&rsquo;s, new business. Notice what&rsquo;s <em>missing</em>: no inventory, no loan &mdash; a service firm is capital-light. Two things to watch instead: the P&amp;L&rsquo;s cost section is called <strong>Cost of Services</strong> (salaries live in two places tonight), and the liability star is <strong>Deferred Revenue</strong> &mdash; money collected for work not yet done. One rule, same as always: <strong>Assets = Liabilities + Equity</strong>, from 0&nbsp;=&nbsp;0 onward.</div>';
+      $('#btn-main').textContent = state.mode === 'facilitate' ? 'First event' : 'Post first event';
+      $('#btn-main').disabled = false;
+    }
+    $('#btn-back').disabled = state.cursor === 0 && !state.armed;
+  }
+
+  /* ---------- feed ---------- */
+  function renderFeed() {
+    const feed = $('#feed');
+    let html = '<h3>The month, one event at a time</h3>';
+    let tier = null;
+    EVENTS.forEach((ev, i) => {
+      if (ev.tier !== tier) {
+        tier = ev.tier;
+        html += '<div class="tier-label">' + TIERS[tier].title +
+                '<span class="tier-desc">' + TIERS[tier].desc + '</span></div>';
+      }
+      const cls = i < state.cursor ? 'posted' : (i === state.cursor && state.armed ? 'current' : 'upcoming');
+      const label = (i < state.cursor || (i === state.cursor && state.armed))
+        ? ev.label
+        : (ev.day + ' \u2014 not yet revealed');
+      html += '<div class="feed-item ' + cls + '"><span class="n">' + ev.id + '</span><span>' + label + '</span></div>';
+    });
+    feed.innerHTML = html;
+  }
+
+  /* ---------- ledger ---------- */
+  function renderLedger() {
+    const body = $('#ledger-body');
+    if (state.cursor === 0) {
+      body.innerHTML = '<tr><td colspan="4" style="opacity:0.5">Nothing posted yet \u2014 the board is blank and balanced.</td></tr>';
+      return;
+    }
+    let html = '';
+    for (let i = 0; i < state.cursor; i++) {
+      const ev = EVENTS[i];
+      ev.postings.forEach((p, j) => {
+        const sign = p.delta >= 0 ? '+' : '\u2212';
+        html += '<tr class="' + (j === 0 ? 'ev-first' : '') + '">' +
+          '<td>' + (j === 0 ? ev.id : '') + '</td>' +
+          '<td>' + (j === 0 ? ev.label : '') + '</td>' +
+          '<td>' + ACCOUNTS[p.account].name + '</td>' +
+          '<td class="amt">' + sign + fmt(Math.abs(p.delta)).replace(/[()]/g, '') + '</td></tr>';
+      });
+    }
+    body.innerHTML = html;
+  }
+
+  /* ---------- actions ---------- */
+  function post() {
+    const ev = EVENTS[state.cursor];
+    if (!ev) return;
+    state.cursor++;
+    state.armed = false;
+    state.lastPosted = ev;
+    renderStatements(true);
+    const hitsPL = ev.postings.some((p) => ACCOUNTS[p.account].statement === 'PL');
+    if (hitsPL) setTimeout(animateBridge, 450);
+    renderStage(); renderFeed(); renderLedger();
+  }
+
+  function advance() {
+    if (state.mode === 'explore') { post(); return; }
+    if (state.armed) { post(); }
+    else if (state.cursor < EVENTS.length) { state.armed = true; renderStage(); renderFeed(); }
+  }
+
+  function stepBack() {
+    if (state.armed) { state.armed = false; }
+    else if (state.cursor > 0) { state.cursor--; }
+    else return;
+    state.lastPosted = state.cursor > 0 ? EVENTS[state.cursor - 1] : null;
+    renderStatements(false);
+    renderStage(); renderFeed(); renderLedger();
+  }
+
+  let resetArmed = null;
+  function reset() {
+    const btn = $('#btn-reset');
+    if (!resetArmed) {
+      btn.textContent = 'Sure? Reset';
+      resetArmed = setTimeout(() => { resetArmed = null; btn.textContent = 'Reset'; }, 2500);
+      return;
+    }
+    clearTimeout(resetArmed); resetArmed = null; btn.textContent = 'Reset';
+    state.cursor = 0; state.armed = false; state.lastPosted = null;
+    renderStatements(false);
+    renderStage(); renderFeed(); renderLedger();
+  }
+
+  function setMode(m) {
+    state.mode = m;
+    state.armed = false;
+    $('#mode-fac').classList.toggle('active', m === 'facilitate');
+    $('#mode-exp').classList.toggle('active', m === 'explore');
+    renderStage(); renderFeed();
+  }
+
+  /* ---------- wiring ---------- */
+  $('#btn-main').addEventListener('click', advance);
+  $('#btn-back').addEventListener('click', stepBack);
+  $('#btn-reset').addEventListener('click', reset);
+  $('#mode-fac').addEventListener('click', () => setMode('facilitate'));
+  $('#mode-exp').addEventListener('click', () => setMode('explore'));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); advance(); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); stepBack(); }
+    else if (e.key === 'l' || e.key === 'L') { $('#ledger').open = !$('#ledger').open; }
+  });
+
+  /* ---------- first paint ---------- */
+  renderStatements(false);
+  renderStage(); renderFeed(); renderLedger();
+})();
+</script>
+</body>
+</html>

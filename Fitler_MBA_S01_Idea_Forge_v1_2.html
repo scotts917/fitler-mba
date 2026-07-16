@@ -1,0 +1,1896 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Idea Forge · Fitler MBA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0F1B2D;
+  --ink-2:#1A2942;
+  --paper:#F4ECD8;
+  --paper-2:#EBE1C7;
+  --paper-3:#E0D4B0;
+  --gold:#B8924A;
+  --gold-2:#8A6A2E;
+  --rust:#9A3A2A;
+  --muted:#6B6357;
+  --rule:rgba(15,27,45,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+
+/* Grain overlay */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity:.10;mix-blend-mode:overlay;
+}
+
+.serif-italic{font-family:'Fraunces',serif;font-style:italic;font-weight:400;font-variation-settings:"SOFT" 100,"WONK" 1}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* App shell */
+.app{
+  position:relative;z-index:2;
+  max-width:1400px;margin:0 auto;
+  padding:4vh 5vw 6vh;
+  min-height:100vh;
+}
+
+/* Header */
+header{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding-bottom:3vh;
+  border-bottom:1px solid var(--rule);
+  margin-bottom:5vh;
+}
+.brand{display:flex;align-items:center;gap:14px}
+.glyph{
+  width:36px;height:36px;border-radius:50%;
+  border:1px solid var(--ink);
+  display:grid;place-items:center;
+  font-family:'Fraunces',serif;font-size:17px;font-style:italic;font-weight:500;
+}
+.brand-text{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  line-height:1.4;
+}
+.brand-text .top{color:var(--gold-2)}
+.brand-text .bot{opacity:.7}
+
+.session-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);
+  text-align:right;
+  line-height:1.6;
+}
+.session-tag .ses{color:var(--gold-2)}
+
+/* Hero */
+.hero{margin-bottom:6vh;max-width:900px}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--gold-2);
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:2.5vh;
+}
+.eyebrow::after{content:"";flex:0 0 60px;height:1px;background:currentColor;opacity:.5}
+
+h1.display{
+  font-family:'Fraunces',serif;
+  font-weight:400;font-style:italic;
+  font-size:clamp(48px,7vw,96px);
+  line-height:.95;
+  letter-spacing:-.02em;
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+  margin-bottom:2.5vh;
+}
+h1.display em{font-style:italic;color:var(--gold-2)}
+.hero .sub{
+  font-size:clamp(15px,1.4vw,18px);
+  line-height:1.55;
+  max-width:680px;
+  color:var(--ink);
+  opacity:.85;
+}
+
+/* Stage indicator */
+.stages{
+  display:flex;gap:0;margin-bottom:5vh;
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  padding:18px 0;
+}
+.stage{
+  flex:1;
+  display:flex;align-items:center;gap:14px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);
+  position:relative;
+  padding:0 24px;
+  border-right:1px solid var(--rule);
+}
+.stage:last-child{border-right:0}
+.stage .n{
+  width:28px;height:28px;border-radius:50%;
+  border:1px solid currentColor;
+  display:grid;place-items:center;
+  font-size:12px;
+  flex-shrink:0;
+  transition:all .3s ease;
+}
+.stage.active{color:var(--ink)}
+.stage.active .n{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.stage.done{color:var(--gold-2)}
+.stage.done .n{background:var(--gold-2);color:var(--paper);border-color:var(--gold-2)}
+
+/* Layout */
+.workspace{
+  display:grid;
+  grid-template-columns:1fr 320px;
+  gap:60px;
+  align-items:start;
+}
+@media (max-width:980px){
+  .workspace{grid-template-columns:1fr;gap:40px}
+}
+
+/* Main column */
+.main{min-width:0}
+
+/* Cards */
+.card{
+  background:var(--paper-2);
+  border:1px solid var(--rule);
+  padding:36px 40px;
+  margin-bottom:24px;
+  position:relative;
+}
+.card.ink{
+  background:linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
+  color:var(--paper);
+  border-color:var(--ink);
+}
+.card.ink .eyebrow{color:var(--gold)}
+.card-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold-2);
+  margin-bottom:14px;
+}
+.card.ink .card-eyebrow{color:var(--gold)}
+.card h2{
+  font-family:'Fraunces',serif;
+  font-weight:400;
+  font-size:clamp(28px,3.2vw,40px);
+  line-height:1.05;
+  letter-spacing:-.01em;
+  margin-bottom:18px;
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+}
+.card h2 em{font-style:italic;color:var(--gold-2)}
+.card.ink h2 em{color:var(--gold)}
+.card .lede{
+  font-size:15px;line-height:1.55;opacity:.85;margin-bottom:28px;max-width:640px;
+}
+
+/* Stage 1: Capture */
+.capture-input{
+  width:100%;
+  font-family:'Fraunces',serif;
+  font-style:italic;
+  font-size:clamp(22px,2.4vw,32px);
+  line-height:1.3;
+  background:transparent;
+  border:0;
+  border-bottom:1px solid var(--rule);
+  padding:14px 0 18px;
+  color:var(--ink);
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+  outline:none;
+  transition:border-color .25s ease;
+}
+.capture-input:focus{border-bottom-color:var(--ink)}
+.capture-input::placeholder{color:var(--muted);opacity:.6}
+
+.capture-hint{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);
+  margin-top:14px;
+}
+
+/* Buttons */
+.btn{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  background:var(--ink);
+  color:var(--paper);
+  border:1px solid var(--ink);
+  padding:14px 28px;
+  cursor:pointer;
+  transition:all .2s ease;
+  display:inline-flex;align-items:center;gap:12px;
+}
+.btn:hover{background:var(--ink-2)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn .arrow{transition:transform .2s ease}
+.btn:hover .arrow{transform:translateX(3px)}
+
+.btn.ghost{
+  background:transparent;color:var(--ink);
+}
+.btn.ghost:hover{background:rgba(15,27,45,.06)}
+
+.btn.gold{
+  background:var(--gold-2);border-color:var(--gold-2);color:var(--paper);
+}
+.btn.gold:hover{background:var(--gold)}
+
+.btn-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;align-items:center}
+
+/* Stage 2: Sharpen */
+.foundation-q{
+  background:var(--paper);
+  border:1px solid var(--rule);
+  padding:28px 32px;
+  margin-bottom:18px;
+}
+.fq-head{
+  display:flex;align-items:baseline;gap:18px;
+  margin-bottom:18px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--rule);
+}
+.fq-num{
+  font-family:'Fraunces',serif;font-style:italic;
+  font-size:28px;color:var(--gold-2);
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+}
+.fq-q{
+  font-family:'Fraunces',serif;
+  font-size:22px;line-height:1.2;
+  font-weight:400;
+  flex:1;
+}
+.fq-sharpen{
+  margin-bottom:18px;
+}
+.fq-sharpen-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold-2);
+  margin-bottom:14px;
+}
+.sharp-q{
+  font-size:14px;line-height:1.5;
+  padding:10px 0 10px 18px;
+  border-left:2px solid var(--gold);
+  margin-bottom:14px;
+  opacity:.85;
+}
+.fq-answer{
+  width:100%;
+  font-family:'Inter',sans-serif;
+  font-size:14px;line-height:1.55;
+  background:rgba(15,27,45,.04);
+  border:1px solid var(--rule);
+  padding:12px 14px;
+  color:var(--ink);
+  resize:vertical;
+  min-height:80px;
+  outline:none;
+  transition:border-color .2s ease,background .2s ease;
+}
+.fq-answer:focus{border-color:var(--ink);background:rgba(15,27,45,.06)}
+.fq-answer::placeholder{color:var(--muted);opacity:.55}
+
+.idea-banner{
+  background:var(--paper-3);
+  border-left:3px solid var(--gold-2);
+  padding:18px 24px;
+  margin-bottom:30px;
+  display:flex;align-items:baseline;gap:18px;
+}
+.idea-banner-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold-2);
+  flex-shrink:0;
+}
+.idea-banner-text{
+  font-family:'Fraunces',serif;font-style:italic;
+  font-size:18px;line-height:1.3;
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+}
+
+/* Loading state */
+.loading{
+  display:flex;align-items:center;gap:14px;
+  padding:24px 0;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold-2);
+}
+.dot{
+  width:6px;height:6px;border-radius:50%;background:currentColor;
+  animation:pulse 1.4s ease-in-out infinite;
+}
+.dot:nth-child(2){animation-delay:.2s}
+.dot:nth-child(3){animation-delay:.4s}
+@keyframes pulse{
+  0%,80%,100%{opacity:.3;transform:scale(.8)}
+  40%{opacity:1;transform:scale(1.1)}
+}
+
+/* Stage 3: Forge results */
+.thesis-block{
+  background:linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
+  color:var(--paper);
+  padding:48px 52px;
+  margin-bottom:28px;
+  position:relative;
+}
+.thesis-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:18px;
+}
+.thesis-text{
+  font-family:'Fraunces',serif;
+  font-size:clamp(22px,2.4vw,30px);
+  line-height:1.35;
+  font-weight:400;
+  letter-spacing:-.01em;
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+}
+.thesis-text em{font-style:italic;color:var(--gold)}
+
+.score-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  background:var(--paper-2);
+  border:1px solid var(--rule);
+  margin-bottom:28px;
+}
+@media (max-width:680px){
+  .score-grid{grid-template-columns:repeat(2,1fr)}
+}
+.score-cell{
+  padding:28px 24px;
+  border-right:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+}
+.score-cell:last-child{border-right:0}
+@media (max-width:680px){
+  .score-cell:nth-child(2n){border-right:0}
+}
+.score-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:14px;
+  line-height:1.3;
+  min-height:26px;
+}
+.score-number{
+  font-family:'Fraunces',serif;font-style:italic;
+  font-size:64px;line-height:1;
+  color:var(--ink);
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+}
+.score-number .denom{
+  font-size:24px;color:var(--muted);
+}
+
+.aggregate-row{
+  background:var(--paper-3);
+  padding:24px 32px;
+  display:flex;justify-content:space-between;align-items:center;
+  border:1px solid var(--rule);
+  border-top:0;
+}
+.agg-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold-2);
+}
+.agg-value{
+  font-family:'Fraunces',serif;font-style:italic;
+  font-size:36px;
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+}
+.agg-value .denom{font-size:18px;color:var(--muted)}
+
+.critique-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  border:1px solid var(--rule);
+  margin-bottom:28px;
+}
+@media (max-width:680px){
+  .critique-grid{grid-template-columns:1fr}
+}
+.critique-col{
+  padding:32px 36px;
+  border-right:1px solid var(--rule);
+}
+.critique-col:last-child{border-right:0}
+@media (max-width:680px){
+  .critique-col{border-right:0;border-bottom:1px solid var(--rule)}
+  .critique-col:last-child{border-bottom:0}
+}
+.crit-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold-2);
+  margin-bottom:14px;
+}
+.crit-label.rust{color:var(--rust)}
+.crit-list{list-style:none;padding:0;margin:0}
+.crit-list li{
+  font-size:14px;line-height:1.55;
+  padding-left:22px;position:relative;
+  margin-bottom:12px;
+}
+.crit-list li::before{
+  content:"·";position:absolute;left:6px;top:-2px;
+  font-size:22px;color:var(--gold-2);font-weight:700;
+}
+
+.next-move{
+  background:var(--ink);
+  color:var(--paper);
+  padding:32px 36px;
+  margin-bottom:28px;
+  border:1px solid var(--ink);
+}
+.next-move-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:14px;
+}
+.next-move-text{
+  font-family:'Fraunces',serif;
+  font-size:20px;line-height:1.45;
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+}
+.next-move-text em{font-style:italic;color:var(--gold)}
+
+/* Sidebar: Library */
+.sidebar{
+  position:sticky;top:4vh;
+  padding-left:28px;
+  border-left:1px solid var(--rule);
+}
+
+/* ============================================================
+   STAGE 4: DEEP DIVE
+   ============================================================ */
+
+/* Deep Dive prompt card (shows after Forge if scores ≤6 exist) */
+.dd-prompt{
+  background:var(--paper-3);
+  border:1px solid var(--gold-2);
+  padding:32px 36px;
+  margin-bottom:28px;
+  position:relative;
+}
+.dd-prompt::before{
+  content:"";
+  position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:var(--gold-2);
+}
+.dd-prompt-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold-2);
+  margin-bottom:14px;
+}
+.dd-prompt-title{
+  font-family:'Fraunces',serif;
+  font-size:26px;line-height:1.2;
+  margin-bottom:14px;
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+}
+.dd-prompt-title em{font-style:italic;color:var(--gold-2)}
+.dd-prompt-text{
+  font-size:14px;line-height:1.55;
+  margin-bottom:18px;
+  opacity:.9;
+}
+.weak-chips{
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin-bottom:22px;
+}
+.weak-chip{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+  background:var(--paper);
+  border:1px solid var(--gold-2);
+  color:var(--ink);
+  padding:8px 12px;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.weak-chip .chip-score{
+  color:var(--gold-2);
+  font-weight:500;
+}
+
+/* Deep Dive playbook */
+.dd-dimension{
+  background:var(--paper-2);
+  border:1px solid var(--rule);
+  margin-bottom:24px;
+  overflow:hidden;
+}
+.dd-dim-header{
+  background:linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
+  color:var(--paper);
+  padding:24px 32px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.dd-dim-name{
+  font-family:'Fraunces',serif;
+  font-size:22px;line-height:1.2;
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+}
+.dd-dim-name em{font-style:italic;color:var(--gold)}
+.dd-dim-score{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);
+}
+.dd-dim-body{
+  padding:28px 32px;
+}
+.dd-summary{
+  font-size:14px;line-height:1.55;
+  margin-bottom:24px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--rule);
+  opacity:.9;
+}
+.dd-summary em{font-style:italic;color:var(--gold-2)}
+.playbook-list{list-style:none;padding:0;margin:0}
+.playbook-item{
+  display:grid;
+  grid-template-columns:32px 1fr;
+  gap:18px;
+  padding:14px 0;
+  border-bottom:1px solid var(--rule);
+  align-items:start;
+}
+.playbook-item:last-child{border-bottom:0}
+.pb-num{
+  font-family:'Fraunces',serif;font-style:italic;
+  font-size:22px;
+  color:var(--gold-2);
+  line-height:1.1;
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+}
+.pb-body{
+  font-size:14px;line-height:1.55;
+}
+.pb-action{
+  font-weight:500;
+  margin-bottom:4px;
+}
+.pb-action em{font-style:italic;color:var(--gold-2);font-weight:400}
+.pb-deadline{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* ============================================================
+   STAGE 5: BRIEF
+   ============================================================ */
+.brief-doc{
+  background:var(--paper);
+  border:1px solid var(--rule);
+  padding:60px 64px;
+  margin-bottom:28px;
+  position:relative;
+  box-shadow:0 4px 24px rgba(15,27,45,.06);
+}
+@media (max-width:680px){
+  .brief-doc{padding:40px 28px}
+}
+
+.brief-letterhead{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding-bottom:24px;
+  margin-bottom:32px;
+  border-bottom:1px solid var(--ink);
+}
+.brief-mark{
+  display:flex;align-items:center;gap:12px;
+}
+.brief-mark .glyph{width:32px;height:32px;font-size:14px}
+.brief-mark-text{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  line-height:1.4;
+}
+.brief-mark-text .t{color:var(--gold-2)}
+.brief-mark-text .b{opacity:.6}
+.brief-meta{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  text-align:right;
+  line-height:1.6;
+  color:var(--muted);
+}
+.brief-meta .week{color:var(--gold-2)}
+
+.brief-doc-title{
+  font-family:'Fraunces',serif;
+  font-weight:400;font-style:italic;
+  font-size:clamp(36px,5vw,52px);
+  line-height:1;
+  letter-spacing:-.02em;
+  margin-bottom:32px;
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+}
+.brief-doc-title em{color:var(--gold-2)}
+
+.brief-section{
+  margin-bottom:32px;
+}
+.brief-section-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold-2);
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:14px;
+}
+.brief-section-label::after{content:"";flex:1;height:1px;background:var(--rule)}
+
+.brief-thesis{
+  font-family:'Fraunces',serif;
+  font-size:22px;line-height:1.4;
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+}
+.brief-thesis em{font-style:italic;color:var(--gold-2)}
+
+.brief-stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  border:1px solid var(--rule);
+}
+@media (max-width:680px){
+  .brief-stats{grid-template-columns:repeat(2,1fr)}
+}
+.brief-stat{
+  padding:18px 16px;
+  border-right:1px solid var(--rule);
+  text-align:center;
+}
+.brief-stat:last-child{border-right:0}
+@media (max-width:680px){
+  .brief-stat:nth-child(2n){border-right:0}
+}
+.brief-stat-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:8px;
+  line-height:1.2;
+}
+.brief-stat-num{
+  font-family:'Fraunces',serif;font-style:italic;
+  font-size:32px;line-height:1;
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+}
+.brief-stat-num.weak{color:var(--gold-2)}
+.brief-stat-num .d{font-size:14px;color:var(--muted)}
+
+.brief-focus{
+  background:var(--paper-3);
+  padding:18px 22px;
+  border-left:3px solid var(--gold-2);
+  font-size:14px;line-height:1.5;
+}
+.brief-focus strong{color:var(--gold-2)}
+
+.brief-checklist{
+  list-style:none;padding:0;margin:0;
+}
+.brief-task{
+  display:grid;
+  grid-template-columns:24px 1fr auto;
+  gap:14px;
+  padding:14px 0;
+  border-bottom:1px dashed var(--rule);
+  align-items:start;
+}
+.brief-task:last-child{border-bottom:0}
+.brief-check{
+  width:18px;height:18px;
+  border:1.5px solid var(--ink);
+  border-radius:2px;
+  margin-top:2px;
+  flex-shrink:0;
+}
+.brief-task-body{
+  font-size:14px;line-height:1.5;
+}
+.brief-task-body em{font-style:italic;color:var(--gold-2)}
+.brief-task-meta{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);
+  margin-top:6px;
+}
+.brief-task-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold-2);
+  padding:4px 8px;
+  border:1px solid var(--gold-2);
+  white-space:nowrap;
+  align-self:start;
+  margin-top:2px;
+}
+
+.brief-footer{
+  margin-top:40px;
+  padding-top:20px;
+  border-top:1px solid var(--rule);
+  display:flex;justify-content:space-between;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);
+}
+.brief-footer em{
+  font-family:'Fraunces',serif;font-style:italic;
+  text-transform:none;letter-spacing:0;
+  color:var(--gold-2);
+  font-size:12px;
+}
+.sb-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:20px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--rule);
+}
+.sb-title{
+  font-family:'Fraunces',serif;font-style:italic;
+  font-size:22px;
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+}
+.sb-count{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.18em;
+  color:var(--muted);
+}
+
+.library-empty{
+  font-size:13px;line-height:1.6;color:var(--muted);
+  font-style:italic;
+  padding:20px 0;
+}
+
+.lib-item{
+  padding:16px 0;
+  border-bottom:1px solid var(--rule);
+  cursor:pointer;
+  transition:background .15s ease;
+}
+.lib-item:hover{background:rgba(15,27,45,.04)}
+.lib-item-head{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:12px;
+  margin-bottom:6px;
+}
+.lib-item-idea{
+  font-family:'Fraunces',serif;font-style:italic;
+  font-size:14px;line-height:1.35;
+  flex:1;
+  font-variation-settings:"SOFT" 100,"WONK" 1;
+}
+.lib-item-score{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.05em;
+  color:var(--gold-2);
+  flex-shrink:0;
+  white-space:nowrap;
+}
+.lib-item-meta{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);
+}
+
+.sb-actions{
+  margin-top:24px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.sb-btn{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  background:transparent;
+  color:var(--ink);
+  border:1px solid var(--rule);
+  padding:12px 14px;
+  cursor:pointer;
+  text-align:left;
+  transition:all .15s ease;
+}
+.sb-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.sb-btn.danger:hover{background:var(--rust);border-color:var(--rust)}
+
+/* Footer note */
+footer{
+  margin-top:8vh;
+  padding-top:24px;
+  border-top:1px solid var(--rule);
+  display:flex;justify-content:space-between;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* Error */
+.error-banner{
+  background:var(--rust);color:var(--paper);
+  padding:14px 20px;margin-bottom:20px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;letter-spacing:.1em;
+}
+
+/* Persistence note */
+.persistence-note{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);
+  font-style:normal;
+  margin-top:8px;
+  opacity:.7;
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header>
+    <div class="brand">
+      <span class="glyph">F</span>
+      <div class="brand-text">
+        <div class="top">Fitler MBA</div>
+        <div class="bot">Idea Forge</div>
+      </div>
+    </div>
+    <div class="session-tag">
+      <div class="ses">Session 01</div>
+      <div>The Entrepreneurial Mindset</div>
+    </div>
+  </header>
+
+  <div class="hero">
+    <span class="eyebrow">Your yellow pad, sharpened</span>
+    <h1 class="display">Capture, then <em class="serif-italic">forge.</em></h1>
+    <p class="sub">One line, one idea. Then Claude runs it through the Four Foundation Questions — not to grade you, but to interview you. The thesis on the other side is sharper than the one you walked in with.</p>
+  </div>
+
+  <div class="stages">
+    <div class="stage active" data-stage="capture"><span class="n">1</span><span>Capture</span></div>
+    <div class="stage" data-stage="sharpen"><span class="n">2</span><span>Sharpen</span></div>
+    <div class="stage" data-stage="forge"><span class="n">3</span><span>Forge</span></div>
+    <div class="stage" data-stage="brief"><span class="n">4</span><span>Brief</span></div>
+  </div>
+
+  <div class="workspace">
+
+    <div class="main">
+
+      <div id="error-slot"></div>
+
+      <!-- STAGE 1: CAPTURE -->
+      <div id="stage-capture" class="card">
+        <div class="card-eyebrow">Stage 01 · Capture the idea</div>
+        <h2>Write the <em class="serif-italic">one-liner.</em></h2>
+        <p class="lede">A problem you've seen, a frustration you've had, a market you can't stop thinking about. No editing, no business plan — just one honest sentence. We'll sharpen it from there.</p>
+        <input
+          id="idea-input"
+          class="capture-input"
+          type="text"
+          placeholder="e.g. Aging parents lose track of medications and their kids find out too late."
+          maxlength="240"
+        />
+        <div class="capture-hint">Don't perfect it. The forge handles the rough edges.</div>
+        <div class="btn-row">
+          <button class="btn" id="btn-sharpen">
+            Sharpen this idea <span class="arrow">→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- STAGE 2: SHARPEN -->
+      <div id="stage-sharpen" class="card" style="display:none">
+        <div class="card-eyebrow">Stage 02 · Answer the sharpening questions</div>
+        <h2>Now Claude <em class="serif-italic">interviews</em> you.</h2>
+        <p class="lede">Four Foundation Questions, two or three sharpening questions each. Answer what you can; the gaps are also data. The point is to find out what you actually believe.</p>
+
+        <div class="idea-banner">
+          <span class="idea-banner-label">Your idea</span>
+          <span class="idea-banner-text" id="sharpen-idea-echo"></span>
+        </div>
+
+        <div id="sharpen-loading" class="loading">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span>Claude is reading your idea</span>
+        </div>
+
+        <div id="sharpen-questions"></div>
+
+        <div class="btn-row" id="sharpen-btn-row" style="display:none">
+          <button class="btn ghost" id="btn-back-capture">← Back</button>
+          <button class="btn gold" id="btn-forge">
+            Forge the thesis <span class="arrow">→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- STAGE 3: FORGE -->
+      <div id="stage-forge" class="card" style="display:none;background:transparent;border:0;padding:0">
+
+        <div id="forge-loading" class="loading" style="padding:60px 0;justify-content:center">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span>Claude is forging your thesis</span>
+        </div>
+
+        <div id="forge-results" style="display:none">
+
+          <div class="thesis-block">
+            <div class="thesis-eyebrow">Your sharpened thesis</div>
+            <div class="thesis-text" id="forge-thesis"></div>
+          </div>
+
+          <div class="score-grid">
+            <div class="score-cell">
+              <div class="score-label">Problem<br/>clarity</div>
+              <div class="score-number"><span id="score-1">—</span><span class="denom">/10</span></div>
+            </div>
+            <div class="score-cell">
+              <div class="score-label">Customer<br/>specificity</div>
+              <div class="score-number"><span id="score-2">—</span><span class="denom">/10</span></div>
+            </div>
+            <div class="score-cell">
+              <div class="score-label">Impact &amp;<br/>urgency</div>
+              <div class="score-number"><span id="score-3">—</span><span class="denom">/10</span></div>
+            </div>
+            <div class="score-cell">
+              <div class="score-label">Willingness<br/>to pay</div>
+              <div class="score-number"><span id="score-4">—</span><span class="denom">/10</span></div>
+            </div>
+          </div>
+
+          <div class="aggregate-row">
+            <span class="agg-label">Thesis strength</span>
+            <span class="agg-value"><span id="agg-score">—</span><span class="denom">/40</span></span>
+          </div>
+
+          <div class="critique-grid" style="margin-top:28px">
+            <div class="critique-col">
+              <div class="crit-label">Strengths</div>
+              <ul class="crit-list" id="strengths-list"></ul>
+            </div>
+            <div class="critique-col">
+              <div class="crit-label rust">Weaknesses</div>
+              <ul class="crit-list" id="weaknesses-list"></ul>
+            </div>
+          </div>
+
+          <div class="next-move">
+            <div class="next-move-label">Your next move</div>
+            <div class="next-move-text" id="next-move-text"></div>
+          </div>
+
+          <div class="btn-row" id="forge-btn-row">
+            <button class="btn ghost" id="btn-new-idea">← Capture another</button>
+            <button class="btn" id="btn-save">Save to library</button>
+            <button class="btn gold" id="btn-generate-brief">Generate brief <span class="arrow">→</span></button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- STAGE 4: BRIEF -->
+      <div id="stage-brief" class="card" style="display:none;background:transparent;border:0;padding:0">
+
+        <div id="brief-loading" class="loading" style="padding:40px 0;justify-content:center">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span>Claude is writing your brief</span>
+        </div>
+
+        <div id="brief-results" style="display:none">
+          <!-- Brief renders here -->
+          <div id="brief-document"></div>
+
+          <div class="btn-row">
+            <button class="btn ghost" id="btn-back-to-forge">← Back</button>
+            <button class="btn" id="btn-brief-export-md">Download as Markdown</button>
+            <button class="btn gold" id="btn-brief-save">Save &amp; capture another <span class="arrow">→</span></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR: LIBRARY -->
+    <aside class="sidebar">
+      <div class="sb-head">
+        <span class="sb-title">This week's <em class="serif-italic">library</em></span>
+        <span class="sb-count" id="lib-count">0</span>
+      </div>
+      <div id="library-list">
+        <div class="library-empty">No ideas captured yet. The first one's the hardest.</div>
+      </div>
+      <div class="sb-actions">
+        <button class="sb-btn" id="btn-export-md">Export as Markdown</button>
+        <button class="sb-btn" id="btn-export-json">Export as JSON</button>
+        <button class="sb-btn danger" id="btn-clear">Clear library</button>
+      </div>
+      <div class="persistence-note" id="persistence-status"></div>
+    </aside>
+
+  </div>
+
+  <footer>
+    <span>Fitler MBA · Session 01 · Idea Forge</span>
+    <span>Powered by Claude</span>
+  </footer>
+
+</div>
+
+<script>
+// ============================================================
+// STATE
+// ============================================================
+const STORAGE_KEY = 'fitler_idea_forge_library_v1';
+// Model fallback chain — try in order. First success "sticks" for the rest of the session
+// so we don't keep paying the latency cost of probing.
+const MODEL_CHAIN = [
+  'claude-opus-4-7',
+  'claude-opus-4-6',
+  'claude-sonnet-4-5',
+  'claude-sonnet-4-20250514'
+];
+let activeModel = null;  // populated on first successful call
+
+let state = {
+  idea: '',
+  sharpeningData: null,  // {questions: [...], answers: {}}
+  forgeResult: null,
+  brief: null,           // {title, thesis, stats, focus, checklist}
+  library: [],
+  storageAvailable: true
+};
+
+// Try to load from localStorage; gracefully fall back if blocked
+try {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) state.library = JSON.parse(saved);
+  // test write
+  localStorage.setItem(STORAGE_KEY + '_test', '1');
+  localStorage.removeItem(STORAGE_KEY + '_test');
+} catch (e) {
+  state.storageAvailable = false;
+  console.warn('localStorage unavailable; using in-memory library');
+}
+
+const FOUNDATION_QUESTIONS = [
+  { id: 1, title: "What problem do you solve?", dim: "Problem clarity" },
+  { id: 2, title: "Who's got it?", dim: "Customer specificity" },
+  { id: 3, title: "What's the impact of the problem today?", dim: "Impact & urgency" },
+  { id: 4, title: "Who's willing to pay to make the problem go away?", dim: "Willingness to pay" }
+];
+
+// ============================================================
+// HELPERS
+// ============================================================
+function $(id) { return document.getElementById(id); }
+function $all(sel) { return document.querySelectorAll(sel); }
+
+function setStage(stageName) {
+  $all('.stage').forEach(s => s.classList.remove('active', 'done'));
+  const order = ['capture', 'sharpen', 'forge', 'brief'];
+  const idx = order.indexOf(stageName);
+  order.forEach((s, i) => {
+    const el = document.querySelector(`.stage[data-stage="${s}"]`);
+    if (!el) return;
+    if (i < idx) el.classList.add('done');
+    else if (i === idx) el.classList.add('active');
+  });
+  // hide all stage cards
+  $('stage-capture').style.display = 'none';
+  $('stage-sharpen').style.display = 'none';
+  $('stage-forge').style.display = 'none';
+  $('stage-brief').style.display = 'none';
+  // show the active one
+  if (stageName === 'capture') $('stage-capture').style.display = 'block';
+  else if (stageName === 'sharpen') $('stage-sharpen').style.display = 'block';
+  else if (stageName === 'forge') $('stage-forge').style.display = 'block';
+  else if (stageName === 'brief') $('stage-brief').style.display = 'block';
+  // scroll to top on stage change
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showError(msg) {
+  $('error-slot').innerHTML = `<div class="error-banner">${msg}</div>`;
+  setTimeout(() => { $('error-slot').innerHTML = ''; }, 6000);
+}
+
+function persistLibrary() {
+  if (!state.storageAvailable) return;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state.library));
+  } catch (e) {
+    console.warn('Failed to persist:', e);
+  }
+}
+
+function updatePersistenceStatus() {
+  const el = $('persistence-status');
+  if (state.storageAvailable) {
+    el.textContent = '↳ Saved in this browser';
+  } else {
+    el.textContent = '↳ In-memory only · export to save';
+  }
+}
+
+// ============================================================
+// API CALLER (Anthropic in-artifact API)
+// ============================================================
+async function callClaude(messages, system = null) {
+  // If we already found a working model this session, just use it.
+  // Otherwise try each model in the chain until one accepts our request.
+  const modelsToTry = activeModel ? [activeModel] : MODEL_CHAIN;
+  let lastError = null;
+
+  for (const model of modelsToTry) {
+    const body = {
+      model: model,
+      max_tokens: 2000,
+      messages: messages
+    };
+    if (system) body.system = system;
+
+    let response;
+    try {
+      response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    } catch (networkErr) {
+      // Network failure — don't try other models, this isn't a model problem
+      throw new Error(`Network error: ${networkErr.message}`);
+    }
+
+    if (response.ok) {
+      // This model worked — remember it for the rest of the session
+      if (!activeModel) {
+        activeModel = model;
+        console.log(`[Forge] Using model: ${model}`);
+      }
+      const data = await response.json();
+      const text = data.content
+        .filter(b => b.type === 'text')
+        .map(b => b.text)
+        .join('\n');
+      return text;
+    }
+
+    // Inspect the failure — only fall through to next model on model-availability errors
+    const errText = await response.text();
+    lastError = `API error ${response.status}: ${errText}`;
+    const isModelError = response.status === 404
+                      || response.status === 400
+                      || /model/i.test(errText);
+
+    if (!isModelError) {
+      // Some other failure (rate limit, server error) — don't keep probing
+      throw new Error(lastError);
+    }
+
+    console.warn(`[Forge] Model "${model}" rejected (${response.status}); trying next...`);
+    // loop continues to next model
+  }
+
+  // All models failed
+  throw new Error(`All models failed. Last error: ${lastError}`);
+}
+
+function extractJSON(text) {
+  // Try increasingly aggressive cleanup passes; throw only if everything fails
+
+  // Pass 0: strip markdown code fences if present
+  let cleaned = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+
+  // Find the JSON object boundaries — first { to last }
+  const start = cleaned.indexOf('{');
+  const end = cleaned.lastIndexOf('}');
+  if (start === -1 || end === -1) {
+    console.error('[Forge] No JSON object found. Raw response:', text);
+    throw new Error('No JSON object in response');
+  }
+  let candidate = cleaned.slice(start, end + 1);
+
+  // Pass 1: try as-is
+  try {
+    return JSON.parse(candidate);
+  } catch (e1) {
+    console.warn('[Forge] Strict JSON parse failed, attempting repair. Error:', e1.message);
+  }
+
+  // Pass 2: fix common Opus mistakes
+  //  - Trailing commas before } or ]
+  //  - Smart quotes from copy-paste-ish content
+  //  - Unescaped newlines inside strings (most common cause of "Expected , or ]")
+  let repaired = candidate
+    // Remove trailing commas before closing brackets/braces
+    .replace(/,(\s*[}\]])/g, '$1')
+    // Replace smart quotes with straight quotes
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u2018\u2019]/g, "'")
+    // Escape literal newlines/tabs/carriage returns that appear inside string values
+    // (Walk through, tracking whether we're inside a string)
+    ;
+
+  repaired = escapeUnescapedControlChars(repaired);
+
+  try {
+    return JSON.parse(repaired);
+  } catch (e2) {
+    console.warn('[Forge] Repaired JSON parse failed. Error:', e2.message);
+    console.error('[Forge] Raw response that could not be parsed:', text);
+    console.error('[Forge] After repair attempt:', repaired);
+  }
+
+  // Pass 3: last-ditch attempt — try parsing line by line, dropping anything after the last complete valid JSON
+  // Find the longest valid JSON prefix by progressively shrinking from the end
+  for (let i = repaired.length; i > 100; i -= Math.max(1, Math.floor((repaired.length - i + 1) / 2) + 1)) {
+    const truncated = repaired.slice(0, i);
+    // Only try if it ends with a } that could close the outer object
+    const lastBrace = truncated.lastIndexOf('}');
+    if (lastBrace === -1) break;
+    try {
+      const parsed = JSON.parse(truncated.slice(0, lastBrace + 1));
+      console.warn('[Forge] Recovered partial JSON by truncating to position', lastBrace + 1);
+      return parsed;
+    } catch (e) {
+      // keep shrinking
+    }
+  }
+
+  throw new Error('Could not parse Claude\'s response as JSON. See console for raw output.');
+}
+
+// Walk through a JSON-ish string and escape control characters that appear
+// inside string values (the #1 cause of Opus JSON failures).
+function escapeUnescapedControlChars(s) {
+  let out = '';
+  let inString = false;
+  let prev = '';
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i];
+    if (inString) {
+      if (c === '"' && prev !== '\\') {
+        inString = false;
+        out += c;
+      } else if (c === '\n') {
+        out += '\\n';
+      } else if (c === '\r') {
+        out += '\\r';
+      } else if (c === '\t') {
+        out += '\\t';
+      } else {
+        out += c;
+      }
+    } else {
+      if (c === '"') {
+        inString = true;
+      }
+      out += c;
+    }
+    // Track whether prev char was a backslash, but handle escaped backslashes
+    prev = (prev === '\\' && c === '\\') ? '' : c;
+  }
+  return out;
+}
+
+// ============================================================
+// STAGE 1 → 2: SHARPEN
+// ============================================================
+async function runSharpen() {
+  const idea = $('idea-input').value.trim();
+  if (idea.length < 8) {
+    showError('Write at least a sentence. The forge needs something to work with.');
+    return;
+  }
+  state.idea = idea;
+  $('sharpen-idea-echo').textContent = idea;
+  setStage('sharpen');
+  $('sharpen-loading').style.display = 'flex';
+  $('sharpen-questions').innerHTML = '';
+  $('sharpen-btn-row').style.display = 'none';
+
+  const system = `You are an experienced entrepreneurship coach helping a mid-career professional sharpen a raw business idea. You teach in the tradition of Steve Blank's Customer Development and Andy Kessler's "Eat People" — direct, Socratic, no-nonsense. You ask sharp questions that surface what the person actually believes versus what they're hand-waving.
+
+The student has captured a one-line idea. Your job: generate sharpening questions across the Four Foundation Questions framework:
+1. What problem do you solve? (Problem clarity)
+2. Who's got it? (Customer specificity)
+3. What's the impact of the problem today? (Impact & urgency)
+4. Who's willing to pay to make the problem go away? (Willingness to pay)
+
+For EACH of the 4 Foundation Questions, generate exactly 2 sharpening sub-questions. Make them specific to THIS idea, not generic. Push on the assumptions hiding inside the one-liner. If they say "everyone has this problem," push back. If they say "people would pay," ask who, what, and how much.
+
+Respond ONLY with a JSON object. No preamble, no code fences. CRITICAL: ensure valid JSON — no trailing commas, no unescaped newlines inside strings (use \n if you need a line break in a string), no smart quotes. Exact structure:
+{
+  "questions": [
+    { "foundation": 1, "sub": ["question 1a", "question 1b"] },
+    { "foundation": 2, "sub": ["question 2a", "question 2b"] },
+    { "foundation": 3, "sub": ["question 3a", "question 3b"] },
+    { "foundation": 4, "sub": ["question 4a", "question 4b"] }
+  ]
+}`;
+
+  const userMsg = `My one-line idea: "${idea}"
+
+Generate the sharpening questions.`;
+
+  try {
+    const text = await callClaude([{ role: 'user', content: userMsg }], system);
+    const parsed = extractJSON(text);
+    state.sharpeningData = { questions: parsed.questions, answers: {} };
+    renderSharpenQuestions();
+  } catch (err) {
+    console.error(err);
+    showError('Claude couldn\'t generate questions. Try again or refresh.');
+    setStage('capture');
+  } finally {
+    $('sharpen-loading').style.display = 'none';
+  }
+}
+
+function renderSharpenQuestions() {
+  const container = $('sharpen-questions');
+  container.innerHTML = '';
+  state.sharpeningData.questions.forEach(fq => {
+    const meta = FOUNDATION_QUESTIONS.find(m => m.id === fq.foundation);
+    const block = document.createElement('div');
+    block.className = 'foundation-q';
+    block.innerHTML = `
+      <div class="fq-head">
+        <span class="fq-num">${String(fq.foundation).padStart(2,'0')}.</span>
+        <span class="fq-q">${meta.title}</span>
+      </div>
+      <div class="fq-sharpen">
+        <div class="fq-sharpen-label">Sharpening questions</div>
+        ${fq.sub.map(q => `<div class="sharp-q">${escapeHtml(q)}</div>`).join('')}
+      </div>
+      <textarea
+        class="fq-answer"
+        data-foundation="${fq.foundation}"
+        placeholder="Your answer — be honest, not impressive."
+      ></textarea>
+    `;
+    container.appendChild(block);
+  });
+  // Wire up answer capture
+  $all('.fq-answer').forEach(t => {
+    t.addEventListener('input', e => {
+      const f = parseInt(e.target.dataset.foundation);
+      state.sharpeningData.answers[f] = e.target.value;
+    });
+  });
+  $('sharpen-btn-row').style.display = 'flex';
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[c]);
+}
+
+// ============================================================
+// STAGE 2 → 3: FORGE
+// ============================================================
+async function runForge() {
+  setStage('forge');
+  $('forge-loading').style.display = 'flex';
+  $('forge-results').style.display = 'none';
+
+  const answers = state.sharpeningData.answers;
+  const questionsBlock = state.sharpeningData.questions.map(fq => {
+    const meta = FOUNDATION_QUESTIONS.find(m => m.id === fq.foundation);
+    const ans = (answers[fq.foundation] || '').trim() || '(no answer given)';
+    return `### Foundation ${fq.foundation}: ${meta.title}
+Sharpening questions asked:
+${fq.sub.map(q => '- ' + q).join('\n')}
+Student's answer: ${ans}`;
+  }).join('\n\n');
+
+  const system = `You are an experienced entrepreneurship coach in the tradition of Steve Blank, Ben Horowitz, and Andy Kessler. You're reviewing a student's idea and their answers to sharpening questions across the Four Foundation Questions framework. You give direct, useful, no-BS critique.
+
+Your job has four parts:
+1. Synthesize a single sharpened thesis statement (1-2 sentences, declarative, specific — not the original one-liner, but a sharper version informed by their answers). Use italic *asterisks* around any 1-3 word phrase you want emphasized typographically.
+2. Score each of the four dimensions 1-10 (1=hand-waving, 10=this person has clearly done the work):
+   - Problem clarity
+   - Customer specificity
+   - Impact & urgency
+   - Willingness to pay
+   Be honest. Most raw ideas score 3-6 across the board. A 9 or 10 is rare.
+3. List 2-3 specific strengths (what they got right, what's promising)
+4. List 2-3 specific weaknesses (what's hand-wavy, what assumptions need testing)
+5. Write a "next move" — one specific action they should take in the next 7 days to test the weakest dimension. Tactical, not philosophical. Use italic *asterisks* around any 1-3 word phrase to emphasize.
+
+Respond ONLY with a JSON object. No preamble, no code fences. CRITICAL: ensure valid JSON — no trailing commas, no unescaped newlines inside strings (use \n if you need a line break in a string), no smart quotes. Exact structure:
+{
+  "thesis": "string with *italic emphasis* allowed",
+  "scores": {
+    "problem_clarity": 0,
+    "customer_specificity": 0,
+    "impact_urgency": 0,
+    "willingness_to_pay": 0
+  },
+  "strengths": ["string", "string"],
+  "weaknesses": ["string", "string"],
+  "next_move": "string with *italic emphasis* allowed"
+}`;
+
+  const userMsg = `Original one-line idea: "${state.idea}"
+
+The student's answers to the sharpening questions:
+
+${questionsBlock}
+
+Forge the thesis, score it honestly, and tell them what to do next.`;
+
+  try {
+    const text = await callClaude([{ role: 'user', content: userMsg }], system);
+    const parsed = extractJSON(text);
+    state.forgeResult = parsed;
+    renderForgeResults(parsed);
+  } catch (err) {
+    console.error(err);
+    showError('Claude couldn\'t forge the thesis. Try again.');
+    setStage('sharpen');
+  } finally {
+    $('forge-loading').style.display = 'none';
+  }
+}
+
+function renderItalic(s) {
+  // *word* -> <em class="serif-italic" style="color:var(--gold)">word</em>
+  return escapeHtml(s).replace(/\*([^*]+)\*/g, '<em class="serif-italic" style="color:var(--gold)">$1</em>');
+}
+
+function renderItalicGold2(s) {
+  return escapeHtml(s).replace(/\*([^*]+)\*/g, '<em class="serif-italic" style="color:var(--gold-2)">$1</em>');
+}
+
+function renderForgeResults(result) {
+  $('forge-thesis').innerHTML = renderItalic(result.thesis);
+  $('score-1').textContent = result.scores.problem_clarity;
+  $('score-2').textContent = result.scores.customer_specificity;
+  $('score-3').textContent = result.scores.impact_urgency;
+  $('score-4').textContent = result.scores.willingness_to_pay;
+  const agg = result.scores.problem_clarity + result.scores.customer_specificity +
+              result.scores.impact_urgency + result.scores.willingness_to_pay;
+  $('agg-score').textContent = agg;
+
+  $('strengths-list').innerHTML = result.strengths.map(s => `<li>${escapeHtml(s)}</li>`).join('');
+  $('weaknesses-list').innerHTML = result.weaknesses.map(s => `<li>${escapeHtml(s)}</li>`).join('');
+  $('next-move-text').innerHTML = renderItalic(result.next_move);
+
+  $('forge-results').style.display = 'block';
+}
+
+// ============================================================
+// STAGE 4 → 5: BRIEF (Weekly Investigation Brief)
+// ============================================================
+async function runBrief() {
+  setStage('brief');
+  $('brief-loading').style.display = 'flex';
+  $('brief-results').style.display = 'none';
+
+  // Compute weak dimensions inline (score ≤ 6) for context only
+  const s = state.forgeResult.scores;
+  const dims = [
+    { label: 'Problem clarity', score: s.problem_clarity },
+    { label: 'Customer specificity', score: s.customer_specificity },
+    { label: 'Impact & urgency', score: s.impact_urgency },
+    { label: 'Willingness to pay', score: s.willingness_to_pay }
+  ];
+  const weakDims = dims.filter(d => d.score <= 6);
+
+  const system = `You are an experienced entrepreneurship coach producing the entrepreneur's WEEKLY INVESTIGATION BRIEF — a one-page document they'll work from for the next 7 days.
+
+Distill everything (thesis, scores, weaknesses, next-move) into a tight, motivating brief. The brief has these parts:
+
+1. TITLE — short, punchy, specific to the idea. 4-7 words. Can use italic *asterisks* on a key word.
+2. FOCUS_STATEMENT — one sentence stating the primary investigation question for the week. The thing this week's work is designed to answer. Use italic *asterisks* on 1-3 words.
+3. CHECKLIST — 7-10 tasks distilled from the next-move action and weaknesses. Each task has:
+   - action: the specific thing to do, with *italic emphasis* on 1-3 words
+   - deadline: a day-of-week or "Day N" reference
+   - tag: one of INTERVIEW, RESEARCH, TEST, BUILD, SHIP, REFLECT
+   Order them roughly by sequence — early-week interviews, mid-week testing, end-week synthesis.
+4. SUCCESS_CRITERIA — one sentence describing what "a good week" looks like. What evidence will they have on Friday that they didn't have Monday?
+
+Use italic *asterisks* on 1-3 word phrases throughout. Respond ONLY with a JSON object. No preamble, no code fences. CRITICAL: ensure valid JSON — no trailing commas, no unescaped newlines inside strings (use \\n if you need a line break), no smart quotes. Exact structure:
+{
+  "title": "string with *italic*",
+  "focus_statement": "string with *italic*",
+  "checklist": [
+    { "action": "string with *italic*", "deadline": "string", "tag": "INTERVIEW|RESEARCH|TEST|BUILD|SHIP|REFLECT" }
+  ],
+  "success_criteria": "string with *italic*"
+}`;
+
+  const userMsg = `Original idea: "${state.idea}"
+
+Sharpened thesis: ${state.forgeResult.thesis}
+
+Scores: Problem clarity ${s.problem_clarity}/10 · Customer specificity ${s.customer_specificity}/10 · Impact & urgency ${s.impact_urgency}/10 · Willingness to pay ${s.willingness_to_pay}/10
+
+Weak dimensions to address: ${weakDims.length > 0 ? weakDims.map(d => `${d.label} (${d.score})`).join(', ') : 'None — all dimensions 7+'}
+
+Strengths identified: ${state.forgeResult.strengths.join('; ')}
+
+Weaknesses identified: ${state.forgeResult.weaknesses.join('; ')}
+
+Next-move suggestion: ${state.forgeResult.next_move}
+
+Build the weekly investigation brief.`;
+
+  try {
+    const text = await callClaude([{ role: 'user', content: userMsg }], system);
+    const parsed = extractJSON(text);
+    state.brief = parsed;
+    renderBrief(parsed);
+  } catch (err) {
+    console.error(err);
+    showError('Claude couldn\'t generate the brief. Try again.');
+    setStage('forge');
+  } finally {
+    $('brief-loading').style.display = 'none';
+  }
+}
+
+function renderBrief(brief) {
+  const weekOf = new Date();
+  const weekStr = weekOf.toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
+  const scores = state.forgeResult.scores;
+  const agg = scores.problem_clarity + scores.customer_specificity +
+              scores.impact_urgency + scores.willingness_to_pay;
+
+  const isWeak = s => s <= 6;
+
+  const doc = $('brief-document');
+  doc.innerHTML = `
+    <div class="brief-doc">
+      <div class="brief-letterhead">
+        <div class="brief-mark">
+          <span class="glyph">F</span>
+          <div class="brief-mark-text">
+            <div class="t">Fitler MBA</div>
+            <div class="b">Idea Forge</div>
+          </div>
+        </div>
+        <div class="brief-meta">
+          <div class="week">Week of ${weekStr}</div>
+          <div>Weekly Investigation Brief</div>
+        </div>
+      </div>
+
+      <h1 class="brief-doc-title">${renderItalicGold2(brief.title)}</h1>
+
+      <div class="brief-section">
+        <div class="brief-section-label">The thesis</div>
+        <div class="brief-thesis">${renderItalicGold2(state.forgeResult.thesis)}</div>
+      </div>
+
+      <div class="brief-section">
+        <div class="brief-section-label">Where we stand</div>
+        <div class="brief-stats">
+          <div class="brief-stat">
+            <div class="brief-stat-label">Problem<br/>clarity</div>
+            <div class="brief-stat-num ${isWeak(scores.problem_clarity) ? 'weak' : ''}">${scores.problem_clarity}<span class="d">/10</span></div>
+          </div>
+          <div class="brief-stat">
+            <div class="brief-stat-label">Customer<br/>specificity</div>
+            <div class="brief-stat-num ${isWeak(scores.customer_specificity) ? 'weak' : ''}">${scores.customer_specificity}<span class="d">/10</span></div>
+          </div>
+          <div class="brief-stat">
+            <div class="brief-stat-label">Impact &amp;<br/>urgency</div>
+            <div class="brief-stat-num ${isWeak(scores.impact_urgency) ? 'weak' : ''}">${scores.impact_urgency}<span class="d">/10</span></div>
+          </div>
+          <div class="brief-stat">
+            <div class="brief-stat-label">Willingness<br/>to pay</div>
+            <div class="brief-stat-num ${isWeak(scores.willingness_to_pay) ? 'weak' : ''}">${scores.willingness_to_pay}<span class="d">/10</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="brief-section">
+        <div class="brief-section-label">This week's focus</div>
+        <div class="brief-focus">${renderItalicGold2(brief.focus_statement)}</div>
+      </div>
+
+      <div class="brief-section">
+        <div class="brief-section-label">Checklist · ${brief.checklist.length} actions</div>
+        <ul class="brief-checklist">
+          ${brief.checklist.map(t => `
+            <li class="brief-task">
+              <span class="brief-check"></span>
+              <div class="brief-task-body">
+                <div>${renderItalicGold2(t.action)}</div>
+                <div class="brief-task-meta">${escapeHtml(t.deadline)}</div>
+              </div>
+              <span class="brief-task-tag">${escapeHtml(t.tag)}</span>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+
+      <div class="brief-section">
+        <div class="brief-section-label">A good week looks like</div>
+        <div class="brief-focus">${renderItalicGold2(brief.success_criteria)}</div>
+      </div>
+
+      <div class="brief-footer">
+        <span>Fitler MBA · Session 01</span>
+        <em>Begin it now.</em>
+      </div>
+    </div>
+  `;
+
+  $('brief-results').style.display = 'block';
+}
+
+function exportBriefMarkdown() {
+  if (!state.brief) return;
+  const stripItalic = s => (s || '').replace(/\*([^*]+)\*/g, '_$1_');
+  const scores = state.forgeResult.scores;
+  const weekOf = new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
+  const lines = [];
+  lines.push(`# ${stripItalic(state.brief.title)}`);
+  lines.push('');
+  lines.push(`**Fitler MBA · Idea Forge · Week of ${weekOf}**`);
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+  lines.push('## The thesis');
+  lines.push('');
+  lines.push(`> ${stripItalic(state.forgeResult.thesis)}`);
+  lines.push('');
+  lines.push('## Where we stand');
+  lines.push('');
+  lines.push(`| Dimension | Score |`);
+  lines.push(`|---|---|`);
+  lines.push(`| Problem clarity | ${scores.problem_clarity}/10 |`);
+  lines.push(`| Customer specificity | ${scores.customer_specificity}/10 |`);
+  lines.push(`| Impact & urgency | ${scores.impact_urgency}/10 |`);
+  lines.push(`| Willingness to pay | ${scores.willingness_to_pay}/10 |`);
+  lines.push('');
+  lines.push('## This week\'s focus');
+  lines.push('');
+  lines.push(`${stripItalic(state.brief.focus_statement)}`);
+  lines.push('');
+  lines.push('## Checklist');
+  lines.push('');
+  state.brief.checklist.forEach(t => {
+    lines.push(`- [ ] **[${t.tag}]** ${stripItalic(t.action)} _— ${t.deadline}_`);
+  });
+  lines.push('');
+  lines.push('## A good week looks like');
+  lines.push('');
+  lines.push(`${stripItalic(state.brief.success_criteria)}`);
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+  lines.push(`*Generated ${new Date().toLocaleString()} · Fitler MBA Idea Forge*`);
+  const filename = `brief-${new Date().toISOString().slice(0,10)}.md`;
+  downloadBlob(lines.join('\n'), filename, 'text/markdown');
+}
+
+
+function saveCurrentToLibrary() {
+  if (!state.forgeResult) return;
+  const entry = {
+    id: Date.now(),
+    timestamp: new Date().toISOString(),
+    idea: state.idea,
+    thesis: state.forgeResult.thesis,
+    scores: state.forgeResult.scores,
+    aggregate: state.forgeResult.scores.problem_clarity +
+               state.forgeResult.scores.customer_specificity +
+               state.forgeResult.scores.impact_urgency +
+               state.forgeResult.scores.willingness_to_pay,
+    strengths: state.forgeResult.strengths,
+    weaknesses: state.forgeResult.weaknesses,
+    next_move: state.forgeResult.next_move,
+    answers: state.sharpeningData.answers,
+    questions: state.sharpeningData.questions,
+    brief: state.brief
+  };
+  state.library.unshift(entry);
+  persistLibrary();
+  renderLibrary();
+  showError('Saved.');  // not really an error; reuses the banner
+}
+
+function renderLibrary() {
+  const list = $('library-list');
+  $('lib-count').textContent = String(state.library.length).padStart(2, '0');
+  if (state.library.length === 0) {
+    list.innerHTML = `<div class="library-empty">No ideas captured yet. The first one's the hardest.</div>`;
+    return;
+  }
+  list.innerHTML = state.library.map(item => `
+    <div class="lib-item" data-id="${item.id}">
+      <div class="lib-item-head">
+        <span class="lib-item-idea">${escapeHtml(item.idea)}</span>
+        <span class="lib-item-score">${item.aggregate}/40</span>
+      </div>
+      <div class="lib-item-meta">${new Date(item.timestamp).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</div>
+    </div>
+  `).join('');
+  $all('.lib-item').forEach(el => {
+    el.addEventListener('click', () => loadFromLibrary(parseInt(el.dataset.id)));
+  });
+}
+
+function loadFromLibrary(id) {
+  const item = state.library.find(x => x.id === id);
+  if (!item) return;
+  state.idea = item.idea;
+  state.sharpeningData = { questions: item.questions, answers: item.answers };
+  state.forgeResult = {
+    thesis: item.thesis,
+    scores: item.scores,
+    strengths: item.strengths,
+    weaknesses: item.weaknesses,
+    next_move: item.next_move
+  };
+  state.brief = item.brief || null;
+  renderForgeResults(state.forgeResult);
+  setStage('forge');
+}
+
+function clearLibrary() {
+  if (!confirm('Clear all captured ideas? This cannot be undone.')) return;
+  state.library = [];
+  persistLibrary();
+  renderLibrary();
+}
+
+// ============================================================
+// EXPORT
+// ============================================================
+function downloadBlob(content, filename, mime) {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function exportJSON() {
+  if (state.library.length === 0) {
+    showError('Nothing to export yet.');
+    return;
+  }
+  const content = JSON.stringify(state.library, null, 2);
+  const filename = `idea-forge-${new Date().toISOString().slice(0,10)}.json`;
+  downloadBlob(content, filename, 'application/json');
+}
+
+function exportMarkdown() {
+  if (state.library.length === 0) {
+    showError('Nothing to export yet.');
+    return;
+  }
+  const stripItalic = s => (s || '').replace(/\*([^*]+)\*/g, '_$1_');
+  const lines = ['# Idea Forge — Captured Ideas', '', `Exported ${new Date().toLocaleString()}`, '', '---', ''];
+  state.library.forEach((item, i) => {
+    lines.push(`## ${i + 1}. ${item.idea}`);
+    lines.push('');
+    lines.push(`**Sharpened thesis:** ${stripItalic(item.thesis)}`);
+    lines.push('');
+    lines.push(`**Scores** — Problem clarity ${item.scores.problem_clarity}/10 · Customer specificity ${item.scores.customer_specificity}/10 · Impact & urgency ${item.scores.impact_urgency}/10 · Willingness to pay ${item.scores.willingness_to_pay}/10 · **Total ${item.aggregate}/40**`);
+    lines.push('');
+    lines.push('**Strengths**');
+    item.strengths.forEach(s => lines.push(`- ${s}`));
+    lines.push('');
+    lines.push('**Weaknesses**');
+    item.weaknesses.forEach(s => lines.push(`- ${s}`));
+    lines.push('');
+    lines.push(`**Next move:** ${stripItalic(item.next_move)}`);
+    lines.push('');
+    lines.push(`*Captured ${new Date(item.timestamp).toLocaleString()}*`);
+    lines.push('');
+    lines.push('---');
+    lines.push('');
+  });
+  const filename = `idea-forge-${new Date().toISOString().slice(0,10)}.md`;
+  downloadBlob(lines.join('\n'), filename, 'text/markdown');
+}
+
+// ============================================================
+// WIRING
+// ============================================================
+$('btn-sharpen').addEventListener('click', runSharpen);
+$('idea-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); runSharpen(); }
+});
+$('btn-forge').addEventListener('click', runForge);
+$('btn-back-capture').addEventListener('click', () => setStage('capture'));
+$('btn-new-idea').addEventListener('click', () => {
+  $('idea-input').value = '';
+  state.idea = '';
+  state.sharpeningData = null;
+  state.forgeResult = null;
+  state.brief = null;
+  setStage('capture');
+  $('idea-input').focus();
+});
+$('btn-save').addEventListener('click', saveCurrentToLibrary);
+
+// Brief navigation
+$('btn-generate-brief').addEventListener('click', runBrief);
+$('btn-back-to-forge').addEventListener('click', () => setStage('forge'));
+$('btn-brief-export-md').addEventListener('click', exportBriefMarkdown);
+$('btn-brief-save').addEventListener('click', () => {
+  saveCurrentToLibrary();
+  $('idea-input').value = '';
+  state.idea = '';
+  state.sharpeningData = null;
+  state.forgeResult = null;
+  state.brief = null;
+  setStage('capture');
+  $('idea-input').focus();
+});
+
+$('btn-export-json').addEventListener('click', exportJSON);
+$('btn-export-md').addEventListener('click', exportMarkdown);
+$('btn-clear').addEventListener('click', clearLibrary);
+
+// Init
+renderLibrary();
+updatePersistenceStatus();
+$('idea-input').focus();
+</script>
+
+</body>
+</html>
