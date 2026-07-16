@@ -70,7 +70,14 @@ main {
   gap: .75rem;
 }
 
-.session-list a {
+.session-list li {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+
+.session-list a.session-link {
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 1.25rem;
@@ -82,10 +89,34 @@ main {
   color: var(--paper);
   transition: background .18s ease, border-color .18s ease, transform .15s ease;
 }
-.session-list a:hover {
+.session-list a.session-link:hover {
   background: rgba(184,146,74,.12);
   border-color: rgba(184,146,74,.35);
   transform: translateX(3px);
+}
+
+.pdf-link {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 8px;
+  border: 1px solid rgba(244,236,216,.10);
+  background: rgba(244,236,216,.05);
+  color: var(--muted);
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+.pdf-link:hover {
+  background: rgba(184,146,74,.12);
+  border-color: rgba(184,146,74,.35);
+  color: var(--gold);
 }
 
 .session-num {
@@ -115,7 +146,7 @@ main {
   opacity: .6;
   transition: opacity .18s ease;
 }
-.session-list a:hover .arrow { opacity: 1; }
+.session-list a.session-link:hover .arrow { opacity: 1; }
 
 .artifacts-section {
   margin-top: 3rem;
@@ -188,7 +219,7 @@ main {
   <ul class="session-list">
 
     <li>
-      <a href="Fitler_MBA_S00.html">
+      <a class="session-link" href="Fitler_MBA_S00.html">
         <span class="session-num">00</span>
         <span class="session-info">
           <span class="session-title">Designing the Program</span>
@@ -196,10 +227,11 @@ main {
         </span>
         <span class="arrow">→</span>
       </a>
+      <a class="pdf-link" href="Fitler_MBA_S00.pdf" title="Download PDF">PDF</a>
     </li>
 
     <li>
-      <a href="Fitler_MBA_S01.html">
+      <a class="session-link" href="Fitler_MBA_S01.html">
         <span class="session-num">01</span>
         <span class="session-info">
           <span class="session-title">Entrepreneurial Mindset</span>
@@ -207,10 +239,11 @@ main {
         </span>
         <span class="arrow">→</span>
       </a>
+      <a class="pdf-link" href="Fitler_MBA_S01.pdf" title="Download PDF">PDF</a>
     </li>    
 
     <li>
-      <a href="Fitler_MBA_S02.html">
+      <a class="session-link" href="Fitler_MBA_S02.html">
         <span class="session-num">02</span>
         <span class="session-info">
           <span class="session-title">Customer Discovery</span>
@@ -218,10 +251,11 @@ main {
         </span>
         <span class="arrow">→</span>
       </a>
+      <a class="pdf-link" href="Fitler_MBA_S02.pdf" title="Download PDF">PDF</a>
     </li>    
 
     <li>
-      <a href="Fitler_MBA_S03.html">
+      <a class="session-link" href="Fitler_MBA_S03.html">
         <span class="session-num">03</span>
         <span class="session-info">
           <span class="session-title">Business Model Innovation</span>
@@ -229,10 +263,11 @@ main {
         </span>
         <span class="arrow">→</span>
       </a>
+      <a class="pdf-link" href="Fitler_MBA_S03.pdf" title="Download PDF">PDF</a>
     </li>    
 
     <li>
-      <a href="Fitler_MBA_S04_4.html">
+      <a class="session-link" href="Fitler_MBA_S04_4.html">
         <span class="session-num">04</span>
         <span class="session-info">
           <span class="session-title">Financial Foundations</span>
@@ -240,6 +275,7 @@ main {
         </span>
         <span class="arrow">→</span>
       </a>
+      <a class="pdf-link" href="Fitler_MBA_S04.pdf" title="Download PDF">PDF</a>
     </li>    
 
     <!-- Add new sessions below as they are created:
