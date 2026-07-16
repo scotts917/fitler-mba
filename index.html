@@ -116,6 +116,64 @@ main {
   transition: opacity .18s ease;
 }
 .session-list a:hover .arrow { opacity: 1; }
+
+.artifacts-section {
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(244,236,216,.12);
+}
+.section-heading {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--paper);
+  margin-top: .3rem;
+}
+.section-subtitle {
+  margin-top: .5rem;
+  margin-bottom: 1.5rem;
+  font-size: .9rem;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+.artifact-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+.artifact-list a {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.1rem 1.4rem;
+  background: rgba(184,146,74,.07);
+  border: 1px solid rgba(184,146,74,.28);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--paper);
+  transition: background .18s ease, border-color .18s ease, transform .15s ease;
+}
+.artifact-list a:hover {
+  background: rgba(184,146,74,.16);
+  border-color: var(--gold);
+  transform: translateX(3px);
+}
+.artifact-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: .65rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--gold);
+  border-radius: 4px;
+  padding: .3rem .55rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.artifact-list a:hover .arrow { opacity: 1; }
 </style>
 </head>
 <body>
@@ -173,6 +231,17 @@ main {
       </a>
     </li>    
 
+    <li>
+      <a href="Fitler_MBA_S04_4.html">
+        <span class="session-num">04</span>
+        <span class="session-info">
+          <span class="session-title">Financial Foundations</span>
+          <span class="session-label">Session 4 · The numbers that drive the decisions</span>
+        </span>
+        <span class="arrow">→</span>
+      </a>
+    </li>    
+
     <!-- Add new sessions below as they are created:
 
     <li>
@@ -189,6 +258,52 @@ main {
     -->
 
   </ul>
+
+  <section class="artifacts-section">
+    <p class="eyebrow">Interactive Learning</p>
+    <h2 class="section-heading">Claude-Powered Artifacts</h2>
+    <p class="section-subtitle">Hands-on tools that bring each session's concepts to life</p>
+
+    <ul class="artifact-list">
+
+      <li>
+        <a href="Fitler_MBA_S01_Idea_Forge_v1_2.html">
+          <span class="artifact-badge">AI Artifact</span>
+          <span class="session-info">
+            <span class="session-title">Idea Forge</span>
+            <span class="session-label">Session 1 · Sharpen a raw idea into a validated brief</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="Fitler_MBA_S04_Franklins_Bagels.html">
+          <span class="artifact-badge">AI Artifact</span>
+          <span class="session-info">
+            <span class="session-title">Franklin's Bagels</span>
+            <span class="session-label">Session 4 · Build a P&amp;L and Balance Sheet (product business)</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="Fitler_MBA_S04_Carpenter_Hall.html">
+          <span class="artifact-badge">AI Artifact</span>
+          <span class="session-info">
+            <span class="session-title">Carpenter Hall</span>
+            <span class="session-label">Session 4 · Build a P&amp;L and Balance Sheet (service business)</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+      </li>
+
+      <!-- Add new artifacts below as they are created -->
+
+    </ul>
+  </section>
+
 </main>
 
 </body>
