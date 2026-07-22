@@ -92,7 +92,12 @@ main {
   line-height: 1;
   flex-shrink: 0;
 }
-.session-headtext { flex: 1; }
+.session-headtext {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
 .session-title {
   font-size: 1.02rem;
   font-weight: 500;
@@ -102,7 +107,6 @@ main {
 .session-label {
   font-size: .78rem;
   color: var(--muted);
-  margin-top: .2rem;
   font-weight: 300;
 }
 
@@ -232,7 +236,7 @@ footer.page-footer {
         <span class="session-num">00</span>
         <span class="session-headtext">
           <span class="session-title">Designing the Program</span>
-          <span class="session-label">Session 0 · Introduction</span>
+          <span class="session-label">Introduction</span>
         </span>
       </div>
       <ul class="resource-list">
@@ -254,7 +258,7 @@ footer.page-footer {
         <span class="session-num">01</span>
         <span class="session-headtext">
           <span class="session-title">Entrepreneurial Mindset</span>
-          <span class="session-label">Session 1 · Finding Your Idea</span>
+          <span class="session-label">Finding Your Idea</span>
         </span>
       </div>
       <ul class="resource-list">
@@ -281,7 +285,7 @@ footer.page-footer {
         <span class="session-num">02</span>
         <span class="session-headtext">
           <span class="session-title">Customer Discovery</span>
-          <span class="session-label">Session 2 · Validate before you build</span>
+          <span class="session-label">Validate before you build</span>
         </span>
       </div>
       <ul class="resource-list">
@@ -308,7 +312,7 @@ footer.page-footer {
         <span class="session-num">03</span>
         <span class="session-headtext">
           <span class="session-title">Business Model Innovation</span>
-          <span class="session-label">Session 3 · Is there a business for your product</span>
+          <span class="session-label">Is there a business for your product</span>
         </span>
       </div>
       <ul class="resource-list">
@@ -335,7 +339,7 @@ footer.page-footer {
         <span class="session-num">04</span>
         <span class="session-headtext">
           <span class="session-title">Financial Foundations</span>
-          <span class="session-label">Session 4 · The numbers that drive the decisions</span>
+          <span class="session-label">The numbers that drive the decisions</span>
         </span>
       </div>
       <ul class="resource-list">
@@ -367,7 +371,7 @@ footer.page-footer {
         <span class="session-num">05</span>
         <span class="session-headtext">
           <span class="session-title">Understanding What the Numbers Tell Us</span>
-          <span class="session-label">Session 5 · What the statements mean — and what they warn</span>
+          <span class="session-label">What the statements mean — and what they warn</span>
         </span>
       </div>
       <ul class="resource-list">
@@ -387,7 +391,8 @@ footer.page-footer {
     <!--
       Adding a new session:
       1. Copy a <section class="session-card">…</section> block.
-      2. Update session-num, session-title, session-label.
+      2. Update session-num, session-title, session-label (label is a short
+         topic phrase only — the number badge already conveys "Session N").
       3. Add one <li><a class="resource-item" href="…"> row per file —
          badge classes available: slides · pdf · artifact · video · file.
       4. For a not-yet-uploaded resource, use:
