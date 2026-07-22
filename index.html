@@ -137,7 +137,15 @@ a.resource-item:hover {
 a.resource-item:hover .res-arrow { opacity: 1; }
 
 .resource-item.is-soon {
-  opacity: .55;
+  background: rgba(244,236,216,.015);
+  border-style: dashed;
+  border-color: rgba(244,236,216,.16);
+}
+.resource-item.is-soon .res-name {
+  color: rgba(244,236,216,.82);
+}
+.resource-item.is-soon .res-name .res-sub {
+  color: rgba(244,236,216,.5);
 }
 
 .res-badge {
@@ -169,8 +177,8 @@ a.resource-item:hover .res-arrow { opacity: 1; }
 }
 .res-badge.video {
   background: transparent;
-  color: var(--muted);
-  border: 1px dashed rgba(244,236,216,.24);
+  color: rgba(244,236,216,.55);
+  border: 1px dashed rgba(244,236,216,.32);
 }
 .res-badge.file {
   background: rgba(244,236,216,.05);
@@ -207,7 +215,8 @@ a.resource-item:hover .res-arrow { opacity: 1; }
   font-weight: 600;
   letter-spacing: .06em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--gold);
+  opacity: .85;
 }
 
 footer.page-footer {
