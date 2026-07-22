@@ -58,153 +58,162 @@ h1 {
 }
 
 main {
-  max-width: 680px;
+  max-width: 720px;
   margin: 3rem auto;
   padding: 0 2rem 4rem;
 }
 
-.session-list {
-  list-style: none;
+.session-stack {
   display: flex;
   flex-direction: column;
-  gap: .75rem;
+  gap: 1.1rem;
 }
 
-.session-list li {
-  display: flex;
-  align-items: center;
-  gap: .6rem;
-}
-
-.session-list a.session-link {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  padding: 1.1rem 1.4rem;
-  background: rgba(244,236,216,.05);
+.session-card {
+  background: rgba(244,236,216,.035);
   border: 1px solid rgba(244,236,216,.10);
-  border-radius: 8px;
-  text-decoration: none;
-  color: var(--paper);
-  transition: background .18s ease, border-color .18s ease, transform .15s ease;
-}
-.session-list a.session-link:hover {
-  background: rgba(184,146,74,.12);
-  border-color: rgba(184,146,74,.35);
-  transform: translateX(3px);
+  border-radius: 10px;
+  padding: 1.4rem 1.4rem 1.1rem;
 }
 
-.pdf-link {
-  flex-shrink: 0;
+.session-card-header {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.9rem;
-  height: 2.9rem;
-  border-radius: 8px;
-  border: 1px solid rgba(244,236,216,.10);
-  background: rgba(244,236,216,.05);
-  color: var(--muted);
-  text-decoration: none;
-  font-family: 'Inter', sans-serif;
-  font-size: .62rem;
-  font-weight: 600;
-  letter-spacing: .04em;
-  transition: background .18s ease, border-color .18s ease, color .18s ease;
+  align-items: baseline;
+  gap: 1.1rem;
+  margin-bottom: 1rem;
+  padding: 0 .1rem;
 }
-.pdf-link:hover {
-  background: rgba(184,146,74,.12);
-  border-color: rgba(184,146,74,.35);
-  color: var(--gold);
-}
-
 .session-num {
   font-family: 'Fraunces', serif;
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--gold);
-  min-width: 2.4rem;
+  min-width: 2.2rem;
   line-height: 1;
+  flex-shrink: 0;
 }
-.session-info { flex: 1; }
+.session-headtext { flex: 1; }
 .session-title {
-  font-size: .95rem;
+  font-size: 1.02rem;
   font-weight: 500;
   color: var(--paper);
   line-height: 1.3;
 }
 .session-label {
-  font-size: .75rem;
+  font-size: .78rem;
   color: var(--muted);
   margin-top: .2rem;
   font-weight: 300;
 }
-.arrow {
-  color: var(--gold);
-  font-size: 1.1rem;
-  opacity: .6;
-  transition: opacity .18s ease;
-}
-.session-list a.session-link:hover .arrow { opacity: 1; }
 
-.artifacts-section {
-  margin-top: 3rem;
-  padding-top: 2.5rem;
-  border-top: 1px solid rgba(244,236,216,.12);
-}
-.section-heading {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: var(--paper);
-  margin-top: .3rem;
-}
-.section-subtitle {
-  margin-top: .5rem;
-  margin-bottom: 1.5rem;
-  font-size: .9rem;
-  color: var(--muted);
-  font-weight: 300;
-}
-
-.artifact-list {
+.resource-list {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: .75rem;
+  gap: .5rem;
 }
-.artifact-list a {
+
+.resource-item {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  padding: 1.1rem 1.4rem;
-  background: rgba(184,146,74,.07);
-  border: 1px solid rgba(184,146,74,.28);
-  border-radius: 8px;
+  gap: .95rem;
+  padding: .68rem .85rem;
+  border-radius: 7px;
   text-decoration: none;
   color: var(--paper);
-  transition: background .18s ease, border-color .18s ease, transform .15s ease;
+  background: rgba(244,236,216,.02);
+  border: 1px solid rgba(244,236,216,.07);
+  transition: background .16s ease, border-color .16s ease, transform .14s ease;
 }
-.artifact-list a:hover {
-  background: rgba(184,146,74,.16);
-  border-color: var(--gold);
+a.resource-item:hover {
+  background: rgba(184,146,74,.11);
+  border-color: rgba(184,146,74,.35);
   transform: translateX(3px);
 }
-.artifact-badge {
+a.resource-item:hover .res-arrow { opacity: 1; }
+
+.resource-item.is-soon {
+  opacity: .55;
+}
+
+.res-badge {
+  flex-shrink: 0;
   font-family: 'Inter', sans-serif;
-  font-size: .65rem;
-  font-weight: 600;
-  letter-spacing: .08em;
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .07em;
   text-transform: uppercase;
-  color: var(--ink);
-  background: var(--gold);
   border-radius: 4px;
-  padding: .3rem .55rem;
+  padding: .32rem .5rem;
+  min-width: 4.4rem;
+  text-align: center;
   white-space: nowrap;
+}
+.res-badge.slides {
+  background: rgba(184,146,74,.14);
+  color: var(--gold);
+  border: 1px solid rgba(184,146,74,.4);
+}
+.res-badge.pdf {
+  background: rgba(244,236,216,.05);
+  color: var(--muted);
+  border: 1px solid rgba(244,236,216,.16);
+}
+.res-badge.artifact {
+  background: var(--gold);
+  color: var(--ink);
+}
+.res-badge.video {
+  background: transparent;
+  color: var(--muted);
+  border: 1px dashed rgba(244,236,216,.24);
+}
+.res-badge.file {
+  background: rgba(244,236,216,.05);
+  color: var(--muted);
+  border: 1px solid rgba(244,236,216,.16);
+}
+
+.res-name {
+  flex: 1;
+  font-size: .9rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+.res-name .res-sub {
+  display: block;
+  font-size: .74rem;
+  color: var(--muted);
+  font-weight: 300;
+  margin-top: .1rem;
+}
+
+.res-arrow {
+  color: var(--gold);
+  font-size: 1rem;
+  opacity: .55;
+  transition: opacity .16s ease;
   flex-shrink: 0;
 }
-.artifact-list a:hover .arrow { opacity: 1; }
+
+.res-soon-tag {
+  flex-shrink: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+footer.page-footer {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 2rem 3rem;
+  font-size: .75rem;
+  color: var(--muted);
+  font-weight: 300;
+}
 </style>
 </head>
 <body>
@@ -212,147 +221,189 @@ main {
 <header>
   <p class="eyebrow">Fitler Club · MBA Program</p>
   <h1>Course Presentations</h1>
-  <p class="subtitle">Click a session to open the slides</p>
+  <p class="subtitle">Slides, PDFs, and interactive tools — grouped by session</p>
 </header>
 
 <main>
-  <ul class="session-list">
+  <div class="session-stack">
 
-    <li>
-      <a class="session-link" href="Fitler_MBA_S00.html">
+    <section class="session-card">
+      <div class="session-card-header">
         <span class="session-num">00</span>
-        <span class="session-info">
+        <span class="session-headtext">
           <span class="session-title">Designing the Program</span>
           <span class="session-label">Session 0 · Introduction</span>
         </span>
-        <span class="arrow">→</span>
-      </a>
-      <a class="pdf-link" href="Fitler_MBA_S00.pdf" title="Download PDF">PDF</a>
-    </li>
+      </div>
+      <ul class="resource-list">
+        <li><a class="resource-item" href="Fitler_MBA_S00.html">
+          <span class="res-badge slides">Slides</span>
+          <span class="res-name">Designing the Program — deck</span>
+          <span class="res-arrow">→</span>
+        </a></li>
+        <li><a class="resource-item" href="Fitler_MBA_S00.pdf">
+          <span class="res-badge pdf">PDF</span>
+          <span class="res-name">Printable / offline copy</span>
+          <span class="res-arrow">↓</span>
+        </a></li>
+      </ul>
+    </section>
 
-    <li>
-      <a class="session-link" href="Fitler_MBA_S01.html">
+    <section class="session-card">
+      <div class="session-card-header">
         <span class="session-num">01</span>
-        <span class="session-info">
+        <span class="session-headtext">
           <span class="session-title">Entrepreneurial Mindset</span>
           <span class="session-label">Session 1 · Finding Your Idea</span>
         </span>
-        <span class="arrow">→</span>
-      </a>
-      <a class="pdf-link" href="Fitler_MBA_S01.pdf" title="Download PDF">PDF</a>
-    </li>    
+      </div>
+      <ul class="resource-list">
+        <li><a class="resource-item" href="Fitler_MBA_S01.html">
+          <span class="res-badge slides">Slides</span>
+          <span class="res-name">Entrepreneurial Mindset — deck</span>
+          <span class="res-arrow">→</span>
+        </a></li>
+        <li><a class="resource-item" href="Fitler_MBA_S01.pdf">
+          <span class="res-badge pdf">PDF</span>
+          <span class="res-name">Printable / offline copy</span>
+          <span class="res-arrow">↓</span>
+        </a></li>
+        <li><a class="resource-item" href="Fitler_MBA_S01_Idea_Forge_v1_2.html">
+          <span class="res-badge artifact">Artifact</span>
+          <span class="res-name">Idea Forge<span class="res-sub">Sharpen a raw idea into a validated brief</span></span>
+          <span class="res-arrow">→</span>
+        </a></li>
+      </ul>
+    </section>
 
-    <li>
-      <a class="session-link" href="Fitler_MBA_S02.html">
+    <section class="session-card">
+      <div class="session-card-header">
         <span class="session-num">02</span>
-        <span class="session-info">
+        <span class="session-headtext">
           <span class="session-title">Customer Discovery</span>
           <span class="session-label">Session 2 · Validate before you build</span>
         </span>
-        <span class="arrow">→</span>
-      </a>
-      <a class="pdf-link" href="Fitler_MBA_S02.pdf" title="Download PDF">PDF</a>
-    </li>    
+      </div>
+      <ul class="resource-list">
+        <li><a class="resource-item" href="Fitler_MBA_S02.html">
+          <span class="res-badge slides">Slides</span>
+          <span class="res-name">Customer Discovery — deck</span>
+          <span class="res-arrow">→</span>
+        </a></li>
+        <li><a class="resource-item" href="Fitler_MBA_S02.pdf">
+          <span class="res-badge pdf">PDF</span>
+          <span class="res-name">Printable / offline copy</span>
+          <span class="res-arrow">↓</span>
+        </a></li>
+        <li class="resource-item is-soon">
+          <span class="res-badge video">Soon</span>
+          <span class="res-name">Value Proposition Canvas<span class="res-sub">Interactive artifact — in progress</span></span>
+          <span class="res-soon-tag">Coming soon</span>
+        </li>
+      </ul>
+    </section>
 
-    <li>
-      <a class="session-link" href="Fitler_MBA_S03.html">
+    <section class="session-card">
+      <div class="session-card-header">
         <span class="session-num">03</span>
-        <span class="session-info">
+        <span class="session-headtext">
           <span class="session-title">Business Model Innovation</span>
           <span class="session-label">Session 3 · Is there a business for your product</span>
         </span>
-        <span class="arrow">→</span>
-      </a>
-      <a class="pdf-link" href="Fitler_MBA_S03.pdf" title="Download PDF">PDF</a>
-    </li>    
+      </div>
+      <ul class="resource-list">
+        <li><a class="resource-item" href="Fitler_MBA_S03.html">
+          <span class="res-badge slides">Slides</span>
+          <span class="res-name">Business Model Innovation — deck</span>
+          <span class="res-arrow">→</span>
+        </a></li>
+        <li><a class="resource-item" href="Fitler_MBA_S03.pdf">
+          <span class="res-badge pdf">PDF</span>
+          <span class="res-name">Printable / offline copy</span>
+          <span class="res-arrow">↓</span>
+        </a></li>
+        <li class="resource-item is-soon">
+          <span class="res-badge video">Soon</span>
+          <span class="res-name">Business Model Canvas<span class="res-sub">Interactive artifact — in progress</span></span>
+          <span class="res-soon-tag">Coming soon</span>
+        </li>
+      </ul>
+    </section>
 
-    <li>
-      <a class="session-link" href="Fitler_MBA_S04_4.html">
+    <section class="session-card">
+      <div class="session-card-header">
         <span class="session-num">04</span>
-        <span class="session-info">
+        <span class="session-headtext">
           <span class="session-title">Financial Foundations</span>
           <span class="session-label">Session 4 · The numbers that drive the decisions</span>
         </span>
-        <span class="arrow">→</span>
-      </a>
-      <a class="pdf-link" href="Fitler_MBA_S04.pdf" title="Download PDF">PDF</a>
-    </li>    
+      </div>
+      <ul class="resource-list">
+        <li><a class="resource-item" href="Fitler_MBA_S04_4.html">
+          <span class="res-badge slides">Slides</span>
+          <span class="res-name">Financial Foundations — deck</span>
+          <span class="res-arrow">→</span>
+        </a></li>
+        <li><a class="resource-item" href="Fitler_MBA_S04.pdf">
+          <span class="res-badge pdf">PDF</span>
+          <span class="res-name">Printable / offline copy</span>
+          <span class="res-arrow">↓</span>
+        </a></li>
+        <li><a class="resource-item" href="Fitler_MBA_S04_Franklins_Bagels.html">
+          <span class="res-badge artifact">Artifact</span>
+          <span class="res-name">Franklin's Bagels<span class="res-sub">Build a P&amp;L and Balance Sheet — product business</span></span>
+          <span class="res-arrow">→</span>
+        </a></li>
+        <li><a class="resource-item" href="Fitler_MBA_S04_Carpenter_Hall.html">
+          <span class="res-badge artifact">Artifact</span>
+          <span class="res-name">Carpenter Hall<span class="res-sub">Build a P&amp;L and Balance Sheet — service business</span></span>
+          <span class="res-arrow">→</span>
+        </a></li>
+      </ul>
+    </section>
 
-    <li>
-      <a class="session-link" href="Fitler_MBA_S05.html">
+    <section class="session-card">
+      <div class="session-card-header">
         <span class="session-num">05</span>
-        <span class="session-info">
+        <span class="session-headtext">
           <span class="session-title">Understanding What the Numbers Tell Us</span>
           <span class="session-label">Session 5 · What the statements mean — and what they warn</span>
         </span>
-        <span class="arrow">→</span>
-      </a>
-      <a class="pdf-link" href="Fitler_MBA_S05.pdf" title="Download PDF">PDF</a>
-    </li>
+      </div>
+      <ul class="resource-list">
+        <li><a class="resource-item" href="Fitler_MBA_S05.html">
+          <span class="res-badge slides">Slides</span>
+          <span class="res-name">Understanding What the Numbers Tell Us — deck</span>
+          <span class="res-arrow">→</span>
+        </a></li>
+        <li><a class="resource-item" href="Fitler_MBA_S05.pdf">
+          <span class="res-badge pdf">PDF</span>
+          <span class="res-name">Printable / offline copy</span>
+          <span class="res-arrow">↓</span>
+        </a></li>
+      </ul>
+    </section>
 
-    <!-- Add new sessions below as they are created:
-
-    <li>
-      <a href="Fitler_MBA_S01.html">
-        <span class="session-num">01</span>
-        <span class="session-info">
-          <span class="session-title">Session Title Here</span>
-          <span class="session-label">Session 1 · Topic</span>
-        </span>
-        <span class="arrow">→</span>
-      </a>
-    </li>
-
+    <!--
+      Adding a new session:
+      1. Copy a <section class="session-card">…</section> block.
+      2. Update session-num, session-title, session-label.
+      3. Add one <li><a class="resource-item" href="…"> row per file —
+         badge classes available: slides · pdf · artifact · video · file.
+      4. For a not-yet-uploaded resource, use:
+         <li class="resource-item is-soon">
+           <span class="res-badge video">Soon</span>
+           <span class="res-name">Name<span class="res-sub">One-line description</span></span>
+           <span class="res-soon-tag">Coming soon</span>
+         </li>
     -->
 
-  </ul>
-
-  <section class="artifacts-section">
-    <p class="eyebrow">Interactive Learning</p>
-    <h2 class="section-heading">Claude-Powered Artifacts</h2>
-    <p class="section-subtitle">Hands-on tools that bring each session's concepts to life</p>
-
-    <ul class="artifact-list">
-
-      <li>
-        <a href="Fitler_MBA_S01_Idea_Forge_v1_2.html">
-          <span class="artifact-badge">AI Artifact</span>
-          <span class="session-info">
-            <span class="session-title">Idea Forge</span>
-            <span class="session-label">Session 1 · Sharpen a raw idea into a validated brief</span>
-          </span>
-          <span class="arrow">→</span>
-        </a>
-      </li>
-
-      <li>
-        <a href="Fitler_MBA_S04_Franklins_Bagels.html">
-          <span class="artifact-badge">AI Artifact</span>
-          <span class="session-info">
-            <span class="session-title">Franklin's Bagels</span>
-            <span class="session-label">Session 4 · Build a P&amp;L and Balance Sheet (product business)</span>
-          </span>
-          <span class="arrow">→</span>
-        </a>
-      </li>
-
-      <li>
-        <a href="Fitler_MBA_S04_Carpenter_Hall.html">
-          <span class="artifact-badge">AI Artifact</span>
-          <span class="session-info">
-            <span class="session-title">Carpenter Hall</span>
-            <span class="session-label">Session 4 · Build a P&amp;L and Balance Sheet (service business)</span>
-          </span>
-          <span class="arrow">→</span>
-        </a>
-      </li>
-
-      <!-- Add new artifacts below as they are created -->
-
-    </ul>
-  </section>
-
+  </div>
 </main>
+
+<footer class="page-footer">
+  Fitler MBA · built and facilitated by Scott Sill, Advisor in Residence.
+</footer>
 
 </body>
 </html>
