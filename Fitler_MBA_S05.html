@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitler MBA · S05 · Understanding What the Numbers Tell Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A41;
+    --navy-deep:#111D2E;
+    --ivory:#F7F3E9;
+    --gold:#C9A227;
+    --gold-soft:#D9BC5F;
+    --ink:#22303F;
+    --muted:#6B7684;
+    --red:#B3402F;
+    --green:#2E7D5B;
+    --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --sans:'Inter', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{background:var(--navy-deep);font-family:var(--sans);color:var(--ink);overflow:hidden}
+  .deck{position:relative;width:100vw;height:100vh}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;padding:4vh 5.5vw;background:var(--ivory)}
+  .slide.active{display:flex}
+  .slide.dark{background:var(--navy);color:var(--ivory)}
+  .slide.dark .eyebrow{color:var(--gold-soft)}
+  .slide.dark h2{color:var(--ivory)}
+  .slide.dark .muted{color:#9AA6B5}
+
+  .eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2vh}
+  h1{font-family:var(--serif);font-weight:600;color:var(--ivory);line-height:1.04}
+  h2{font-family:var(--serif);font-weight:600;color:var(--navy);font-size:clamp(1.7rem,3.2vw,2.7rem);line-height:1.1;margin-bottom:1.8vh}
+  .muted{color:var(--muted)}
+  .rule{height:2px;background:var(--gold);width:64px;margin:1.5vh 0 2.2vh;border:0}
+  .body{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+  .footer{display:flex;justify-content:space-between;align-items:center;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-top:1.4vh;border-top:1px solid rgba(107,118,132,.25)}
+  .slide.dark .footer{border-top-color:rgba(247,243,233,.18);color:#8D99A9}
+  .counter{font-variant-numeric:tabular-nums}
+
+  .step{opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
+  .step.shown{opacity:1;transform:none}
+
+  /* ---------- ledger / statement tables ---------- */
+  table.ledger{width:100%;border-collapse:collapse;font-size:clamp(.74rem,1.15vw,.95rem)}
+  table.ledger caption{font-family:var(--serif);font-weight:600;text-align:left;font-size:1.15em;color:var(--navy);padding-bottom:.6vh;letter-spacing:.01em}
+  .slide.dark table.ledger caption{color:var(--ivory)}
+  table.ledger th{font-weight:600;font-size:.74em;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:right;padding:.45vh .6vw;border-bottom:2px solid var(--gold)}
+  table.ledger th:first-child{text-align:left}
+  table.ledger td{padding:.5vh .6vw;text-align:right;font-variant-numeric:tabular-nums;border-bottom:1px solid rgba(107,118,132,.16)}
+  table.ledger td:first-child{text-align:left;font-weight:500}
+  table.ledger tr.sub td:first-child{padding-left:1.3em;font-weight:400;color:var(--muted)}
+  table.ledger tr.total td{font-weight:700;border-top:2px solid var(--navy);border-bottom:none}
+  .slide.dark table.ledger tr.total td{border-top-color:var(--ivory)}
+  .neg{color:var(--red)}
+  .pos{color:var(--green)}
+  .hot{background:rgba(201,162,39,.20);font-weight:700}
+  .mcol{color:var(--navy);font-weight:600}
+  .slide.dark .mcol{color:var(--gold-soft)}
+
+  .cols{display:flex;gap:2.6vw;align-items:stretch}
+  .col{flex:1;min-width:0}
+  .stack{display:flex;flex-direction:column;gap:2.6vh}
+  .bignum{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,4.4vw,3.8rem);line-height:1;color:var(--navy)}
+  .slide.dark .bignum{color:var(--ivory)}
+  .biglabel{font-size:.74rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-top:.7vh;line-height:1.5}
+
+  .card{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:1.8vh 1.4vw;box-shadow:0 1px 3px rgba(17,29,46,.06)}
+  .slide.dark .card{background:rgba(247,243,233,.06);border-color:rgba(247,243,233,.16);box-shadow:none}
+  .goldcard{border-left:4px solid var(--gold)}
+
+  .quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.15rem,2.1vw,1.7rem);line-height:1.35;color:var(--navy)}
+  .slide.dark .quote{color:var(--ivory)}
+
+  /* ---------- toolkit gauge bands (vertical stack) ---------- */
+  .gauge{background:#fff;border:1px solid rgba(107,118,132,.16);border-left:5px solid var(--gold);border-radius:8px;padding:1.9vh 1.7vw;display:flex;flex-direction:column;gap:.9vh}
+  .slide.dark .gauge{background:rgba(247,243,233,.06);border-color:rgba(247,243,233,.16);border-left-color:var(--gold)}
+  .gaugehead{display:flex;flex-direction:column;align-items:flex-start;gap:.75vh}
+  .gname{
+    display:inline-block;font-family:var(--sans);
+    font-size:clamp(1rem,1.6vw,1.26rem);font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--navy);
+  }
+  .slide.dark .gname{color:var(--ivory)}
+  .fchip{display:inline-block;background:rgba(27,42,65,.055);color:var(--navy);border:1px solid rgba(27,42,65,.14);border-radius:4px;padding:.34em .75em;font-size:clamp(.76rem,1.15vw,.95rem);font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .slide.dark .fchip{background:rgba(247,243,233,.10);border-color:rgba(247,243,233,.22);color:var(--ivory)}
+  .gq{font-family:var(--serif);font-weight:600;font-size:clamp(1rem,1.68vw,1.34rem);color:var(--navy);line-height:1.25}
+  .slide.dark .gq{color:var(--ivory)}
+  .read{font-size:clamp(.82rem,1.25vw,1rem);line-height:1.5;color:var(--ink)}
+  .slide.dark .read{color:#D6DDE6}
+  .read strong{color:var(--navy)}
+  .slide.dark .read strong{color:var(--ivory)}
+  ul.mini{list-style:none;margin-top:.2vh}
+  ul.mini li{position:relative;padding:.28vh 0 .28vh 1.35em;font-size:clamp(.82rem,1.25vw,1rem);line-height:1.45}
+  ul.mini li::before{content:"";position:absolute;left:0;top:.75em;width:.55em;height:2px;background:var(--gold)}
+
+  /* ---------- source strip ---------- */
+  .sourcestrip{background:#FDFBF5;border:1px solid rgba(201,162,39,.45);border-radius:8px;padding:1.2vh 1vw}
+  .slide.dark .sourcestrip{background:rgba(247,243,233,.05);border-color:rgba(217,188,95,.4)}
+  .sslabel{font-size:.63rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:.7vh}
+
+  .calc{font-family:var(--serif);font-size:clamp(1.05rem,1.95vw,1.55rem);color:var(--navy);font-variant-numeric:tabular-nums;line-height:1.25}
+  .slide.dark .calc{color:var(--ivory)}
+  .calc .ans{font-weight:700;color:var(--gold)}
+  .slide.dark .calc .ans{color:var(--gold-soft)}
+
+  ul.clean{list-style:none}
+  ul.clean li{padding:.8vh 0 .8vh 1.6em;position:relative;font-size:clamp(.9rem,1.4vw,1.1rem);line-height:1.45}
+  ul.clean li::before{content:"";position:absolute;left:0;top:calc(.8vh + .55em);width:.5em;height:2px;background:var(--gold)}
+
+  .chapter{font-family:var(--serif);font-size:clamp(2.2rem,5.4vw,4.4rem);font-weight:600;line-height:1.04;color:var(--ivory)}
+  .chapternum{font-size:.76rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:1.6vh}
+
+
+  /* content width discipline — keeps blocks off the far edges on wide displays */
+  .slide > *{width:100%;max-width:1280px;margin-left:auto;margin-right:auto}
+  .slide.wide > *{max-width:1580px}
+  .body > p{max-width:1120px}
+  ul.clean{max-width:1060px}
+  .gauge .read{max-width:1180px}
+  /* ---- chapter brandmark ----
+     Official Peloton lockup, supplied by Scott, recolored to ivory with a
+     transparent background and embedded inline as base64 (keeps the deck
+     single-file). Used nominatively to identify the subject of the case study.
+     To resize, change .brandmark img height only — never stretch the aspect. */
+  .brandmark{position:absolute;top:4vh;right:5.5vw;width:auto;max-width:none;text-align:right;z-index:5}
+  .bm-rule{height:1px;background:rgba(217,188,95,.45);margin:.7vh 0 .55vh}
+  .bm-ticker{font-size:.62rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#8D99A9;line-height:1.4}
+  .brandmark img{height:3.1vh;width:auto;display:block;margin-left:auto;opacity:.93}
+
+  /* gold highlight reads as muddy olive on navy — use gold type, minimal tint */
+  .slide.dark .hot{background:rgba(201,162,39,.11);color:var(--gold-soft);font-weight:700}
+
+  .eqrow{display:flex;align-items:stretch;justify-content:center;gap:1.3vw}
+  .eqstat{background:rgba(247,243,233,.06);border:1px solid rgba(247,243,233,.18);border-radius:10px;padding:2.6vh 1.4vw;text-align:center;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+  .eqstat .v{font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,4.2vw,3.5rem);line-height:1;color:var(--ivory);font-variant-numeric:tabular-nums}
+  .eqstat .k{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#9AA6B5;margin-top:1.1vh;line-height:1.5}
+  .eqstat .n{font-size:.68rem;color:#7C8899;margin-top:.6vh;line-height:1.45}
+  .eqop{font-family:var(--serif);font-size:clamp(1.5rem,2.8vw,2.4rem);color:var(--gold-soft);font-weight:600;flex:none;display:flex;align-items:center}
+  .eqstat.answer{background:rgba(201,162,39,.14);border-color:rgba(201,162,39,.55)}
+  .eqstat.answer .v{color:var(--gold-soft)}
+  .eqstat.answer .k{color:var(--gold-soft)}
+  .levergrid{display:grid;grid-template-columns:1fr 1fr;gap:1.05vh .8vw;margin-top:1.1vh}
+  .lever{display:flex;align-items:center;gap:.65vw;background:#fff;border:1px solid rgba(107,118,132,.18);border-left:3px solid var(--gold);border-radius:6px;padding:1vh .85vw;font-size:clamp(.76rem,1.12vw,.94rem);font-weight:500;line-height:1.25}
+  .lnum{display:inline-flex;align-items:center;justify-content:center;width:1.6em;height:1.6em;border-radius:50%;background:var(--navy);color:var(--ivory);font-size:.7em;font-weight:700;flex:none}
+  .pfgrid{margin-top:1.1vh;background:#fff;border:1px solid rgba(107,118,132,.18);border-radius:8px;padding:1.5vh 1.1vw}
+  .pfrow{display:flex;align-items:center;gap:.26vw;margin-bottom:.75vh}
+  .pfrow:last-child{margin-bottom:0}
+  .pflabel{flex:none;width:9.6em;font-size:clamp(.7rem,1.02vw,.86rem);font-weight:600;color:var(--ink)}
+  .pfrow i{flex:1;height:1.25vh;border-radius:2px;background:rgba(27,42,65,.13)}
+  .pfrow.cash i{background:rgba(201,162,39,.6)}
+  .pfrow.cash .pflabel{color:var(--navy);font-weight:700}
+  .pfhead{display:flex;gap:.26vw;font-size:.58rem;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:.7vh}
+  .pfhead span{flex:1;text-align:center}
+  .pfhead .pflabel{text-align:left}
+  .body.fill{justify-content:space-evenly}
+  .annotation{margin-left:4.5vw;border-left:3px solid rgba(179,64,47,.5);padding:.6vh 0 .6vh 1.5vw}
+  .anlabel{font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:.9vh}
+  .narrow{max-width:1000px;margin-left:auto;margin-right:auto;width:100%}
+  .hintbar{position:fixed;bottom:10px;right:14px;font-size:.6rem;color:#5c6b7d;letter-spacing:.1em;text-transform:uppercase;opacity:.5;z-index:50}
+  @media (prefers-reduced-motion: reduce){.step{transition:none}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- ============ 1 · TITLE ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Fitler MBA · Session 05</div>
+  <div class="body">
+    <h1 style="font-size:clamp(2.4rem,6vw,4.8rem);max-width:1000px;">Understanding What the Numbers Tell Us</h1>
+    <hr class="rule">
+    <p class="quote" style="color:#C9D2DE;font-size:clamp(1rem,1.8vw,1.4rem);">Last session you learned to read the statements.<br>Tonight: what they mean — and what they warn.</p>
+  </div>
+  <div class="footer"><span>Fitler MBA</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 2 · REFRESHER ============ -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">A Quick Refresher</div>
+  <h2>Two statements — and where tonight's gauges come from.</h2>
+  <div class="body">
+    <div class="cols">
+      <div class="col sourcestrip">
+        <table class="ledger">
+          <caption>Income Statement · an example business ($000)</caption>
+          <tr><th>Line</th><th>Year</th></tr>
+          <tr><td>Revenue</td><td class="hot">2,400</td></tr>
+          <tr><td>Cost of goods sold</td><td class="hot">(1,440)</td></tr>
+          <tr><td>Gross profit</td><td class="hot">960</td></tr>
+          <tr><td>Operating expenses</td><td>(860)</td></tr>
+          <tr><td>Operating income</td><td>100</td></tr>
+          <tr><td>Interest &amp; taxes</td><td>(40)</td></tr>
+          <tr class="total"><td>Net income</td><td class="hot">60</td></tr>
+        </table>
+      </div>
+      <div class="col sourcestrip">
+        <table class="ledger">
+          <caption>Balance Sheet · same business ($000)</caption>
+          <tr><th>Line</th><th>Year end</th></tr>
+          <tr><td>Cash</td><td class="hot">180</td></tr>
+          <tr><td>Accounts receivable</td><td class="hot">310</td></tr>
+          <tr><td>Inventory</td><td class="hot">420</td></tr>
+          <tr><td>Total current assets</td><td class="hot">910</td></tr>
+          <tr><td>Property &amp; equipment, net</td><td>540</td></tr>
+          <tr class="total"><td>Total assets</td><td>1,450</td></tr>
+          <tr><td>Total current liabilities</td><td class="hot">450</td></tr>
+          <tr><td>Long-term debt</td><td class="hot">400</td></tr>
+          <tr><td>Owner's equity</td><td class="hot">600</td></tr>
+          <tr class="total"><td>Total liabilities &amp; equity</td><td>1,450</td></tr>
+        </table>
+      </div>
+      <div class="col" style="flex:.9;display:flex;flex-direction:column;justify-content:center;gap:1.6vh;">
+        <div class="card goldcard">
+          <div class="sslabel">Tonight's arc</div>
+          <p class="read"><strong>The toolkit.</strong> Eight gauges built from the highlighted lines — each one a question, a formula, and a way to read the answer.</p>
+        </div>
+        <div class="card goldcard">
+          <p class="read"><strong>The story.</strong> We take the toolkit to a company you know — Peloton — across three years that contain an entire business education.</p>
+        </div>
+        <div class="card goldcard">
+          <p class="read"><strong>The build.</strong> After the break we turn the telescope around and build a company's future: a 24-month pro forma you take home.</p>
+        </div>
+      </div>
+    </div>
+    <p class="read" style="margin-top:1.8vh;text-align:center;color:var(--muted);">Every highlighted line above feeds a gauge we'll use tonight. Nothing else on these statements is needed to read a business.</p>
+  </div>
+  <div class="footer"><span>Refresher · Session 04 → Session 05</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 3 · PROFITABILITY ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">The Toolkit · 1 of 7 · Profitability</div>
+  <h2>Is the work itself making money?</h2>
+  <div class="body fill">
+    <div class="stack">
+      <div class="gauge">
+        <div class="gaugehead">
+          <span class="gname">Gross Margin</span>
+          <span class="fchip">(revenue − cost of goods sold) ÷ revenue</span>
+        </div>
+        <div class="gq">Of each revenue dollar, how much survives the direct cost of delivering?</div>
+        <div class="read"><strong>How to read it:</strong> this is the money left to pay for everything else — marketing, salaries, rent, you. Higher means more cushion. When a company sells more than one thing, compute it <strong>per product line</strong>; a blended number hides the weak half.</div>
+      </div>
+      <div class="gauge">
+        <div class="gaugehead">
+          <span class="gname">Net Margin</span>
+          <span class="fchip">net income ÷ revenue</span>
+        </div>
+        <div class="gq">After absolutely everything — did the year make money?</div>
+        <div class="read"><strong>How to read it:</strong> the final verdict per dollar of sales. Negative isn't automatically fatal — but it always demands the next question: <em>what is funding the gap, and for how long?</em></div>
+      </div>
+    </div>
+    <div class="card step" data-step style="margin-top:1.8vh;">
+      <table class="ledger">
+        <caption>The same gauge reads very differently by business model</caption>
+        <tr><th>Industry</th><th>Typical gross margin</th><th>Typical net margin</th></tr>
+        <tr><td>Software / SaaS</td><td class="mcol">70–85%</td><td>often negative while growing</td></tr>
+        <tr><td>Professional services</td><td class="mcol">30–50%</td><td>5–15%</td></tr>
+        <tr><td>Healthcare providers</td><td class="mcol">30–45%</td><td>2–8%</td></tr>
+        <tr><td>Supermarkets</td><td class="mcol">25–30%</td><td>1–3%</td></tr>
+        <tr><td>Banking</td><td class="mcol">no COGS — uses net interest margin instead</td><td>20–30%</td></tr>
+      </table>
+      <p class="read" style="margin-top:1vh;"><strong>Read this table as intuition, not as a benchmark.</strong> A supermarket at 27% is thriving; a software company at 27% is in trouble. "Healthy" is a fact about a business model — and the only comparison that truly binds is your own history.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Gauges 1–2 · Gross margin · Net margin</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 4 · CASH ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">The Toolkit · 2 of 7 · Cash</div>
+  <h2>How fast is cash leaving — and how long until it's gone?</h2>
+  <div class="body fill">
+    <div class="stack">
+      <div class="gauge">
+        <div class="gaugehead">
+          <span class="gname">Burn Rate</span>
+          <span class="fchip">cash out − cash in, per month or quarter</span>
+        </div>
+        <div class="gq">How much cash does the business consume per period?</div>
+        <div class="read"><strong>How to read it:</strong> profit is an opinion shaped by accounting rules; burn is a fact shaped by your bank balance. A profitable company can burn cash — and an unprofitable one can generate it. Burn is measured from the cash flow statement, never from the P&amp;L.</div>
+      </div>
+      <div class="gauge">
+        <div class="gaugehead">
+          <span class="gname">Runway</span>
+          <span class="fchip">cash on hand ÷ burn per period</span>
+        </div>
+        <div class="gq">At this burn rate, how long does the business live?</div>
+        <div class="read"><strong>How to read it:</strong> the most consequential division in a founder's life. Under twelve months and fixing it becomes the day job — because raising money takes about six, and desperation is visible from across the table.</div>
+      </div>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:1.8vh;max-width:940px;">
+      <p class="read"><strong>A worked example.</strong> A company holds $600K in the bank and spends $50K more than it collects each month. Runway = 600 ÷ 50 = <strong>12 months.</strong> Cut the burn to $40K and runway becomes 15 months — the same three months you'd have bought with a $150K raise, and you keep the equity.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Gauges 3–4 · Burn rate · Runway</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 5 · LIQUIDITY ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">The Toolkit · 3 of 7 · Liquidity</div>
+  <h2>Can you cover what's due soon?</h2>
+  <div class="body" style="gap:1.8vh;justify-content:flex-start;padding-top:1.5vh;">
+    <div class="gauge">
+      <div class="gaugehead">
+        <span class="gname">Current Ratio</span>
+        <span class="fchip">current assets &divide; current liabilities</span>
+      </div>
+      <div class="gq">Do near-term resources cover near-term obligations?</div>
+      <ul class="mini">
+        <li><strong>Below 1.0</strong> — bills coming due exceed resources available. A flashing light.</li>
+        <li><strong>Around 2.0</strong> — conventionally comfortable for most operating businesses.</li>
+        <li><strong>Very high</strong> — not automatically good; can mean cash sitting idle or inventory piling up.</li>
+      </ul>
+    </div>
+    <div class="annotation">
+      <div class="anlabel">A caution about this gauge</div>
+      <p class="read" style="margin-bottom:.9vh;">The formula adds three very different things together and treats them as interchangeable:</p>
+      <ul class="mini">
+        <li><strong>Cash</strong> — spendable today.</li>
+        <li><strong>Receivables</strong> — spendable when customers actually pay.</li>
+        <li><strong>Inventory</strong> — spendable only <em>if</em> it sells, and only at whatever price it then fetches.</li>
+      </ul>
+      <p class="read" style="margin-top:.9vh;">A current ratio of 2.0 built on cash means something very different from a 2.0 built on unsold product. Remember this — it matters tonight.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Gauge 5 · Current ratio</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 6 · INVENTORY SPEED ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">The Toolkit · 4 of 7 · Inventory Speed</div>
+  <h2>Is product moving — or sitting?</h2>
+  <div class="body fill">
+    <div class="stack">
+      <div class="gauge">
+        <div class="gaugehead">
+          <span class="gname">Inventory Turnover</span>
+          <span class="fchip">cost of goods sold ÷ inventory</span>
+        </div>
+        <div class="gq">How many times a year does the shelf empty and refill?</div>
+        <div class="read"><strong>Why COGS on top, not revenue:</strong> inventory sits on the books at what you <em>paid</em> for it. Dividing a selling-price number by a cost number would smuggle your markup into the answer. Cost over cost — always.</div>
+      </div>
+      <div class="gauge">
+        <div class="gaugehead">
+          <span class="gname">Days Sales of Inventory</span>
+          <span class="fchip">365 ÷ turnover</span>
+        </div>
+        <div class="gq">The same gauge with a friendlier face: how long does a unit sit before it sells?</div>
+        <div class="read">Turnover and DSI are one measurement stated two ways. <strong>6 turns = 61 days. 4 turns = 91 days. 2.4 turns = 152 days.</strong> Days are easier to feel: <em>that box has been in the warehouse since March.</em></div>
+      </div>
+    </div>
+    <div class="cols step" data-step style="margin-top:1.8vh;">
+      <div class="col card goldcard">
+        <div class="sslabel">Worked example · a coffee roaster</div>
+        <div class="calc" style="font-size:clamp(.95rem,1.5vw,1.2rem);line-height:1.7;">
+          Cost of goods sold, full year: <strong>$1,200,000</strong><br>
+          Inventory on the shelf: <strong>$250,000</strong><br>
+          Turns = 1,200,000 ÷ 250,000 = <span class="ans">4.8×</span><br>
+          Days = 365 ÷ 4.8 = <span class="ans">76 days</span>
+        </div>
+        <p class="read" style="margin-top:.8vh;">The average bag sits about two and a half months before it sells.</p>
+      </div>
+      <div class="col card">
+        <div class="sslabel">Two footnotes worth saying out loud</div>
+        <ul class="mini">
+          <li><strong>Ending vs. average inventory.</strong> Textbooks divide by <em>average</em> inventory — beginning plus ending, over two. With a single balance sheet in front of you, ending inventory is the practical choice. <strong>Tonight we use ending inventory.</strong> In a fast-growing year the two answers can differ a lot, so always say which one you used.</li>
+          <li><strong>Match the numerator to the segment.</strong> If only part of the business carries inventory, use that segment's COGS — not the whole company's.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>Gauge 6 · Turnover ↔ DSI</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 7 · INVENTORY DRAG ============ -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">The Toolkit · 5 of 7 · The Inventory Drag</div>
+  <h2>Inventory is cash wearing a costume — and the costume costs money.</h2>
+  <div class="body fill">
+    <div class="cols" style="align-items:center;">
+      <div class="col" style="flex:1.05;">
+        <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;max-height:44vh;display:block;">
+          <!-- floor -->
+          <rect x="0" y="300" width="900" height="100" fill="#E9E1CF"/>
+          <line x1="0" y1="300" x2="900" y2="300" stroke="#1B2A41" stroke-width="2.5"/>
+          <line x1="330" y1="300" x2="180" y2="400" stroke="#CFC7B4" stroke-width="2"/>
+          <line x1="570" y1="300" x2="720" y2="400" stroke="#CFC7B4" stroke-width="2"/>
+          <!-- hanging lamp -->
+          <line x1="450" y1="0" x2="450" y2="34" stroke="#1B2A41" stroke-width="2.5"/>
+          <path d="M424 34 L476 34 L488 58 L412 58 Z" fill="#1B2A41"/>
+          <ellipse cx="450" cy="72" rx="46" ry="9" fill="#C9A227" opacity=".28"/>
+          <!-- LEFT RACK -->
+          <g stroke="#1B2A41" stroke-width="3" fill="none">
+            <line x1="46" y1="86" x2="46" y2="300"/><line x1="296" y1="86" x2="296" y2="300"/>
+            <line x1="40" y1="86" x2="302" y2="86"/><line x1="40" y1="158" x2="302" y2="158"/>
+            <line x1="40" y1="230" x2="302" y2="230"/>
+          </g>
+          <g fill="#C6A882" stroke="#8A6E4B" stroke-width="2">
+            <rect x="56" y="96" width="58" height="58"/><rect x="120" y="104" width="50" height="50"/>
+            <rect x="178" y="92" width="62" height="62"/><rect x="246" y="108" width="46" height="46"/>
+            <rect x="56" y="172" width="52" height="54"/><rect x="114" y="166" width="64" height="60"/>
+            <rect x="186" y="180" width="48" height="46"/><rect x="240" y="170" width="54" height="56"/>
+            <rect x="60" y="244" width="60" height="52"/><rect x="126" y="238" width="56" height="58"/>
+            <rect x="190" y="250" width="50" height="46"/><rect x="246" y="242" width="48" height="54"/>
+          </g>
+          <g stroke="#8A6E4B" stroke-width="1.6" opacity=".85">
+            <line x1="85" y1="96" x2="85" y2="154"/><line x1="209" y1="92" x2="209" y2="154"/>
+            <line x1="146" y1="166" x2="146" y2="226"/><line x1="90" y1="244" x2="90" y2="296"/>
+            <line x1="154" y1="238" x2="154" y2="296"/>
+          </g>
+          <!-- RIGHT RACK -->
+          <g stroke="#1B2A41" stroke-width="3" fill="none">
+            <line x1="604" y1="86" x2="604" y2="300"/><line x1="854" y1="86" x2="854" y2="300"/>
+            <line x1="598" y1="86" x2="860" y2="86"/><line x1="598" y1="158" x2="860" y2="158"/>
+            <line x1="598" y1="230" x2="860" y2="230"/>
+          </g>
+          <g fill="#C6A882" stroke="#8A6E4B" stroke-width="2">
+            <rect x="614" y="100" width="54" height="54"/><rect x="674" y="94" width="60" height="60"/>
+            <rect x="740" y="106" width="48" height="48"/><rect x="794" y="98" width="56" height="56"/>
+            <rect x="612" y="170" width="62" height="56"/><rect x="680" y="178" width="48" height="48"/>
+            <rect x="734" y="168" width="58" height="58"/><rect x="798" y="180" width="50" height="46"/>
+            <rect x="616" y="240" width="52" height="56"/><rect x="674" y="248" width="58" height="48"/>
+            <rect x="738" y="238" width="54" height="58"/><rect x="798" y="246" width="52" height="50"/>
+          </g>
+          <g stroke="#8A6E4B" stroke-width="1.6" opacity=".85">
+            <line x1="704" y1="94" x2="704" y2="154"/><line x1="641" y1="170" x2="641" y2="226"/>
+            <line x1="763" y1="168" x2="763" y2="226"/><line x1="765" y1="238" x2="765" y2="296"/>
+          </g>
+          <!-- CENTER: the aisle that isn't an aisle -->
+          <rect x="336" y="286" width="228" height="14" fill="#9C8461" stroke="#6E5A3E" stroke-width="2"/>
+          <g fill="#C6A882" stroke="#8A6E4B" stroke-width="2">
+            <rect x="344" y="226" width="66" height="60"/>
+            <rect x="416" y="234" width="58" height="52"/>
+            <rect x="480" y="222" width="70" height="64"/>
+            <rect x="356" y="168" width="60" height="58"/>
+            <rect x="424" y="176" width="52" height="58"/>
+            <rect x="486" y="160" width="62" height="62"/>
+            <rect x="378" y="112" width="64" height="56"/>
+            <rect x="452" y="104" width="58" height="56"/>
+          </g>
+          <!-- tilted / fallen boxes = mess -->
+          <g fill="#C6A882" stroke="#8A6E4B" stroke-width="2">
+            <rect x="398" y="58" width="58" height="46" transform="rotate(-9 427 81)"/>
+            <rect x="300" y="252" width="48" height="44" transform="rotate(12 324 274)"/>
+            <rect x="556" y="256" width="52" height="40" transform="rotate(-14 582 276)"/>
+          </g>
+          <g stroke="#8A6E4B" stroke-width="1.6" opacity=".85">
+            <line x1="377" y1="226" x2="377" y2="286"/><line x1="515" y1="222" x2="515" y2="286"/>
+            <line x1="386" y1="168" x2="386" y2="226"/><line x1="517" y1="160" x2="517" y2="222"/>
+            <line x1="410" y1="112" x2="410" y2="168"/>
+          </g>
+          <!-- gold-taped boxes: the ones that will be written down -->
+          <g fill="#C9A227" opacity=".38">
+            <rect x="480" y="222" width="70" height="64"/>
+            <rect x="674" y="94" width="60" height="60"/>
+            <rect x="114" y="166" width="64" height="60"/>
+          </g>
+          <!-- person for scale -->
+          <g fill="#1B2A41">
+            <circle cx="580" cy="232" r="11"/>
+            <path d="M570 246 h20 l6 34 h-9 l-4 -20 -4 20 h-9 z"/>
+            <path d="M572 250 l-9 20 3 2 10 -18 z"/>
+          </g>
+        </svg>
+      </div>
+      <div class="col" style="flex:.95;">
+        <p class="read" style="font-size:clamp(.9rem,1.4vw,1.08rem);margin-bottom:1.2vh;">Not a ratio — a discipline. Every dollar on that shelf is a dollar that can't make payroll, and while it sits, it quietly bills you five ways:</p>
+        <ul class="mini">
+          <li><strong>Capital tied up</strong> — cash already paid, frozen until sale</li>
+          <li><strong>Storage &amp; handling</strong> — warehouses, freight, the moving of boxes</li>
+          <li><strong>Insurance &amp; shrink</strong> — protecting it, losing some anyway</li>
+          <li><strong>Obsolescence</strong> — the world moves; the box doesn't</li>
+          <li><strong>Forced discounting</strong> — when it finally must move, it moves at a markdown</li>
+        </ul>
+        <div class="card goldcard step" data-step style="margin-top:1.4vh;">
+          <p class="read">The first three accrue quietly, every month. The last two arrive all at once as a <strong>write-down</strong> — the accounting word for admitting the shelf was a bonfire. Watch for it in the story.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>The carrying cost of inventory</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 8 · SERVICE BUSINESSES ============ -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">The Toolkit · 6 of 7 · Service Businesses</div>
+  <h2>No inventory? Then your receivables are your inventory.</h2>
+  <div class="body">
+    <div class="cols">
+      <div class="col stack" style="gap:2vh;">
+        <div class="gauge">
+          <div class="gaugehead">
+            <span class="gname">Days Sales Outstanding</span>
+            <span class="fchip">accounts receivable &divide; revenue &times; 365</span>
+          </div>
+          <div class="gq">How long after doing the work do you actually get paid?</div>
+          <div class="read"><strong>Our example business:</strong> $310K of receivables on $2.4M of revenue = <strong>47 days.</strong> Seven weeks of completed work sitting unpaid — the exact structural twin of five months of product on a shelf.</div>
+        </div>
+        <div class="gauge">
+          <div class="gaugehead">
+            <span class="gname">The Receivables Drag</span>
+            <span class="fchip">the service business's carrying cost</span>
+          </div>
+          <ul class="mini">
+            <li><strong>Capital tied up</strong> — you delivered, you paid your people, and now you are financing your client</li>
+            <li><strong>Collection labor</strong> — someone's hours spent chasing invoices instead of selling</li>
+            <li><strong>Early-pay discounts</strong> — the services version of a markdown</li>
+            <li><strong>Bad debt</strong> — the services version of obsolescence: work delivered, never paid for</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col" style="flex:.92;display:flex;flex-direction:column;justify-content:center;">
+        <div class="sourcestrip">
+          <table class="ledger">
+            <caption>Accounts Receivable Aging ($000)</caption>
+            <tr><th>Bucket</th><th>Amount</th><th>% of A/R</th><th>Collectible</th></tr>
+            <tr><td>Current — not yet due</td><td>180</td><td>58%</td><td class="pos">very high</td></tr>
+            <tr><td>1–30 days past due</td><td>78</td><td>25%</td><td class="pos">high</td></tr>
+            <tr><td>31–60 days past due</td><td>31</td><td>10%</td><td>slipping</td></tr>
+            <tr><td>61–90 days past due</td><td>12</td><td>4%</td><td class="neg">at risk</td></tr>
+            <tr><td>Over 90 days</td><td>9</td><td>3%</td><td class="neg">assume trouble</td></tr>
+            <tr class="total"><td>Total receivables</td><td>310</td><td>100%</td><td></td></tr>
+          </table>
+        </div>
+        <div class="card goldcard" style="margin-top:1.6vh;">
+          <p class="read"><strong>Why the aging matters more than the total.</strong> DSO gives you one number; the aging tells you whether that number is healthy or hiding something. Two firms can both post 47 days — one with everything current and a few slow payers, the other with half its balance past 60. Same gauge, opposite businesses. <strong>Watch the shape of the tail, not just the average.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>Gauge 7 · DSO &amp; receivables aging</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 9 · LEVERAGE ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">The Toolkit · 7 of 7 · Leverage</div>
+  <h2>How much of this business was built with borrowed money?</h2>
+  <div class="body fill">
+    <div class="gauge">
+      <div class="gaugehead">
+        <span class="gname">Debt-to-Equity</span>
+        <span class="fchip">total debt &divide; stockholders' equity</span>
+      </div>
+      <div class="gq">Whose money is at risk here — yours, or the bank's?</div>
+      <div class="read"><strong>How to read it:</strong> leverage is an amplifier. It multiplies your returns in a good year and your losses in a bad one, and it never asks which kind of year you're having.</div>
+    </div>
+    <div class="sourcestrip">
+      <table class="ledger">
+        <caption>The same $600K business, financed three ways</caption>
+        <tr><th>Structure</th><th>Debt</th><th>Owner's equity</th><th>D/E</th><th>Return on equity in a +$100K year</th><th>…and in a −$100K year</th></tr>
+        <tr><td>No debt</td><td>0</td><td>600</td><td class="mcol">0.0</td><td class="pos">+16.7%</td><td class="neg">−16.7%</td></tr>
+        <tr><td>Moderate</td><td>300</td><td>300</td><td class="mcol">1.0</td><td class="pos">+33.3%</td><td class="neg">−33.3%</td></tr>
+        <tr><td>Heavy</td><td>500</td><td>100</td><td class="mcol">5.0</td><td class="pos">+100.0%</td><td class="neg">−100.0%</td></tr>
+      </table>
+      <p class="read" style="margin-top:.9vh;color:var(--muted);">Interest cost excluded to isolate the leverage effect. In the heavy case, one bad year erases the owner entirely.</p>
+    </div>
+    <div class="card goldcard">
+      <p class="read"><strong>One standing rule for every gauge in this toolkit:</strong> when a ratio returns a bizarre answer, don't excuse it and don't average it away — take it apart and find out which component is lying. Tonight ends on a spectacular example.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Gauge 8 · Debt-to-equity</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 9 · CHAPTER ONE ============ -->
+<section class="slide dark" data-slide>
+  <div class="brandmark">
+    <img src="data:image/png;base64,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" alt="Peloton">
+    <div class="bm-rule"></div>
+    <div class="bm-ticker">Nasdaq: PTON</div>
+  </div>
+
+  <div class="body">
+    <div class="chapternum">The Story · Chapter One</div>
+    <div class="chapter">Peloton 2021<br>Wall Street Darling</div>
+    <hr class="rule">
+    <p style="font-size:clamp(.95rem,1.6vw,1.25rem);line-height:1.6;max-width:900px;color:#C9D2DE;">Eighteen months into the pandemic, Peloton is the defining stay-at-home company. Bikes are backordered. The stock has touched $145. The fiscal year just closed is the best in company history — and it is about to be filed with the SEC for anyone to read.</p>
+    <div class="cols step" data-step style="margin-top:2.6vh;max-width:900px;">
+      <div class="col"><div class="bignum">$4.02B</div><div class="biglabel" style="color:#9AA6B5;">revenue · FY2021</div></div>
+      <div class="col"><div class="bignum" style="color:#7FC5A6;">+120%</div><div class="biglabel" style="color:#9AA6B5;">growth vs. prior year</div></div>
+      <div class="col"><div class="bignum">6.9M</div><div class="biglabel" style="color:#9AA6B5;">members, and climbing</div></div>
+    </div>
+    <p class="step" data-step style="margin-top:2.6vh;font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,1.8vw,1.4rem);color:var(--gold-soft);">The headlines were unanimous. Let's see what the gauges said.</p>
+  </div>
+  <div class="footer"><span>Peloton Interactive · fiscal year ended June 30, 2021</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 10 · FY21 PROFITABILITY ============ -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Chapter One · Gauges 1–2 · Profitability</div>
+  <h2>Two businesses in one company — and only one of them strong.</h2>
+  <div class="body">
+    <div class="cols">
+      <div class="col sourcestrip">
+        <table class="ledger">
+          <caption>Condensed P&amp;L · FY2021 ($M)</caption>
+          <tr><th>Line</th><th>Amount</th><th>% of revenue</th></tr>
+          <tr><td>Revenue</td><td>4,021.8</td><td class="mcol">100.0%</td></tr>
+          <tr><td>Cost of revenue</td><td>(2,567.4)</td><td>63.8%</td></tr>
+          <tr class="hot"><td>Gross profit</td><td>1,454.4</td><td class="mcol">36.2%</td></tr>
+          <tr><td>Operating expenses &amp; all else, net</td><td>(1,643.4)</td><td>40.9%</td></tr>
+          <tr class="total hot"><td>Net loss</td><td class="neg">(189.0)</td><td class="mcol neg">−4.7%</td></tr>
+        </table>
+        <table class="ledger" style="margin-top:1.2vh;">
+          <caption>Revenue by segment ($M)</caption>
+          <tr><th>Segment</th><th>Revenue</th><th>Gross profit</th><th>Margin</th></tr>
+          <tr><td>Connected fitness hardware</td><td>3,149.6</td><td>912.7</td><td class="mcol">29.0%</td></tr>
+          <tr><td>Subscription</td><td>872.2</td><td>541.7</td><td class="mcol">62.1%</td></tr>
+        </table>
+      </div>
+      <div class="col sourcestrip" style="flex:.82;">
+        <table class="ledger">
+          <caption>Condensed Balance Sheet · 6/30/2021 ($M)</caption>
+          <tr><th>Line</th><th>Amount</th></tr>
+          <tr><td>Cash &amp; equivalents</td><td>1,134.8</td></tr>
+          <tr><td>Marketable securities</td><td>472.0</td></tr>
+          <tr><td>Accounts receivable</td><td>71.4</td></tr>
+          <tr><td>Inventories, net</td><td>937.1</td></tr>
+          <tr><td>Other current assets</td><td>202.8</td></tr>
+          <tr class="total"><td>Total current assets</td><td>2,818.1</td></tr>
+          <tr><td>Total assets</td><td>4,485.6</td></tr>
+          <tr><td>Total current liabilities</td><td>1,243.0</td></tr>
+          <tr><td>Total liabilities</td><td>2,731.5</td></tr>
+          <tr class="total"><td>Stockholders' equity</td><td>1,754.1</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="cols step" data-step style="margin-top:1.6vh;">
+      <div class="col card"><div class="calc">912.7 ÷ 3,149.6 = <span class="ans">29.0%</span></div><div class="biglabel">hardware gross margin — thin for a premium product</div></div>
+      <div class="col card"><div class="calc">541.7 ÷ 872.2 = <span class="ans">62.1%</span></div><div class="biglabel">subscription gross margin — a beautiful business</div></div>
+      <div class="col card"><div class="calc">(189.0) ÷ 4,021.8 = <span class="ans" style="color:var(--red);">−4.7%</span></div><div class="biglabel">net margin — the best year ever lost money</div></div>
+    </div>
+    <p class="read step" data-step style="margin-top:1.4vh;"><strong>What the gauges say:</strong> the subscription keeps 62¢ of every dollar, but it is only a fifth of revenue. The other four-fifths keeps 29¢ — before marketing, showrooms, R&amp;D, or a single salary. Growth is not profit; growth <em>postpones</em> the profit question for as long as someone funds the gap.</p>
+  </div>
+  <div class="footer"><span>Source: FY2022 10-K segment table (FY21 column) · FY2021 10-K</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 11 · FY21 INVENTORY ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Chapter One · Gauge 6 &amp; the Drag · Inventory</div>
+  <h2>Five months of product on the shelf, bought at peak demand.</h2>
+  <div class="body">
+    <div class="cols">
+      <div class="col sourcestrip">
+        <table class="ledger">
+          <caption>P&amp;L detail · hardware segment, FY2021 ($M)</caption>
+          <tr><th>Line</th><th>Amount</th></tr>
+          <tr><td>Hardware revenue</td><td>3,149.6</td></tr>
+          <tr class="hot"><td>Hardware cost of goods sold</td><td>2,236.9</td></tr>
+          <tr><td>Hardware gross profit</td><td>912.7</td></tr>
+        </table>
+      </div>
+      <div class="col sourcestrip">
+        <table class="ledger">
+          <caption>Balance sheet detail · 6/30/2021 ($M)</caption>
+          <tr><th>Line</th><th>Amount</th></tr>
+          <tr class="hot"><td>Inventories, net</td><td>937.1</td></tr>
+          <tr><td>Cash + securities <span class="muted">(for scale)</span></td><td>1,606.8</td></tr>
+          <tr><td>Total current assets</td><td>2,818.1</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="cols" style="margin-top:1.8vh;">
+      <div class="col card"><div class="calc">2,236.9 ÷ 937.1 = <span class="ans">2.4 turns</span> per year</div><div class="biglabel">inventory turnover</div></div>
+      <div class="col card"><div class="calc">365 ÷ 2.4 = <span class="ans">≈ 153 days</span></div><div class="biglabel">days sales of inventory</div></div>
+      <div class="col card step" data-step><div class="calc">937.1 ÷ 2,818.1 = <span class="ans">33%</span></div><div class="biglabel">of all current assets is boxes</div></div>
+    </div>
+    <p class="read step" data-step style="margin-top:1.6vh;"><strong>What the gauges say:</strong> $937M of cash — more than half the size of the entire treasury — is frozen in inventory, and every box is a bet that pandemic demand is permanent. The quiet carrying costs are already running: capital, warehousing, insurance. The two expensive ones, obsolescence and forced markdowns, only arrive if demand turns.</p>
+    <p class="step" data-step style="margin-top:1vh;font-family:var(--serif);font-style:italic;font-size:clamp(1rem,1.65vw,1.3rem);color:var(--navy);">Demand always turns. The only question is how heavy the shelf is when it does.</p>
+  </div>
+  <div class="footer"><span>Source: FY2022 10-K comparative balance sheet &amp; segment table</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 12 · THE CONVERTIBLE ============ -->
+<section class="slide dark wide" data-slide>
+  <div class="eyebrow">Chapter One &middot; A Financing Interlude</div>
+  <h2>February 2021: Wall Street lends Peloton a billion dollars. For free.</h2>
+  <div class="body" style="justify-content:flex-start;padding-top:1vh;">
+    <div class="card goldcard">
+      <div class="sslabel" style="color:var(--gold-soft);">First, the instrument &mdash; new to most rooms</div>
+      <p class="read" style="font-size:clamp(.92rem,1.45vw,1.1rem);">A <strong>convertible note</strong> is a loan with a lottery ticket stapled to it. The lender can be repaid like any normal loan &mdash; or <strong>convert</strong> the IOU into stock at a price fixed on day one. That fixed price is the <strong>conversion price</strong>, and it works exactly like a strike price: worthless if the stock stays below it, valuable the moment the stock climbs above. Because the ticket has value, lenders accept less interest in exchange. Sometimes far less.</p>
+    </div>
+
+    <div class="cols" style="margin-top:2vh;align-items:stretch;">
+      <div class="col" style="flex:1.3;">
+        <div class="sslabel">What the lender collects in February 2026, at any share price</div>
+        <svg viewBox="0 0 640 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;max-height:34vh;display:block;margin-top:.6vh;">
+          <line x1="70" y1="126.3" x2="610" y2="126.3" stroke="rgba(247,243,233,.12)" stroke-width="1"/>
+          <line x1="70" y1="54.4" x2="610" y2="54.4" stroke="rgba(247,243,233,.12)" stroke-width="1"/>
+          <text x="62" y="130" fill="#8D99A9" font-size="11" text-anchor="end" font-family="Inter,sans-serif">$1.0B</text>
+          <text x="62" y="58" fill="#8D99A9" font-size="11" text-anchor="end" font-family="Inter,sans-serif">$1.5B</text>
+
+          <line x1="70" y1="40" x2="70" y2="270" stroke="rgba(247,243,233,.3)" stroke-width="1.4"/>
+          <line x1="70" y1="270" x2="610" y2="270" stroke="rgba(247,243,233,.3)" stroke-width="1.4"/>
+
+          <line x1="287.5" y1="270" x2="287.5" y2="126.3" stroke="rgba(247,243,233,.35)" stroke-width="1.2" stroke-dasharray="3 4"/>
+          <text x="287.5" y="288" fill="#C9D2DE" font-size="11.5" text-anchor="middle" font-family="Inter,sans-serif">$144.99</text>
+          <text x="287.5" y="303" fill="#7C8899" font-size="10" text-anchor="middle" font-family="Inter,sans-serif">price when they lent</text>
+
+          <line x1="428.8" y1="270" x2="428.8" y2="126.3" stroke="#C9A227" stroke-width="1.8" stroke-dasharray="6 4"/>
+          <text x="428.8" y="288" fill="#D9BC5F" font-size="12" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">$239.23</text>
+          <text x="428.8" y="303" fill="#9A8437" font-size="10" text-anchor="middle" font-family="Inter,sans-serif">conversion price</text>
+
+          <path d="M 70 126.3 L 428.8 126.3 L 610 53.7" fill="none" stroke="#F7F3E9" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+          <circle cx="428.8" cy="126.3" r="5.5" fill="#C9A227"/>
+
+          <text x="240" y="108" fill="#9AA6B5" font-size="12" font-weight="600" text-anchor="middle" font-family="Inter,sans-serif">JUST YOUR MONEY BACK</text>
+          <text x="240" y="123" fill="#7C8899" font-size="10.5" text-anchor="middle" font-family="Inter,sans-serif">$1B returned. Zero interest earned.</text>
+          <text x="545" y="150" fill="#D9BC5F" font-size="12" font-weight="600" text-anchor="middle" font-family="Inter,sans-serif">CONVERT AND WIN</text>
+          <text x="545" y="165" fill="#9A8437" font-size="10.5" text-anchor="middle" font-family="Inter,sans-serif">stock worth more than the loan</text>
+
+          <text x="340" y="317" fill="#8D99A9" font-size="11" text-anchor="middle" font-family="Inter,sans-serif">Peloton share price when the notes mature</text>
+        </svg>
+      </div>
+      <div class="col sourcestrip" style="flex:.72;">
+        <table class="ledger">
+          <caption>The terms</caption>
+          <tr><td>Amount borrowed</td><td class="hot">$1.0B</td></tr>
+          <tr><td>Coupon</td><td class="hot">0%</td></tr>
+          <tr><td>Conversion price</td><td class="hot">$239.23</td></tr>
+          <tr class="sub"><td>per $1,000 note</td><td>&asymp; 4.18 shares</td></tr>
+          <tr><td>Share price at pricing</td><td>$144.99</td></tr>
+          <tr><td>Premium to market</td><td>65%</td></tr>
+          <tr class="total"><td>Maturity</td><td>February 2026</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <p class="step" data-step style="margin-top:2vh;font-size:clamp(.9rem,1.45vw,1.1rem);line-height:1.6;"><strong>Translate the terms:</strong> sophisticated institutions charged <em>nothing</em> to lend a money-losing company a billion dollars, because they were confident the stock would climb another 65% from an all-time high. That is how loudly the headlines were speaking in February 2021. File one detail away: <span style="color:var(--gold-soft);">these notes come due in five years.</span></p>
+  </div>
+  <div class="footer"><span>Source: Peloton IR, February 11, 2021 &middot; 0% convertible senior notes due 2026</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 13 · CHAPTER TWO ============ -->
+<section class="slide dark" data-slide>
+  <div class="brandmark">
+    <img src="data:image/png;base64,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" alt="Peloton">
+    <div class="bm-rule"></div>
+    <div class="bm-ticker">Nasdaq: PTON</div>
+  </div>
+
+  <div class="body">
+    <div class="chapternum">The Story · Chapter Two</div>
+    <div class="chapter">Peloton 2022<br>Post-COVID New Realities</div>
+    <hr class="rule">
+    <p style="font-size:clamp(.95rem,1.6vw,1.25rem);line-height:1.6;max-width:900px;color:#C9D2DE;">The world reopens. Gyms refill. Backorders clear — and then orders stop clearing. Demand doesn't collapse so much as return to earth. But the company was built, staffed, stocked, and financed for the sky.</p>
+    <div class="cols step" data-step style="margin-top:2.6vh;max-width:900px;">
+      <div class="col"><div class="bignum" style="color:#E08573;">$(2.83B)</div><div class="biglabel" style="color:#9AA6B5;">FY2022 net loss</div></div>
+      <div class="col"><div class="bignum">$611M</div><div class="biglabel" style="color:#9AA6B5;">restructuring charges</div></div>
+      <div class="col"><div class="bignum">−11%</div><div class="biglabel" style="color:#9AA6B5;">revenue vs. FY2021</div></div>
+    </div>
+    <p class="step" data-step style="margin-top:2.6vh;font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,1.8vw,1.4rem);color:var(--gold-soft);">Revenue fell eleven percent. The loss grew fifteenfold. The gauges explain how both can be true.</p>
+  </div>
+  <div class="footer"><span>Peloton Interactive · fiscal year ended June 30, 2022</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 14 · FY22 MARGINS ============ -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Chapter Two · Gauge 1 Revisited · Gross Margin by Segment</div>
+  <h2>The same gauge, twelve months later.</h2>
+  <div class="body">
+    <div class="sourcestrip">
+      <table class="ledger">
+        <caption>Gross margin by segment ($M)</caption>
+        <tr><th>Line</th><th>FY2021</th><th>FY2022</th><th>Change</th></tr>
+        <tr><td>Hardware gross profit</td><td>912.7</td><td class="neg hot">(246.3)</td><td class="neg">−$1,159.0</td></tr>
+        <tr><td>Hardware gross margin</td><td class="mcol">29.0%</td><td class="neg hot">(11.3)%</td><td class="neg">−40.3 pts</td></tr>
+        <tr><td>Subscription gross profit</td><td>541.7</td><td class="pos">944.7</td><td class="pos">+$403.0</td></tr>
+        <tr><td>Subscription gross margin</td><td class="mcol">62.1%</td><td class="pos">67.7%</td><td class="pos">+5.6 pts</td></tr>
+        <tr class="total"><td>Blended gross margin</td><td>36.2%</td><td>19.5%</td><td class="neg">−16.7 pts</td></tr>
+      </table>
+    </div>
+    <div class="stack" style="margin-top:1.8vh;">
+      <div class="card goldcard">
+        <p class="read" style="font-size:clamp(.92rem,1.45vw,1.1rem);"><strong>Hardware now loses money on every single unit sold</strong> — before one dollar of marketing, rent, or salary is counted. A 29% margin had no room to absorb stress. Stress arrived: discounting to move inventory, freight costs, and factory capacity built for a demand curve that evaporated.</p>
+      </div>
+      <div class="card goldcard step" data-step>
+        <p class="read" style="font-size:clamp(.92rem,1.45vw,1.1rem);"><strong>Meanwhile the subscription got <em>better</em></strong> — 62% to 68% — straight through the catastrophe. Same company, same filing, two opposite fates. This is precisely why gauge 1 says: <strong>never trust a blended margin.</strong> The blend fell from 36% to 20% and told you almost nothing about which half was dying.</p>
+      </div>
+    </div>
+    <p class="read step" data-step style="margin-top:1.4vh;"><strong>What the gauges say:</strong> this was not a company failing. It was one of its two businesses failing — the one carrying four-fifths of the revenue.</p>
+  </div>
+  <div class="footer"><span>Source: FY2022 10-K, MD&amp;A segment discussion</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 15 · FY22 INVENTORY ============ -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Chapter Two · Gauge 6 Revisited · Inventory</div>
+  <h2>Inventory turns slowed while the shelf grew.</h2>
+  <div class="body">
+    <div class="cols">
+      <div class="col sourcestrip">
+        <table class="ledger">
+          <caption>The inputs ($M)</caption>
+          <tr><th>Line</th><th>FY2021</th><th>FY2022</th></tr>
+          <tr><td>Hardware cost of goods sold</td><td>2,236.9</td><td>2,433.8</td></tr>
+          <tr><td>Inventories, net (year end)</td><td>937.1</td><td class="hot">1,104.5</td></tr>
+          <tr class="sub"><td>peak balance, Dec 2021</td><td colspan="2" class="hot">1,541.3</td></tr>
+          <tr><td>Inventory write-downs &amp; reserves</td><td>—</td><td class="neg">(222.1)</td></tr>
+        </table>
+      </div>
+      <div class="col stack">
+        <div class="card"><div class="calc">FY21: 2,236.9 ÷ 937.1 = <span class="ans">2.4 turns</span> → <span class="ans">153 days</span></div></div>
+        <div class="card"><div class="calc">FY22: 2,433.8 ÷ 1,104.5 = <span class="ans">2.2 turns</span> → <span class="ans">166 days</span></div></div>
+        <div class="card step" data-step style="border-left:4px solid var(--red);"><div class="calc" style="font-size:clamp(.95rem,1.5vw,1.2rem);">At the December peak, the same math implies <span class="ans" style="color:var(--red);">≈ 1.6 turns → 231 days</span></div><div class="biglabel">illustrative: peak balance against full-year hardware COGS</div></div>
+      </div>
+    </div>
+    <div class="cols step" data-step style="margin-top:3.4vh;">
+      <div class="col card goldcard">
+        <p class="read"><strong>The silent phase.</strong> Demand was already falling, but orders placed at peak optimism kept arriving. Inventory grew <strong>64% in six months after the top</strong> — turns got slower precisely when the company needed cash most.</p>
+      </div>
+      <div class="col card goldcard">
+        <p class="read"><strong>The loud phase.</strong> $222.1M of write-downs: cash spent on product, then formally declared not worth what was paid. That is the obsolescence-and-markdown bill from the toolkit, arriving all at once.</p>
+      </div>
+    </div>
+    <p class="step" data-step style="margin-top:1.2vh;font-family:var(--serif);font-style:italic;font-size:clamp(1rem,1.65vw,1.3rem);color:var(--navy);">The single largest destroyer of value in this story wasn't a competitor. It was boxes.</p>
+  </div>
+  <div class="footer"><span>Sources: FY2022 10-K · Q2 FY22 &amp; Q4 FY22 shareholder letters</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 16 · BURN & RUNWAY ============ -->
+<section class="slide dark wide" data-slide>
+  <div class="eyebrow">Chapter Two &middot; Gauges 3&ndash;4</div>
+  <h2>Now the only two gauges that matter.</h2>
+  <div class="body" style="justify-content:flex-start;padding-top:1.2vh;">
+    <div style="margin-bottom:1.8vh;">
+      <span class="gname" style="font-size:clamp(1.25rem,2.3vw,1.85rem);">Burn Rate &amp; Runway</span>
+      <div style="margin-top:1vh;"><span class="fchip" style="font-size:clamp(.86rem,1.32vw,1.06rem);">cash on hand &divide; burn per period = runway</span></div>
+    </div>
+    <div class="eqrow">
+      <div class="eqstat">
+        <div class="v">$1,254<span style="font-size:.42em;">M</span></div>
+        <div class="k">Cash on hand</div>
+        <div class="n">June 30, 2022</div>
+      </div>
+      <div class="eqop">&divide;</div>
+      <div class="eqstat">
+        <div class="v">$650<span style="font-size:.42em;">M</span></div>
+        <div class="k">Burn per quarter</div>
+        <div class="n">average, second half FY22<br>management's own figure</div>
+      </div>
+      <div class="eqop">=</div>
+      <div class="eqstat answer">
+        <div class="v">1.9</div>
+        <div class="k">Quarters of runway</div>
+        <div class="n">under six months</div>
+      </div>
+    </div>
+
+    <div class="cols step" data-step style="margin-top:2.6vh;">
+      <div class="col card">
+        <p class="read"><strong style="color:var(--gold-soft);">Draw the credit line and it buys one quarter.</strong><br>($1,254M + $500M undrawn) &divide; $650M = <strong>2.7 quarters</strong> &mdash; still inside a year.</p>
+      </div>
+      <div class="col card">
+        <p class="read"><strong style="color:#E08573;">Use the worst quarter instead and it costs one.</strong><br>Q3 FY22 burned $747M. At that rate: $1,254M &divide; $747M = <strong>1.7 quarters</strong>.</p>
+      </div>
+    </div>
+
+    <p class="step" data-step style="margin-top:2.4vh;font-size:clamp(.94rem,1.5vw,1.14rem);line-height:1.6;">Twelve months earlier this company borrowed a billion dollars at zero interest. Now one division says it has <strong>roughly two quarters to change or die.</strong> It changed: new CEO, thousands of corporate roles eliminated, owned manufacturing exited, showrooms closed, an emergency bank term loan. Every one of those decisions was forced by this arithmetic.</p>
+  </div>
+  <div class="footer"><span>Sources: Q4 FY22 shareholder letter &middot; Q2 FY23 letter &middot; FY2022 10-K</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 17 · CURRENT RATIO ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Chapter Two · Gauge 5 Revisited · The Blind Spot, Live</div>
+  <h2 style="margin-bottom:.5vh;">Current ratio: the one gauge that stayed green.</h2>
+  <p style="margin-bottom:1.7vh;"><span class="fchip" style="font-size:clamp(.85rem,1.3vw,1.05rem);">current assets &divide; current liabilities</span></p>
+  <div class="body fill">
+    <div class="cols">
+      <div class="col sourcestrip">
+        <table class="ledger">
+          <caption>From the balance sheets ($M)</caption>
+          <tr><th>Line</th><th>6/30/2021</th><th>6/30/2022</th></tr>
+          <tr><td>Total current assets</td><td>2,818.1</td><td>2,634.6</td></tr>
+          <tr class="sub"><td>of which: inventory</td><td>937.1</td><td class="hot">1,104.5</td></tr>
+          <tr><td>Total current liabilities</td><td>1,243.0</td><td>1,105.5</td></tr>
+        </table>
+      </div>
+      <div class="col cols" style="gap:1.4vw;">
+        <div class="col card" style="text-align:center;display:flex;flex-direction:column;justify-content:center;">
+          <div class="bignum">2.27</div>
+          <div class="biglabel">FY2021 · the darling year</div>
+        </div>
+        <div class="col card" style="text-align:center;display:flex;flex-direction:column;justify-content:center;border:2px solid var(--gold);">
+          <div class="bignum" style="color:var(--gold);">2.38</div>
+          <div class="biglabel">FY2022 · the near-death year<br><strong>higher</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:2vh;">
+      <p class="read" style="font-size:clamp(.94rem,1.5vw,1.14rem);">The current ratio <strong>improved</strong> while the company burned $650M a quarter and lost $2.8B — because its numerator was stuffed with inventory nobody wanted. Strip the inventory out and the picture inverts: cash and receivables alone barely cover current liabilities, and the "assets" making up the difference are the very boxes about to be written down.</p>
+    </div>
+    <p class="step" data-step style="margin-top:1.2vh;font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,1.75vw,1.35rem);color:var(--navy);">A gauge is only as honest as its components. When the number and the reality disagree, take the number apart.</p>
+  </div>
+  <div class="footer"><span>Source: FY2022 10-K comparative balance sheet</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 18 · CHAPTER THREE ============ -->
+<section class="slide dark" data-slide>
+  <div class="brandmark">
+    <img src="data:image/png;base64,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" alt="Peloton">
+    <div class="bm-rule"></div>
+    <div class="bm-ticker">Nasdaq: PTON</div>
+  </div>
+
+  <div class="body">
+    <div class="chapternum">The Story · Chapter Three</div>
+    <div class="chapter">Peloton Today<br>How Did They Survive?</div>
+    <hr class="rule">
+    <div class="cols" style="margin-top:1.6vh;">
+      <div class="col">
+        <ul class="clean">
+          <li style="color:var(--ivory);"><strong>They stopped building bikes.</strong> Owned manufacturing exited; production handed to partners. No factories, no fixed cost.</li>
+          <li style="color:var(--ivory);"><strong>They shrank the shelf.</strong> Inventory fell from $1.54B at the peak to $206M — an 87% reduction.</li>
+          <li style="color:var(--ivory);"><strong>They let the good business carry them.</strong> Subscription now generates the overwhelming majority of gross profit.</li>
+          <li style="color:var(--ivory);"><strong>Result:</strong> blended gross margin recovered from 19.5% to roughly 51%, and recent quarters have turned profitable.</li>
+        </ul>
+      </div>
+      <div class="col sourcestrip" style="flex:.85;">
+        <table class="ledger">
+          <caption>Stockholders' equity, year by year ($M)</caption>
+          <tr><td>June 2022</td><td>592.9</td></tr>
+          <tr><td>June 2023</td><td class="neg">(295.1)</td></tr>
+          <tr><td>June 2024</td><td class="neg">(519.1)</td></tr>
+          <tr class="hot"><td>June 2025</td><td class="neg">(413.8)</td></tr>
+          <tr class="sub"><td>cumulative losses since founding</td><td class="neg">(5,602.6)</td></tr>
+          <tr class="total hot"><td>Total debt, June 2025</td><td>1,499.0</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card step" data-step style="margin-top:2vh;">
+      <div class="cols" style="align-items:center;">
+        <div class="col"><div class="calc">D/E = 1,499 ÷ (413.8) = <span class="ans" style="color:#E08573;">−362%</span></div><div class="biglabel" style="color:#9AA6B5;">debt ÷ equity · FY2025 · a negative ratio — what does that even mean?</div></div>
+        <div class="col"><p class="read"><strong>Take it apart.</strong> Equity is what shareholders put in, plus every profit, minus every loss. Peloton's losses consumed all of it and $414M more. Negative equity means obligations exceed everything the company owns. The ratio isn't a ratio anymore — it's a biography.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>Sources: FY2025 10-K · Q4 FY2025 shareholder letter</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 19 · PRICE CHART ============ -->
+<section class="slide dark wide" data-slide>
+  <div class="eyebrow">Chapter Three · The Lottery Ticket</div>
+  <h2>The bet, drawn to scale.</h2>
+  <div class="body">
+    <svg viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;max-height:46vh;display:block;">
+  <defs>
+    <linearGradient id="pfill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D9BC5F" stop-opacity=".30"/>
+      <stop offset="100%" stop-color="#D9BC5F" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <line x1="78" y1="322.0" x2="968" y2="322.0" stroke="rgba(247,243,233,.13)" stroke-width="1"/><text x="70" y="326.0" fill="#8D99A9" font-size="11" text-anchor="end" font-family="Inter,sans-serif">$0</text><line x1="78" y1="264.4" x2="968" y2="264.4" stroke="rgba(247,243,233,.13)" stroke-width="1"/><text x="70" y="268.4" fill="#8D99A9" font-size="11" text-anchor="end" font-family="Inter,sans-serif">$50</text><line x1="78" y1="206.8" x2="968" y2="206.8" stroke="rgba(247,243,233,.13)" stroke-width="1"/><text x="70" y="210.8" fill="#8D99A9" font-size="11" text-anchor="end" font-family="Inter,sans-serif">$100</text><line x1="78" y1="149.2" x2="968" y2="149.2" stroke="rgba(247,243,233,.13)" stroke-width="1"/><text x="70" y="153.2" fill="#8D99A9" font-size="11" text-anchor="end" font-family="Inter,sans-serif">$150</text><line x1="78" y1="91.6" x2="968" y2="91.6" stroke="rgba(247,243,233,.13)" stroke-width="1"/><text x="70" y="95.6" fill="#8D99A9" font-size="11" text-anchor="end" font-family="Inter,sans-serif">$200</text><line x1="78" y1="34.0" x2="968" y2="34.0" stroke="rgba(247,243,233,.13)" stroke-width="1"/><text x="70" y="38.0" fill="#8D99A9" font-size="11" text-anchor="end" font-family="Inter,sans-serif">$250</text><text x="112.7" y="342" fill="#8D99A9" font-size="11" text-anchor="middle" font-family="Inter,sans-serif">2020</text><text x="243.5" y="342" fill="#8D99A9" font-size="11" text-anchor="middle" font-family="Inter,sans-serif">2021</text><text x="374.0" y="342" fill="#8D99A9" font-size="11" text-anchor="middle" font-family="Inter,sans-serif">2022</text><text x="504.4" y="342" fill="#8D99A9" font-size="11" text-anchor="middle" font-family="Inter,sans-serif">2023</text><text x="634.9" y="342" fill="#8D99A9" font-size="11" text-anchor="middle" font-family="Inter,sans-serif">2024</text><text x="765.7" y="342" fill="#8D99A9" font-size="11" text-anchor="middle" font-family="Inter,sans-serif">2025</text><text x="896.2" y="342" fill="#8D99A9" font-size="11" text-anchor="middle" font-family="Inter,sans-serif">2026</text>
+  <path d="M 75.1 293.2 L 80.1 293.9 L 85.1 294.5 L 90.2 289.2 L 95.2 283.3 L 100.2 284.0 L 105.2 287.7 L 110.2 288.1 L 114.8 286.2 L 119.8 285.7 L 124.8 288.8 L 129.8 291.4 L 134.8 291.4 L 139.8 291.4 L 144.8 288.8 L 149.8 286.2 L 154.8 281.1 L 159.9 275.6 L 164.9 268.4 L 169.9 260.2 L 174.9 253.0 L 179.9 247.7 L 184.9 242.4 L 189.9 238.0 L 194.9 232.7 L 199.9 220.9 L 204.9 209.0 L 209.9 202.4 L 214.9 196.7 L 219.9 192.7 L 224.9 189.4 L 229.9 178.2 L 234.9 159.3 L 239.9 147.9 L 244.9 151.0 L 249.9 156.0 L 254.9 169.6 L 259.9 182.6 L 264.9 187.5 L 269.9 191.4 L 274.9 198.2 L 279.9 205.7 L 285.0 204.8 L 290.0 198.4 L 295.0 191.6 L 300.0 184.4 L 304.6 179.8 L 309.6 183.1 L 314.6 186.6 L 319.6 196.2 L 324.6 205.5 L 329.6 212.7 L 334.6 219.8 L 339.6 220.0 L 344.6 217.8 L 349.6 230.3 L 354.7 255.4 L 359.7 272.8 L 364.7 277.2 L 369.7 202.6 L 374.7 285.9 L 379.7 290.3 L 384.7 289.7 L 389.7 288.8 L 394.7 289.7 L 399.3 291.0 L 404.3 294.5 L 409.3 299.1 L 414.3 302.7 L 419.3 304.6 L 424.3 306.6 L 429.4 309.2 L 434.4 311.4 L 439.4 311.2 L 444.4 311.2 L 449.4 310.8 L 454.4 310.6 L 459.4 311.4 L 464.4 313.2 L 469.4 313.6 L 474.4 313.0 L 479.4 311.7 L 484.4 310.4 L 489.4 309.2 L 494.0 311.0 L 499.1 313.0 L 504.1 310.4 L 509.1 307.7 L 514.1 307.3 L 519.1 307.3 L 524.1 307.7 L 529.1 308.6 L 534.1 309.5 L 539.1 310.8 L 544.1 312.1 L 549.1 313.0 L 554.1 313.6 L 559.1 313.4 L 564.1 313.2 L 569.1 312.1 L 574.1 311.2 L 579.1 312.1 L 584.1 313.9 L 588.8 315.0 L 593.8 315.8 L 598.8 316.3 L 603.8 316.5 L 608.8 316.5 L 613.8 316.1 L 618.8 315.6 L 623.8 315.2 L 628.8 315.0 L 633.8 315.2 L 638.8 315.6 L 643.8 316.1 L 648.8 316.5 L 653.8 316.9 L 658.8 316.9 L 663.8 317.4 L 668.8 317.8 L 673.8 318.5 L 678.8 318.0 L 683.8 318.0 L 688.8 318.0 L 693.9 318.3 L 698.9 318.3 L 703.9 318.0 L 708.9 317.6 L 713.9 317.2 L 718.9 316.7 L 723.9 316.7 L 728.9 316.3 L 733.9 314.1 L 738.9 312.3 L 743.9 311.2 L 748.9 310.4 L 753.9 310.8 L 758.9 311.7 L 763.9 312.3 L 768.9 313.0 L 773.9 313.2 L 778.6 313.4 L 783.6 313.4 L 788.6 314.3 L 793.6 314.7 L 798.6 314.5 L 803.6 314.3 L 808.6 314.1 L 813.6 313.9 L 818.6 314.1 L 823.6 313.9 L 828.6 314.1 L 833.6 313.9 L 838.6 313.9 L 843.6 313.4 L 848.6 313.2 L 853.6 312.5 L 858.6 311.7 L 863.6 312.5 L 868.6 313.4 L 873.3 313.9 L 878.3 314.3 L 883.3 314.3 L 888.3 314.7 L 893.3 315.2 L 898.3 315.4 L 903.3 315.8 L 908.3 316.7 L 913.3 317.4 L 918.3 317.4 L 923.3 317.2 L 928.3 316.5 L 933.3 316.1 L 938.3 315.4 L 943.3 314.7 L 948.3 314.7 L 953.3 315.2 L 958.3 315.2 L 963.4 315.0 L 968.0 315.0 L 972.6 315.0 L 972.6 322.0 L 75.1 322.0 Z" fill="url(#pfill)"/>
+  <path d="M 75.1 293.2 L 80.1 293.9 L 85.1 294.5 L 90.2 289.2 L 95.2 283.3 L 100.2 284.0 L 105.2 287.7 L 110.2 288.1 L 114.8 286.2 L 119.8 285.7 L 124.8 288.8 L 129.8 291.4 L 134.8 291.4 L 139.8 291.4 L 144.8 288.8 L 149.8 286.2 L 154.8 281.1 L 159.9 275.6 L 164.9 268.4 L 169.9 260.2 L 174.9 253.0 L 179.9 247.7 L 184.9 242.4 L 189.9 238.0 L 194.9 232.7 L 199.9 220.9 L 204.9 209.0 L 209.9 202.4 L 214.9 196.7 L 219.9 192.7 L 224.9 189.4 L 229.9 178.2 L 234.9 159.3 L 239.9 147.9 L 244.9 151.0 L 249.9 156.0 L 254.9 169.6 L 259.9 182.6 L 264.9 187.5 L 269.9 191.4 L 274.9 198.2 L 279.9 205.7 L 285.0 204.8 L 290.0 198.4 L 295.0 191.6 L 300.0 184.4 L 304.6 179.8 L 309.6 183.1 L 314.6 186.6 L 319.6 196.2 L 324.6 205.5 L 329.6 212.7 L 334.6 219.8 L 339.6 220.0 L 344.6 217.8 L 349.6 230.3 L 354.7 255.4 L 359.7 272.8 L 364.7 277.2 L 369.7 202.6 L 374.7 285.9 L 379.7 290.3 L 384.7 289.7 L 389.7 288.8 L 394.7 289.7 L 399.3 291.0 L 404.3 294.5 L 409.3 299.1 L 414.3 302.7 L 419.3 304.6 L 424.3 306.6 L 429.4 309.2 L 434.4 311.4 L 439.4 311.2 L 444.4 311.2 L 449.4 310.8 L 454.4 310.6 L 459.4 311.4 L 464.4 313.2 L 469.4 313.6 L 474.4 313.0 L 479.4 311.7 L 484.4 310.4 L 489.4 309.2 L 494.0 311.0 L 499.1 313.0 L 504.1 310.4 L 509.1 307.7 L 514.1 307.3 L 519.1 307.3 L 524.1 307.7 L 529.1 308.6 L 534.1 309.5 L 539.1 310.8 L 544.1 312.1 L 549.1 313.0 L 554.1 313.6 L 559.1 313.4 L 564.1 313.2 L 569.1 312.1 L 574.1 311.2 L 579.1 312.1 L 584.1 313.9 L 588.8 315.0 L 593.8 315.8 L 598.8 316.3 L 603.8 316.5 L 608.8 316.5 L 613.8 316.1 L 618.8 315.6 L 623.8 315.2 L 628.8 315.0 L 633.8 315.2 L 638.8 315.6 L 643.8 316.1 L 648.8 316.5 L 653.8 316.9 L 658.8 316.9 L 663.8 317.4 L 668.8 317.8 L 673.8 318.5 L 678.8 318.0 L 683.8 318.0 L 688.8 318.0 L 693.9 318.3 L 698.9 318.3 L 703.9 318.0 L 708.9 317.6 L 713.9 317.2 L 718.9 316.7 L 723.9 316.7 L 728.9 316.3 L 733.9 314.1 L 738.9 312.3 L 743.9 311.2 L 748.9 310.4 L 753.9 310.8 L 758.9 311.7 L 763.9 312.3 L 768.9 313.0 L 773.9 313.2 L 778.6 313.4 L 783.6 313.4 L 788.6 314.3 L 793.6 314.7 L 798.6 314.5 L 803.6 314.3 L 808.6 314.1 L 813.6 313.9 L 818.6 314.1 L 823.6 313.9 L 828.6 314.1 L 833.6 313.9 L 838.6 313.9 L 843.6 313.4 L 848.6 313.2 L 853.6 312.5 L 858.6 311.7 L 863.6 312.5 L 868.6 313.4 L 873.3 313.9 L 878.3 314.3 L 883.3 314.3 L 888.3 314.7 L 893.3 315.2 L 898.3 315.4 L 903.3 315.8 L 908.3 316.7 L 913.3 317.4 L 918.3 317.4 L 923.3 317.2 L 928.3 316.5 L 933.3 316.1 L 938.3 315.4 L 943.3 314.7 L 948.3 314.7 L 953.3 315.2 L 958.3 315.2 L 963.4 315.0 L 968.0 315.0 L 972.6 315.0" fill="none" stroke="#F7F3E9" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <line x1="78" y1="46.4" x2="968" y2="46.4" stroke="#C9A227" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="88" y="37.4" fill="#D9BC5F" font-size="13.5" font-weight="700" font-family="Inter,sans-serif">CONVERSION PRICE $239.23 — the bet the lenders made</text>
+
+  <line x1="78" y1="155.0" x2="968" y2="155.0" stroke="rgba(247,243,233,.42)" stroke-width="1.4" stroke-dasharray="3 4"/>
+  <text x="88" y="147.0" fill="#C9D2DE" font-size="12.5" font-family="Inter,sans-serif">$144.99 — share price the day the $1B priced, Feb 2021</text>
+
+  <line x1="257.1" y1="155.0" x2="257.1" y2="322" stroke="rgba(247,243,233,.28)" stroke-width="1.2"/>
+  <circle cx="257.1" cy="155.0" r="5" fill="#C9A227"/>
+
+  <circle cx="968.0" cy="314.7" r="5" fill="#E08573"/>
+  <text x="962.0" y="301.7" fill="#E08573" font-size="13" font-weight="700" text-anchor="end" font-family="Inter,sans-serif">$6.37 today</text>
+</svg>
+    <div class="cols step" data-step style="margin-top:1.6vh;">
+      <div class="col card goldcard">
+        <p class="read"><strong>Read the gold line first.</strong> To convert, the stock had to clear $239.23. It had never traded there — not even at the December 2020 peak of about $152. Lenders weren't betting on a recovery; they were betting the best month in company history was a waypoint.</p>
+      </div>
+      <div class="col card goldcard">
+        <p class="read"><strong>Now read the white line.</strong> From the day the notes priced, it went one direction. By the maturity date in February 2026 the stock was in single digits — roughly <strong>97% below the conversion price.</strong> The ticket was never worth anything, so the loan was always just a loan.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>Price history: Nasdaq via Yahoo Finance · anchor prices from Peloton filings</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 19 · THE BILL FOR THE BILLION ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Chapter Three · The Interlude Comes Due</div>
+  <h2>Debt is a promise made by your most optimistic self.</h2>
+  <div class="body">
+    <div class="sourcestrip">
+      <table class="ledger">
+        <caption>The life of one billion dollars</caption>
+        <tr><th>When</th><th style="text-align:left;">What happened</th><th>Cost of that money</th></tr>
+        <tr><td style="white-space:nowrap;">Feb 2021</td><td style="text-align:left;">$1.0B borrowed. Lenders take stock upside instead of interest; strike set at $239.23 with the shares at $144.99.</td><td class="mcol">0%</td></tr>
+        <tr><td style="white-space:nowrap;">2022–2025</td><td style="text-align:left;">The shares never approach the strike. The lottery ticket quietly expires. The loan remains a loan — full principal, fixed due date.</td><td class="mcol">0%</td></tr>
+        <tr class="hot"><td style="white-space:nowrap;">Feb 2026</td><td style="text-align:left;">Notes mature with the stock in single digits. Nobody converts. <strong>$1.0B repaid in cash</strong> by a company with negative equity — refinanced in part with $350M of notes due 2029.</td><td class="mcol">5.50%</td></tr>
+      </table>
+    </div>
+    <div class="cols step" data-step style="margin-top:2.2vh;">
+      <div class="col card goldcard">
+        <p class="read" style="font-size:clamp(.94rem,1.5vw,1.14rem);"><strong>The lesson in one line:</strong> a 0% loan was never free money. It was a bet that the stock would be worth more than the debt. When the bet lost, the "free" billion became an ordinary billion-dollar obligation — <strong>due on a date chosen by the version of the company that had just had its best year ever.</strong></p>
+      </div>
+      <div class="col card goldcard">
+        <p class="read" style="font-size:clamp(.94rem,1.5vw,1.14rem);"><strong>Why this is your problem too:</strong> the same shape appears at every scale — the equipment loan taken in the best quarter, the lease signed at peak demand, the line of credit drawn when orders were pouring in. Borrowed money is repaid by whoever you turn out to be on the due date, not by the person who signed.</p>
+      </div>
+    </div>
+    <p class="step" data-step style="margin-top:1.6vh;font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,1.85vw,1.45rem);color:var(--gold-soft);">Cost of capital is a gauge too. Zero to five and a half is the market restating its opinion of you — in basis points.</p>
+  </div>
+  <div class="footer"><span>Sources: Peloton IR Feb 2021 · Q3 FY2026 10-Q</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 20 · WHAT THE GAUGES SAW ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">The Story, Closed</div>
+  <h2>The headlines said darling. The gauges said fragile.</h2>
+  <div class="body">
+    <div class="narrow" style="max-width:920px;">
+      <table class="ledger">
+        <caption>June 2021 — what each gauge was saying, in real time</caption>
+        <tr><th>Gauge</th><th>Reading</th><th style="text-align:left;padding-left:1.4vw;">What it was telling us</th></tr>
+        <tr><td>Gross margin, by segment</td><td class="mcol">29% / 62%</td><td style="text-align:left;padding-left:1.4vw;">Four-fifths of revenue had no cushion for stress</td></tr>
+        <tr><td>Net margin</td><td class="mcol neg">−4.7%</td><td style="text-align:left;padding-left:1.4vw;">The best year in history didn't pay for itself</td></tr>
+        <tr><td>Turnover / DSI</td><td class="mcol">2.4× · 153 days</td><td style="text-align:left;padding-left:1.4vw;">A heavy shelf, stocked at peak demand</td></tr>
+        <tr><td>The inventory drag</td><td class="mcol">$937M frozen</td><td style="text-align:left;padding-left:1.4vw;">Carrying costs ticking; markdown risk fully loaded</td></tr>
+        <tr><td>Current ratio</td><td class="mcol">2.27</td><td style="text-align:left;padding-left:1.4vw;">Looked healthy — with a numerator full of boxes</td></tr>
+        <tr><td>Cost of capital</td><td class="mcol">0%</td><td style="text-align:left;padding-left:1.4vw;">The market believed the headlines, not the filings</td></tr>
+      </table>
+      <p class="step" data-step style="margin-top:2.4vh;font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,1.85vw,1.45rem);color:var(--navy);text-align:center;">Nothing that happened in fiscal 2022 was invisible in fiscal 2021.<br>It was all right here — for anyone who knew what the numbers were saying.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Every reading sourced earlier tonight</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 21 · TRANSLATION ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Before We Build</div>
+  <h2>Important note: different size companies have different metrics.</h2>
+  <div class="body">
+    <p class="read" style="max-width:960px;margin-bottom:1.4vh;">The eight gauges are universal. The numbers you compare them against are not — and three things change when the company is yours rather than public.</p>
+    <ul class="clean">
+      <li><strong>Normalize your own paycheck.</strong> In a public company, executive pay is a market number. In yours, owner compensation is a tax and lifestyle decision wearing an expense's clothes. Restate it at what you'd pay a stranger to do the job before you trust any margin.</li>
+      <li><strong>Expect small-N volatility.</strong> Peloton's gauges move on millions of transactions; yours move when one $80K invoice lands a week late. A single month means almost nothing — read trends across quarters.</li>
+      <li><strong>Never borrow another company's benchmarks.</strong> Scale changes the arithmetic: a public company's 12% net margin and your 12% net margin describe entirely different businesses with different cost structures, tax treatment, and access to capital. Your own history is the comparison that binds.</li>
+    </ul>
+    <div class="card goldcard step" data-step style="margin-top:1.8vh;max-width:960px;">
+      <div class="sslabel">Carpenter Hall, for sixty seconds</div>
+      <p class="read">Her 44% gross margin — strong or weak? Unanswerable until you know it's a service business with her own hours priced in. Her deferred revenue is Peloton's subscription liability in miniature: cash collected, work still owed. And for her the inventory gauges retire entirely — <strong>DSO takes their seat.</strong> The dialect changes; the grammar doesn't.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Applies to every business in this room</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 22 · BRIDGE ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">After the break</div>
+  <h2>You just read a company backward.<br>Now build one forward.</h2>
+  <div class="body">
+    <p style="font-size:clamp(.95rem,1.6vw,1.2rem);line-height:1.55;max-width:920px;">Everything tonight was diagnosis — statements someone else already lived. A pro forma is the same statements written <em>before</em> they happen. And its first reader won't be an accountant. It'll be an angel investor, who reads four numbers first:</p>
+    <ul class="clean" style="margin-top:1.8vh;max-width:840px;">
+      <li style="color:var(--ivory);"><strong>When do you die?</strong> — the monthly cash line</li>
+      <li style="color:var(--ivory);"><strong>How much do you need?</strong> — the capital requirement</li>
+      <li style="color:var(--ivory);"><strong>When does this stop needing you?</strong> — the break-even month</li>
+      <li style="color:var(--ivory);"><strong>Is the work itself profitable?</strong> — gross margin, gauge 1, again</li>
+    </ul>
+    <p class="step" data-step style="margin-top:2.2vh;font-size:.84rem;color:#8D99A9;">Deliberately parked for the fundraising sessions: NPV, IRR, DCF, and valuation. Tonight is survival math, not deal math.</p>
+  </div>
+  <div class="footer"><span>Break · 10 minutes</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 25 · WORKSHOP ============ -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">The Build · Group Workshop</div>
+  <h2>One model, built together, yours to keep.</h2>
+  <div class="body">
+    <div class="cols">
+      <div class="col" style="flex:.88;">
+        <div class="sslabel">Seven levers &mdash; you supply these</div>
+        <div class="levergrid">
+          <div class="lever"><span class="lnum">1</span>Startup costs</div>
+          <div class="lever"><span class="lnum">2</span>Product development</div>
+          <div class="lever"><span class="lnum">3</span>Revenue &amp; business model</div>
+          <div class="lever"><span class="lnum">4</span>Marketing programs</div>
+          <div class="lever"><span class="lnum">5</span>Staffing &mdash; dates &amp; salaries</div>
+          <div class="lever"><span class="lnum">6</span>Sales costs</div>
+          <div class="lever" style="grid-column:1 / -1;"><span class="lnum">7</span>Capital requirements &mdash; what you raise, and when</div>
+        </div>
+      </div>
+      <div class="col" style="flex:1.12;">
+        <div class="sslabel">One model &mdash; 24 months, recalculated live</div>
+        <div class="pfgrid">
+          <div class="pfhead"><span class="pflabel">&nbsp;</span><span>M1</span><span>M4</span><span>M8</span><span>M12</span><span>M16</span><span>M20</span><span>M24</span></div>
+          <div class="pfrow"><span class="pflabel">Revenue</span><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="pfrow"><span class="pflabel">Cost of delivery</span><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="pfrow"><span class="pflabel">Payroll</span><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="pfrow"><span class="pflabel">Marketing &amp; sales</span><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="pfrow"><span class="pflabel">Net income</span><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="pfrow cash"><span class="pflabel">Ending cash</span><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="read" style="margin-top:1.1vh;color:var(--muted);font-size:clamp(.76rem,1.1vw,.92rem);">Change any lever on the left &mdash; every column on the right recalculates.</p>
+      </div>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:2.2vh;">
+      <p class="read" style="font-size:clamp(.94rem,1.45vw,1.1rem);">Watch the gold row. Starting cash, plus what comes in, minus what goes out, equals ending cash &mdash; every month, for twenty-four months. <strong>That row is the cash flow statement.</strong> You are about to build the third statement without noticing.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Workshop artifact takes over from here</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 24 · CLOSE ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">The Close</div>
+  <div class="body" style="text-align:center;align-items:center;">
+    <h2 style="color:var(--ivory);max-width:940px;margin:0 auto 2.4vh;font-size:clamp(1.9rem,4vw,3.2rem);">The numbers were telling us the whole time.</h2>
+    <p class="step" data-step style="font-size:clamp(.98rem,1.65vw,1.28rem);line-height:1.65;max-width:880px;margin:0 auto;color:#C9D2DE;">A billion dollars of the smartest money in the world read the headlines. Eight gauges read the filings — and everything that happened next was already sitting in them. Your business writes the same signals every month. Tonight you learned to listen; the model you're taking home is where you'll hear your own.</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S05 · Understanding What the Numbers Tell Us</span><span class="counter" data-counter></span></div>
+</section>
+
+</div>
+<div class="hintbar">→ / space: advance · ← back · Home/End</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('[data-slide]'));
+  var idx = 0;
+  function stepsOf(slide){ return Array.prototype.slice.call(slide.querySelectorAll('[data-step]')); }
+  function paint(){
+    slides.forEach(function(s,i){ s.classList.toggle('active', i===idx); });
+    slides.forEach(function(s){
+      s.querySelectorAll('[data-counter]').forEach(function(c){
+        c.textContent = (idx+1) + ' / ' + slides.length;
+      });
+    });
+  }
+  function advance(){
+    var pending = stepsOf(slides[idx]).filter(function(el){ return !el.classList.contains('shown'); });
+    if(pending.length){ pending[0].classList.add('shown'); return; }
+    if(idx < slides.length-1){ idx++; paint(); }
+  }
+  function back(){
+    var shown = stepsOf(slides[idx]).filter(function(el){ return el.classList.contains('shown'); });
+    if(shown.length){ shown[shown.length-1].classList.remove('shown'); return; }
+    if(idx > 0){ idx--; stepsOf(slides[idx]).forEach(function(el){ el.classList.add('shown'); }); paint(); }
+  }
+  function goto_(i, revealAll){
+    idx = Math.max(0, Math.min(slides.length-1, i));
+    stepsOf(slides[idx]).forEach(function(el){ el.classList.toggle('shown', !!revealAll); });
+    paint();
+  }
+  document.addEventListener('keydown', function(e){
+    switch(e.key){
+      case 'ArrowRight': case ' ': case 'PageDown': e.preventDefault(); advance(); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); back(); break;
+      case 'Home': e.preventDefault(); goto_(0,false); break;
+      case 'End': e.preventDefault(); goto_(slides.length-1,true); break;
+    }
+  });
+  document.addEventListener('click', function(e){
+    if(e.clientX < window.innerWidth/3){ back(); } else { advance(); }
+  });
+  paint();
+})();
+</script>
+</body>
+</html>
