@@ -56,17 +56,18 @@
 ### 3.2 Presentation decks
 
 - **Single-file self-contained HTML.** Assets base64-embedded. Zero runtime network deps beyond the Google Fonts link.
-- **Navigation:** keyboard (arrows/space) + touch; fullscreen support; per-slide facilitator notes on the **N key**.
+- **Navigation:** keyboard (arrows/space) + touch; fullscreen support; per-slide facilitator notes on the **N key** *(spec optional in practice — S05 and S06 shipped without N-key notes at Scott's direction; the requirement stands only when a deck must be cold-runnable by another facilitator)*.
 - **BLUF structure:** the session opens with the payoff stated (McKinsey bottom-line-up-front), cashed out later in the deck.
 - **Framework slides:** worked examples live *inside* the framework canvas cells — never in a detached strip below.
 - **Slides are connective tissue** when a live artifact carries the teach; the deck frames transitions, it doesn't compete.
+- **PDF export gotcha (S06):** the `html-to-pdf` skill captures slides in their *initial* state — step-reveal (`data-step`) content is invisible and per-slide counters unpainted. Generate PDFs from a **print variant** that pre-adds the `shown` class to every step and statically paints the counters before conversion.
 
 ### 3.3 Interactive teaching artifacts
 
 - **Single-file HTML + vanilla JS** (tiny reactive core at most). CDN-hostable from the repo.
 - **State discipline:** pure `compute(events, cursor)` core; rendering is a pure function of derived state; undo = decrement cursor + recompute.
 - **No `localStorage`/`sessionStorage`** (unsupported in the claude.ai artifact sandbox). In-memory state; explicit export when persistence matters.
-- **Workbooks (S06+):** Excel joins the standing artifact classes. Structure: assumptions tab → P&L → cash flow → valuation (+ annotations tab documenting formulas). Nothing hard-coded downstream of assumptions. Formulas verified independently (recompute in Python, compare).
+- **Workbooks (S06+):** Excel joins the standing artifact classes. Structure: assumptions tab → P&L → cash flow → valuation (+ annotations tab documenting formulas). Nothing hard-coded downstream of assumptions. Formulas verified independently (recompute in Python, compare). Financial-model color code: blue inputs · black formulas · green cross-sheet links · yellow fill on the key levers.
 
 ## 4. Facilitation doctrine
 
@@ -79,7 +80,7 @@
 ## 5. Delivery & infrastructure
 
 - **Repo layout:** decks as `Fitler_MBA_S0N.html` + `Fitler_MBA_S0N.pdf`; teaching artifacts suffixed by name; `index.html` is a session-card page (all of a session's resources grouped: slides, PDF, artifacts, worksheets, video placeholder rows).
-- **PDF workflow:** `html-to-pdf` skill at **1728×1080**, spot-verified by rendering pages back to images. Scott places binaries manually (MCP text tools can't write binary).
+- **PDF workflow:** `html-to-pdf` skill at **1728×1080**, spot-verified by rendering pages back to images. Print-variant rule applies (§3.2). Scott places binaries manually (MCP text tools can't write binary).
 - **GitHub MCP** (`github:create_or_update_file`): reliable for text files; SHA must be the *current* blob SHA — refetch after any local commit. Files >~1MB return empty content; binary renames happen locally via `git mv`.
 - **Filesystem MCP** (`/Users/scottsill/`): reliable, with one critical bug — `$$` in `edit_file` `newText` silently collapses to `$`, breaking JS. Use `write_file` with full content for any block containing `$$`.
 - **Local prep path:** `/Users/scottsill/Dropbox/Documents/Clients/Fitler Club/Fitler MBA/presentations`. Prep files (handoffs, scoping docs) stay local; only finished assets go to the repo.
@@ -96,17 +97,17 @@
 | S03 | Business Model Innovation | Delivered | BMC artifact; post-mortem produced the 48-hour rule and participation-beat rule |
 | S04 | Accounting I — The Language of Business | Delivered | Franklin's Bagels ledger artifact (15-event predict-before-reveal ladder), Carpenter Hall; ran short → elasticity doctrine |
 | S05 | Accounting II — Understanding What the Numbers Tell Us | Delivered | Peloton three-chapter case (Darling / Bill / Survivor); 26 slides; toolkit-then-story; ran ~110 min. Session cards shipped on index.html |
-| S06 | The Price of Money (Finance / Capital Markets) | Scoped 2026-08-04 | Six-act architecture; Excel DCF workbook; see handoff doc + changelog |
+| S06 | The Price of Money (Finance / Capital Markets) | Built 2026-08-04 — delivery pending | 36-slide deck + Franklin's DCF workbook shipped; see changelog |
 | S07 | Building a Pro Forma | Queued | Inherits the S06 workbook chassis; full WACC treatment lands here |
 | S08+ | — | Unscoped | Original syllabus is the reference spine, resequenced as needed |
 
 ## 7. Continuity tracker (introduced vs. deferred)
 
-**Introduced:** three statements + interconnection (S04); ratios/gauges, burn & runway, source-strip reading (S05); PV/FV, DCF/NPV/IRR, terminal value via P/E & P/Sales, debt vs. equity, leverage/DuPont, beta-as-intuition, options/hedging via CEO collar (S06, pending delivery).
+**Introduced:** three statements + interconnection (S04); ratios/gauges, burn & runway, source-strip reading (S05); PV/FV, DCF/NPV/IRR, terminal value via P/E & P/Sales, debt vs. equity, leverage/DuPont, beta-as-intuition, options/hedging via CEO collar (S06, built — delivery pending).
 
 **Deferred, with owed destinations:**
 - Amortization; cash vs. accrual methods (deferred from S04 → future accounting touchpoint)
-- Full WACC treatment → S07
+- Full WACC treatment → S07 (S06 delivers the one-sentence blend + explicit S07 pointer)
 - Cash-flow projection depth / pro forma build → S07
 - Valuation & exits (multiples beyond P/E & P/S, EV/EBITDA, "what's a good multiple") → future-session candidate
 - CAPM formula → excluded by design program-wide; beta taught through drivers only
@@ -121,7 +122,8 @@
 - **2026-07 (S03 post-mortem):** 48-hour deck rule; participation beats every ~10 min; live/reactive > scripted.
 - **2026-07 (S04):** Predict-before-reveal established as core mechanic; artifact links released post-session; amortization and cash-vs-accrual deferred; canon v1 drafted (push missed — see provenance note).
 - **2026-07 (S05):** Vote-before-reveal rejected for material the room is still learning (participation-suppression rule); toolkit-then-story architecture; source strips + benchmark hygiene became hard rules; index.html rebuilt as session cards; standing AI block promoted to permanent structure; S06 initially scoped as pro forma.
-- **2026-08-04 (S06 scoping):** see changelog entry below — S06/S07 resequenced, six-act architecture locked.
+- **2026-08-04 (S06 scoping):** S06/S07 resequenced, six-act architecture locked — see changelog.
+- **2026-08-04 (S06 build):** deck + workbook shipped same day as scoping — see changelog.
 
 ## 9. Deferred backlog (Anti-Squirrel holding pen)
 
@@ -145,3 +147,14 @@
 - New standing artifact class: **Excel workbook** (assumptions → P&L → cash flow → valuation + annotations tab), designed as the S07 pro-forma chassis; independent formula verification required.
 - CAPM formula excluded program-wide by design; beta taught through drivers as intuition.
 - Multiples treatment bounded to one slide (P/E, P/Sales); full valuation/exits treatment flagged as future-session candidate.
+
+### 2026-08-04 — S06 build shipped: "The Price of Money" deck + Franklin's DCF workbook
+- **Deck:** `Fitler_MBA_S06.html`, 36 slides across the six locked acts. Anchor visual (Spectrum of Returns) appears in Act II and returns annotated in Act V to cash the BLUF ("every financing conversation is someone pricing your risk"). Iterated through visual + copy critical review against the finance-naive-room persona.
+- **Verified market rates** on the spectrum (benchmark hygiene, hybrid strategy): Fed funds 3.50–3.75% (FOMC target, Jul 2026), 10Y Treasury ~4.7% (close, Aug 3 2026), IG corporates ~5.2% and high yield ~7.0% (ICE BofA index effective yields, Jul 2026). Equities (~10%/yr long-run) and VC (25–30%+ target) stylized and explicitly labeled solid-dot (quoted) vs. hollow-dot (historical/target) on the visual itself.
+- **Franklin's Bagels 5-year pro forma (locked):** revenue 780 / 850 / 1,150 / 1,650 / 1,950 ($K); FCF 95 / 115 / **(70)** / 205 / 290 — second location opens Yr 3 (capex $210K + margin dip to 14%), acceleration Yrs 4–5. At r = 20% and 5× Yr-5 FCF exit: NPV **$917K**, terminal share **63.6%** (the "lab coat" kicker holds across 10–30% rates: 60–67%). IRR at a $700K ask: **27.7%**.
+- **House leverage case (locked):** $500K house → $700K in 5 yrs. All-cash: $200K profit, 7.0%/yr. Leveraged ($100K down, $400K at 6.00%/30yr, real payments $2,398/mo as negative flows): $83.9K profit, 9.2%/yr. Vote is genuinely contested — dollars vs. rate — which *is* the Act IV lesson. The "$400K question" (idle cash in an index fund at a labeled stylized 10% → combined $328K profit) built as the named expansion-joint slide; the room's own follow-up question deploys it.
+- **Marcus's collar (Act VI story):** fictional CEO of an AI-powered SEO company post-NASDAQ IPO; 1M shares at $32 = $32M paper, lockup-bound; puts at $25 funded by calls at $45 → outcome collared $25M–$45M at zero net cost.
+- **Workbook:** `Fitler_MBA_S06_Franklins_DCF.xlsx` — Assumptions → P&L → Cash Flow → Valuation → Annotations; live rate/multiple/price levers (yellow); static formula-built 5×5 sensitivity grid (rates 10–30% × exits 3–7×, no Data Table feature); stacked NPV-composition bar chart; XNPV/XIRR note in Annotations. All 89 formulas recalculated clean and verified against independent Python computation (NPV, IRR, TV share, grid spot checks — exact matches).
+- **Deck↔workbook reconciliation:** P&L decomposition (EBITDA margins 15/16/14/16/18%, capex, ΔWC) reproduces the deck's FCF line to the dollar.
+- **New canon learnings logged:** PDF print-variant rule (§3.2 — step-reveals must be pre-shown before `html-to-pdf`); workbook color code standardized (§3.3); N-key facilitator notes clarified as optional when Scott facilitates (§3.2).
+- **Repo state:** deck HTML, PDF, and workbook binaries placed by Scott via local git (single commit with `git pull` first — MCP pushed index.html and this canon ahead of it). Session card added to index.html with slides / PDF / workbook / recording-placeholder rows.
