@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitler MBA · S06 · Understanding Finance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A41;
+    --navy-deep:#111D2E;
+    --ivory:#F7F3E9;
+    --gold:#C9A227;
+    --gold-soft:#D9BC5F;
+    --ink:#22303F;
+    --muted:#6B7684;
+    --red:#B3402F;
+    --green:#2E7D5B;
+    --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --sans:'Inter', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{background:var(--navy-deep);font-family:var(--sans);color:var(--ink);overflow:hidden}
+  .deck{position:relative;width:100vw;height:100vh}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;padding:4vh 5.5vw;background:var(--ivory)}
+  .slide.active{display:flex}
+  .slide.dark{background:var(--navy);color:var(--ivory)}
+  .slide.dark .eyebrow{color:var(--gold-soft)}
+  .slide.dark h2{color:var(--ivory)}
+  .slide.dark .muted{color:#9AA6B5}
+
+  .eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2vh}
+  h1{font-family:var(--serif);font-weight:600;color:var(--ivory);line-height:1.04}
+  h2{font-family:var(--serif);font-weight:600;color:var(--navy);font-size:clamp(1.7rem,3.2vw,2.7rem);line-height:1.1;margin-bottom:1.8vh}
+  .muted{color:var(--muted)}
+  .rule{height:2px;background:var(--gold);width:64px;margin:1.5vh 0 2.2vh;border:0}
+  .body{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+  .footer{display:flex;justify-content:space-between;align-items:center;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-top:1.4vh;border-top:1px solid rgba(107,118,132,.25)}
+  .slide.dark .footer{border-top-color:rgba(247,243,233,.18);color:#8D99A9}
+  .counter{font-variant-numeric:tabular-nums}
+
+  .step{opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
+  .step.shown{opacity:1;transform:none}
+
+  table.ledger{width:100%;border-collapse:collapse;font-size:clamp(.74rem,1.15vw,.95rem)}
+  table.ledger caption{font-family:var(--serif);font-weight:600;text-align:left;font-size:1.15em;color:var(--navy);padding-bottom:.6vh;letter-spacing:.01em}
+  .slide.dark table.ledger caption{color:var(--ivory)}
+  table.ledger th{font-weight:600;font-size:.74em;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:right;padding:.45vh .6vw;border-bottom:2px solid var(--gold)}
+  table.ledger th:first-child{text-align:left}
+  table.ledger td{padding:.5vh .6vw;text-align:right;font-variant-numeric:tabular-nums;border-bottom:1px solid rgba(107,118,132,.16)}
+  table.ledger td:first-child{text-align:left;font-weight:500}
+  table.ledger tr.sub td:first-child{padding-left:1.3em;font-weight:400;color:var(--muted)}
+  table.ledger tr.total td{font-weight:700;border-top:2px solid var(--navy);border-bottom:none}
+  .slide.dark table.ledger tr.total td{border-top-color:var(--ivory)}
+  .neg{color:var(--red)}
+  .pos{color:var(--green)}
+  .hot{background:rgba(201,162,39,.20);font-weight:700}
+  .slide.dark .hot{background:rgba(201,162,39,.11);color:var(--gold-soft);font-weight:700}
+  .mcol{color:var(--navy);font-weight:600}
+  .slide.dark .mcol{color:var(--gold-soft)}
+
+  .cols{display:flex;gap:2.6vw;align-items:stretch}
+  .col{flex:1;min-width:0}
+  .stack{display:flex;flex-direction:column;gap:2.6vh}
+  .bignum{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,4.4vw,3.8rem);line-height:1;color:var(--navy)}
+  .slide.dark .bignum{color:var(--ivory)}
+  .biglabel{font-size:.74rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-top:.7vh;line-height:1.5}
+
+  .card{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:1.8vh 1.4vw;box-shadow:0 1px 3px rgba(17,29,46,.06)}
+  .slide.dark .card{background:rgba(247,243,233,.06);border-color:rgba(247,243,233,.16);box-shadow:none}
+  .goldcard{border-left:4px solid var(--gold)}
+
+  .quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.15rem,2.1vw,1.7rem);line-height:1.35;color:var(--navy)}
+  .slide.dark .quote{color:var(--ivory)}
+
+  .sourcestrip{background:#FDFBF5;border:1px solid rgba(201,162,39,.45);border-radius:8px;padding:1.2vh 1vw}
+  .slide.dark .sourcestrip{background:rgba(247,243,233,.05);border-color:rgba(217,188,95,.4)}
+  .sslabel{font-size:.63rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:.7vh}
+  .ssbody{font-size:clamp(.72rem,1.05vw,.88rem);line-height:1.55;color:var(--ink)}
+  .slide.dark .ssbody{color:#C9D2DE}
+
+  .calc{font-family:var(--serif);font-size:clamp(1.05rem,1.95vw,1.55rem);color:var(--navy);font-variant-numeric:tabular-nums;line-height:1.25}
+  .slide.dark .calc{color:var(--ivory)}
+  .calc .ans{font-weight:700;color:var(--gold)}
+  .slide.dark .calc .ans{color:var(--gold-soft)}
+
+  ul.clean{list-style:none}
+  ul.clean li{padding:.8vh 0 .8vh 1.6em;position:relative;font-size:clamp(.9rem,1.4vw,1.1rem);line-height:1.45}
+  ul.clean li::before{content:"";position:absolute;left:0;top:calc(.8vh + .55em);width:.5em;height:2px;background:var(--gold)}
+  ul.mini{list-style:none;margin-top:.2vh}
+  ul.mini li{position:relative;padding:.28vh 0 .28vh 1.35em;font-size:clamp(.82rem,1.25vw,1rem);line-height:1.45}
+  ul.mini li::before{content:"";position:absolute;left:0;top:.75em;width:.55em;height:2px;background:var(--gold)}
+  .read{font-size:clamp(.82rem,1.25vw,1rem);line-height:1.5;color:var(--ink)}
+  .slide.dark .read{color:#D6DDE6}
+  .read strong{color:var(--navy)}
+  .slide.dark .read strong{color:var(--ivory)}
+
+  .chapter{font-family:var(--serif);font-size:clamp(2.2rem,5.4vw,4.4rem);font-weight:600;line-height:1.04;color:var(--ivory)}
+  .chapternum{font-size:.76rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:1.6vh}
+
+  .slide > *{width:100%;max-width:1280px;margin-left:auto;margin-right:auto}
+  .slide.wide > *{max-width:1580px}
+  .body > p{max-width:1120px}
+  ul.clean{max-width:1060px}
+  .narrow{max-width:1000px;margin-left:auto;margin-right:auto;width:100%}
+
+  .eqrow{display:flex;align-items:stretch;justify-content:center;gap:1.3vw}
+  .eqstat{background:rgba(247,243,233,.06);border:1px solid rgba(247,243,233,.18);border-radius:10px;padding:2.6vh 1.4vw;text-align:center;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+  .eqstat .v{font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,4.2vw,3.5rem);line-height:1;color:var(--ivory);font-variant-numeric:tabular-nums}
+  .eqstat .k{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#9AA6B5;margin-top:1.1vh;line-height:1.5}
+  .eqstat .n{font-size:.68rem;color:#7C8899;margin-top:.6vh;line-height:1.45}
+  .eqop{font-family:var(--serif);font-size:clamp(1.5rem,2.8vw,2.4rem);color:var(--gold-soft);font-weight:600;flex:none;display:flex;align-items:center}
+  .eqstat.answer{background:rgba(201,162,39,.14);border-color:rgba(201,162,39,.55)}
+  .eqstat.answer .v{color:var(--gold-soft)}
+  .eqstat.answer .k{color:var(--gold-soft)}
+  /* light-slide variant */
+  .slide:not(.dark) .eqstat{background:#fff;border-color:rgba(107,118,132,.2)}
+  .slide:not(.dark) .eqstat .v{color:var(--navy)}
+  .slide:not(.dark) .eqstat .k{color:var(--muted)}
+  .slide:not(.dark) .eqstat .n{color:var(--muted)}
+  .slide:not(.dark) .eqop{color:var(--gold)}
+  .slide:not(.dark) .eqstat.answer{background:rgba(201,162,39,.12);border-color:rgba(201,162,39,.5)}
+  .slide:not(.dark) .eqstat.answer .v{color:var(--gold)}
+  .slide:not(.dark) .eqstat.answer .k{color:var(--gold)}
+
+  /* three-role grid (Act 1) */
+  .rolegrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2vw}
+  .role{background:#fff;border:1px solid rgba(107,118,132,.2);border-top:5px solid var(--gold);border-radius:10px;padding:2vh 1.3vw;display:flex;flex-direction:column;gap:1vh}
+  .rname{font-family:var(--serif);font-weight:700;font-size:clamp(1.15rem,1.9vw,1.6rem);color:var(--navy)}
+  .rtag{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
+
+  /* spectrum SVG container */
+  .specwrap{width:100%}
+  .specwrap svg{width:100%;height:auto;display:block}
+
+  /* anatomy cards (DCF bridge) */
+  .anagrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.1vw}
+  .ana{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:1.6vh 1.2vw}
+  .ananum{display:inline-flex;align-items:center;justify-content:center;width:1.9em;height:1.9em;border-radius:50%;background:var(--navy);color:var(--ivory);font-size:.78rem;font-weight:700;margin-bottom:.9vh}
+  .anahead{font-family:var(--serif);font-weight:700;font-size:clamp(1rem,1.6vw,1.3rem);color:var(--navy);margin-bottom:.5vh}
+
+  /* zoo grid */
+  .zoogrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.1vw}
+  .zoo{background:rgba(247,243,233,.06);border:1px solid rgba(247,243,233,.16);border-left:4px solid var(--gold);border-radius:8px;padding:2.6vh 1.8vw}
+  .zrisk{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-soft);font-weight:700;margin-bottom:.5vh}
+  .zname{font-family:var(--serif);font-weight:700;font-size:clamp(1rem,1.55vw,1.3rem);color:var(--ivory);margin-bottom:.4vh}
+  .zdesc{font-size:clamp(.8rem,1.15vw,.98rem);line-height:1.55;color:#C9D2DE;margin-top:.4vh}
+
+  .votechip{display:inline-block;background:rgba(201,162,39,.14);border:1px solid rgba(201,162,39,.5);color:var(--gold-soft);border-radius:999px;padding:.5em 1.2em;font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+  .slide:not(.dark) .votechip{color:#8a6d14;background:rgba(201,162,39,.14);border-color:rgba(201,162,39,.55)}
+
+  .boxtitle{font-family:var(--serif);font-weight:700;font-size:clamp(1.15rem,1.85vw,1.55rem);color:var(--navy);line-height:1.15;margin-bottom:.8vh}
+  .slide.dark .boxtitle{color:var(--ivory)}
+  table.ledger caption{font-size:1.45em;font-weight:700}
+  .agendagrid{display:grid;grid-template-columns:1fr;gap:1.4vh;max-width:1150px;margin:0 auto;width:100%}
+  .acard{display:flex;gap:1.1vw;align-items:flex-start;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:2vh 1.3vw;box-shadow:0 1px 3px rgba(17,29,46,.06)}
+  .anumeral{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,2.6vw,2.2rem);color:var(--gold);line-height:1;min-width:2.4em;text-align:center;border-right:2px solid rgba(201,162,39,.35);padding-right:.5em;align-self:stretch;display:flex;align-items:center;justify-content:center}
+  .funcrow{display:flex;gap:2vw;align-items:center;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:1.6vh 1.4vw}
+  .funcname{font-family:var(--serif);font-weight:700;font-size:clamp(1.1rem,1.8vw,1.5rem);color:var(--navy);flex:0 0 27%}
+  .roleicon{height:52px;margin-bottom:.6vh}
+  .eqbanner{background:#fff;border:1px solid rgba(107,118,132,.2);border-left:4px solid var(--gold);border-radius:10px;padding:2.2vh 1.4vw;text-align:center}
+  .eqbanner .calc{font-size:clamp(1.3rem,2.35vw,1.9rem)}
+  .eqbanner .read{margin-top:1.8vh;padding-top:1.6vh;border-top:1px solid rgba(107,118,132,.2)}
+  .sig{display:inline-flex;flex-direction:column;align-items:center;line-height:1;vertical-align:middle;margin:0 .15em}
+  .sig .lim{font-family:var(--sans);font-size:.5em;color:var(--muted)}
+  .sig .s{font-size:1.9em;font-weight:600;line-height:.9}
+  .frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 .2em;line-height:1.2}
+  .frac .top{border-bottom:2px solid var(--navy);padding:0 .45em .1em}
+  .frac .bot{padding:.1em .45em 0}
+  th.bighead{font-family:var(--serif);font-size:1.35rem!important;font-weight:700!important;text-transform:none!important;letter-spacing:.01em!important;color:var(--navy)!important}
+  .zoogrid.two{grid-template-columns:1fr 1fr;gap:2.6vh 2vw}
+  .annotation{margin-left:4.5vw;border-left:3px solid rgba(179,64,47,.5);padding:.6vh 0 .6vh 1.5vw}
+  .anlabel{font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:.9vh}
+  .hintbar{position:fixed;bottom:10px;right:14px;font-size:.6rem;color:#5c6b7d;letter-spacing:.1em;text-transform:uppercase;opacity:.5;z-index:50}
+  @media (prefers-reduced-motion: reduce){.step{transition:none}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- ============ 1 · TITLE ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Fitler MBA · Session 06</div>
+  <div class="body">
+    <h1 style="font-size:clamp(2.2rem,5.4vw,4.3rem);max-width:1100px;">Understanding Finance</h1>
+    <p style="font-family:var(--serif);font-size:clamp(1.3rem,2.6vw,2.1rem);color:var(--gold-soft);margin-top:1.2vh;font-weight:500;">The Economics of Money</p>
+    <hr class="rule">
+    <p class="quote" style="color:#C9D2DE;font-size:clamp(1rem,1.8vw,1.4rem);">Two sessions ago you learned to write the numbers.<br>Last session, to read them. Tonight: what they're worth.</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S06 · Understanding Finance — The Economics of Money</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 2 · BLUF ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Bottom Line Up Front</div>
+  <div class="body">
+    <p class="quote" style="font-size:clamp(1.5rem,3vw,2.5rem);max-width:1050px;line-height:1.3;font-style:normal;">Every financing conversation you will ever have is someone <span style="color:var(--gold-soft);">pricing your risk.</span></p>
+    <p class="step" data-step style="margin-top:3vh;font-size:clamp(1rem,1.7vw,1.35rem);color:#C9D2DE;max-width:960px;line-height:1.6;">The banker quoting your loan rate, the investor quoting your valuation, the buyer quoting your exit price — all of them are running the same calculation. Tonight covers that calculation, start to finish.</p>
+  </div>
+  <div class="footer"><span>We come back to this in Act V</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 3 · MAP ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Tonight · Six Acts</div>
+  <h2>Tonight's Agenda</h2>
+  <div class="body">
+    <div class="agendagrid">
+      <div class="acard"><div class="anumeral">I</div><div><div class="boxtitle">The Price of Money</div><p class="read">Who sells it, who buys it, who bets on it.</p></div></div>
+      <div class="acard"><div class="anumeral">II</div><div><div class="boxtitle">The Price of Time</div><p class="read">A dollar later is worth less than a dollar now — and how much less is the whole game.</p></div></div>
+      <div class="acard"><div class="anumeral">III</div><div><div class="boxtitle">Pricing the Future</div><p class="read">The DCF: how every business gets valued. We build one, live.</p></div></div>
+      <div class="acard"><div class="anumeral">IV</div><div><div class="boxtitle">Debt vs Equity</div><p class="read">The two ways to fund a business — and what each one really costs.</p></div></div>
+      <div class="acard"><div class="anumeral">V</div><div><div class="boxtitle">How Risk Gets Priced</div><p class="read">Why your investor needs 30% when the bank needs 7%.</p></div></div>
+      <div class="acard"><div class="anumeral">VI</div><div><div class="boxtitle">Exotic Finance Instruments</div><p class="read">Options, futures, swaps — and the one idea behind all of them.</p></div></div>
+    </div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S06 · Understanding Finance</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 4 · CHAPTER I ============ -->
+<section class="slide dark" data-slide>
+  <div class="body">
+    <div class="chapternum">Act I</div>
+    <div class="chapter">The Price<br>of Money</div>
+    <p class="muted" style="margin-top:2.2vh;font-size:clamp(.95rem,1.5vw,1.2rem);">Money is a product. It has sellers, buyers — and speculators.</p>
+  </div>
+  <div class="footer"><span>Act I · The Price of Money</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 5 · WHAT MONEY DOES ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act I · The Price of Money</div>
+  <h2>Functions of money.</h2>
+  <div class="body">
+    <div class="stack" style="gap:2.2vh;max-width:1150px;margin:0 auto;width:100%;">
+      <div class="funcrow"><div class="anumeral">I</div><div class="funcname">Unit of account</div><p class="read">Everything gets one common ruler: dollars.</p></div>
+      <div class="funcrow"><div class="anumeral">II</div><div class="funcname">Store of value</div><p class="read">Earn today, spend next year. Money carries value through time.</p></div>
+      <div class="funcrow"><div class="anumeral">III</div><div class="funcname">Medium of exchange</div><p class="read">You trade it instead of bartering bagels for legal work.</p></div>
+      <div class="funcrow"><div class="anumeral">IV</div><div class="funcname">Standard of deferred payment</div><p class="read">Debts can be written down and settled later — in dollars.</p></div>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:2.4vh;max-width:1150px;margin-left:auto;margin-right:auto;">
+      <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);"><strong>Two of these jobs involve time</strong> — carrying value forward, settling debts later. The moment time enters, a question follows: what does it cost to move money through time? That question is tonight's entire session.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act I · The Price of Money</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 6 · SELLERS BUYERS GAMBLERS ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act I · The Price of Money · Participation</div>
+  <h2>Meet the players.</h2>
+  <div class="body">
+    <div class="rolegrid">
+      <div class="role">
+        <svg class="roleicon" viewBox="0 0 64 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="none" stroke="#1B2A41" stroke-width="3"><ellipse cx="32" cy="12" rx="16" ry="6" fill="rgba(201,162,39,.25)" stroke="#C9A227"/><path d="M16,12 v10 c0,3.3 7.2,6 16,6 s16,-2.7 16,-6 v-10" stroke="#C9A227"/><path d="M16,22 v10 c0,3.3 7.2,6 16,6 s16,-2.7 16,-6 v-10"/><path d="M16,32 v10 c0,3.3 7.2,6 16,6 s16,-2.7 16,-6 v-10"/></g></svg>
+        <span class="rtag">Has money now</span>
+        <div class="rname">Money Sellers</div>
+        <p class="read">Savers, lenders, bondholders, LPs. They hand money over today and want <strong>more of it back later</strong>. Their question: <em>what do you pay me to wait — and to risk not getting it back?</em></p>
+      </div>
+      <div class="role">
+        <svg class="roleicon" viewBox="0 0 64 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="none" stroke="#1B2A41" stroke-width="3"><rect x="10" y="20" width="44" height="26" rx="3"/><path d="M10,28 h44" /><path d="M24,20 v-6 a4,4 0 0 1 4,-4 h8 a4,4 0 0 1 4,4 v6"/><rect x="27" y="30" width="10" height="8" rx="2" fill="rgba(201,162,39,.25)" stroke="#C9A227"/></g></svg>
+        <span class="rtag">Needs money now</span>
+        <div class="rname">Money Buyers</div>
+        <p class="read">Borrowers, founders, home-buyers, CFOs. They need money today and will <strong>pay for the privilege</strong> — in interest, or in a piece of the company. Their question: <em>what's the cheapest way to rent or raise it?</em></p>
+      </div>
+      <div class="role">
+        <svg class="roleicon" viewBox="0 0 64 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="none" stroke-width="3"><path d="M8,44 h50" stroke="#1B2A41"/><path d="M8,44 v-38" stroke="#1B2A41"/><path d="M12,38 L24,24 L34,32 L52,10" stroke="#C9A227"/><path d="M44,10 h8 v8" stroke="#C9A227"/></g></svg>
+        <span class="rtag">Wants the outcome</span>
+        <div class="rname">Speculators</div>
+        <p class="read">Traders and speculators. They don't need the money and aren't lending it — they're <strong>buying and selling the risk itself</strong>, betting on which way a price moves. Their question: <em>what does the crowd have wrong?</em></p>
+      </div>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:2.6vh;">
+      <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);"><strong>Which one are you?</strong> Trick question — most of you were all three before lunch. A 401(k) makes you a seller. A mortgage makes you a buyer. The March Madness bracket makes you a gambler. Tonight's skill: knowing which seat you're in, and what the person across the table wants.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act I · The Price of Money</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 7 · CHAPTER II ============ -->
+<section class="slide dark" data-slide>
+  <div class="body">
+    <div class="chapternum">Act II</div>
+    <div class="chapter">The Time Value<br>of Money</div>
+    <p class="muted" style="margin-top:2.2vh;font-size:clamp(.95rem,1.5vw,1.2rem);">You already know a dollar later is worth less than a dollar now. Tonight we find out how much less.</p>
+  </div>
+  <div class="footer"><span>Act II · The Price of Time</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 8 · THE VOTE ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Act II · The Price of Time · Predict Before Reveal</div>
+  <div class="body">
+    <div style="text-align:center;">
+      <span class="votechip">Hands up when you'd wait</span>
+      <p class="quote" style="font-style:normal;font-size:clamp(1.6rem,3.4vw,2.9rem);margin-top:3vh;">I hand you <span style="color:var(--gold-soft);">$10,000 today</span> —<br>or you wait one year for…</p>
+      <div class="eqrow" style="margin-top:3.5vh;max-width:1100px;margin-left:auto;margin-right:auto;">
+        <div class="eqstat step" data-step><div class="v">$10,200</div><div class="k">2% more</div></div>
+        <div class="eqstat step" data-step><div class="v">$10,500</div><div class="k">5% more</div></div>
+        <div class="eqstat step" data-step><div class="v">$11,000</div><div class="k">10% more</div></div>
+        <div class="eqstat step" data-step><div class="v">$12,000</div><div class="k">20% more</div></div>
+      </div>
+      <p class="step" data-step style="margin-top:3.2vh;font-size:clamp(1rem,1.7vw,1.35rem);color:#C9D2DE;max-width:940px;margin-left:auto;margin-right:auto;line-height:1.6;">The number where your hand goes up is your personal price for one year of waiting.<br><strong style="color:var(--gold-soft);">Congratulations — you just quoted a discount rate.</strong> No formula required.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act II · The Price of Time</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 9 · THE MACHINE ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act II · The Time Value of Money</div>
+  <h2>Calculating value now and in the future.</h2>
+  <div class="body">
+    <div class="stack" style="gap:2.4vh;max-width:1180px;margin:0 auto;width:100%;">
+      <div class="card">
+        <div class="boxtitle">Future Value (FV) — what money today becomes later</div>
+        <p class="calc">FV&nbsp;=&nbsp;PV&nbsp;×&nbsp;(1&nbsp;+&nbsp;r)<sup>n</sup></p>
+        <p class="read" style="margin-top:1vh;">Money moving <strong>forward</strong> through time grows at rate r for n years. $10,000 today at 10% is worth <strong>$11,000</strong> in a year — and $16,105 in five, because each year's growth earns its own growth. That's compounding.</p>
+      </div>
+      <div class="card">
+        <div class="boxtitle">Present Value (PV) — what money promised later is worth today</div>
+        <p class="calc">PV&nbsp;=&nbsp;FV&nbsp;÷&nbsp;(1&nbsp;+&nbsp;r)<sup>n</sup></p>
+        <p class="read" style="margin-top:1vh;">Money moving <strong>backward</strong> shrinks. A promise of $11,000 next year, at that same 10%, is worth exactly <strong>$10,000</strong> today. Same formula, run in reverse. Finance calls this <em>discounting</em>, and r is the <em>discount rate</em>.</p>
+      </div>
+      <div class="card goldcard step" data-step>
+        <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);"><strong>Everything tonight runs on these two formulas.</strong> Valuing a company, pricing a loan, judging a term sheet — all of it is pulling future dollars back to today. The only argument, ever, is about <strong>r</strong>: the rate. So where does r come from?</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>Act II · The Time Value of Money · r = the price of time + the price of risk</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 10 · SPECTRUM OF RETURNS ============ -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Act II · The Price of Time · The Anchor</div>
+  <h2>The Spectrum of Returns — every r on one line.</h2>
+  <div class="body">
+    <div class="eqbanner" style="max-width:1580px;margin:0 auto 1.6vh;width:100%;">
+      <p class="calc">Required return&nbsp;=&nbsp;risk-free rate&nbsp;+&nbsp;<span class="ans">β</span>&nbsp;×&nbsp;market risk premium</p>
+      <p class="read" style="color:var(--muted);">β ("beta") measures how risky an investment is compared to the market as a whole. The riskier the bet, the higher the β — and the higher the return investors demand. The line below is this equation, drawn left to right.</p>
+    </div>
+    <div class="specwrap">
+      <svg viewBox="0 0 1500 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Spectrum of returns from Fed overnight rate to venture capital">
+        <defs>
+          <linearGradient id="riskline" gradientUnits="userSpaceOnUse" x1="70" y1="190" x2="1430" y2="190">
+            <stop offset="0" stop-color="#1B2A41"/><stop offset="1" stop-color="#C9A227"/>
+          </linearGradient>
+        </defs>
+        <line x1="70" y1="190" x2="1430" y2="190" stroke="url(#riskline)" stroke-width="5" stroke-linecap="round"/>
+        <polygon points="1430,190 1414,182 1414,198" fill="#C9A227"/>
+        <text x="750" y="300" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" letter-spacing="3" fill="#6B7684" style="text-transform:uppercase;">MORE RISK &#8594; MORE REQUIRED RETURN &#8594;&#8202; (POSITIONS NOT TO SCALE)</text>
+        <!-- Fed overnight -->
+        <circle cx="110" cy="190" r="9" fill="#1B2A41"/>
+        <text x="110" y="120" text-anchor="middle" font-family="Inter,sans-serif" font-size="17" font-weight="600" fill="#22303F">Fed overnight</text>
+        <text x="110" y="142" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" fill="#6B7684">banks, one night</text>
+        <text x="110" y="235" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="27" font-weight="700" fill="#1B2A41">3.5&#8211;3.75%</text>
+        <!-- 10Y Treasury -->
+        <circle cx="330" cy="190" r="9" fill="#1B2A41"/>
+        <text x="330" y="120" text-anchor="middle" font-family="Inter,sans-serif" font-size="17" font-weight="600" fill="#22303F">10-yr Treasury</text>
+        <text x="330" y="142" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" fill="#6B7684">lend to the U.S., ten years</text>
+        <text x="330" y="235" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="27" font-weight="700" fill="#1B2A41">~4.7%</text>
+        <!-- IG corporate -->
+        <circle cx="560" cy="190" r="9" fill="#3A4C66"/>
+        <text x="560" y="120" text-anchor="middle" font-family="Inter,sans-serif" font-size="17" font-weight="600" fill="#22303F">Blue-chip bonds</text>
+        <text x="560" y="142" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" fill="#6B7684">lend to Apple &amp; co.</text>
+        <text x="560" y="235" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="27" font-weight="700" fill="#1B2A41">~5.2%</text>
+        <!-- High yield -->
+        <circle cx="800" cy="190" r="9" fill="#6E6430"/>
+        <text x="800" y="120" text-anchor="middle" font-family="Inter,sans-serif" font-size="17" font-weight="600" fill="#22303F">Junk bonds</text>
+        <text x="800" y="142" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" fill="#6B7684">lend to the shaky</text>
+        <text x="800" y="235" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="27" font-weight="700" fill="#1B2A41">~7.0%</text>
+        <!-- Equities -->
+        <circle cx="1050" cy="190" r="9" fill="none" stroke="#A2831F" stroke-width="3.5"/>
+        <text x="1050" y="120" text-anchor="middle" font-family="Inter,sans-serif" font-size="17" font-weight="600" fill="#22303F">Stocks</text>
+        <text x="1050" y="142" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" fill="#6B7684">own a slice, no promises</text>
+        <text x="1050" y="235" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="27" font-weight="700" fill="#8a6d14">~10%/yr</text>
+        <text x="1050" y="258" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#6B7684">long-run average</text>
+        <!-- VC -->
+        <circle cx="1330" cy="190" r="9" fill="none" stroke="#C9A227" stroke-width="3.5"/>
+        <text x="1330" y="120" text-anchor="middle" font-family="Inter,sans-serif" font-size="17" font-weight="600" fill="#22303F">Venture capital</text>
+        <text x="1330" y="142" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" fill="#6B7684">own a slice of a maybe</text>
+        <text x="1330" y="235" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="27" font-weight="700" fill="#8a6d14">25&#8211;30%+</text>
+        <text x="1330" y="258" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#6B7684">target, not promise</text>
+        <!-- legend -->
+        <circle cx="330" cy="268" r="7" fill="#1B2A41"/>
+        <text x="345" y="273" font-family="Inter,sans-serif" font-size="14" fill="#6B7684">quoted market yield, today</text>
+        <circle cx="580" cy="268" r="7" fill="none" stroke="#A2831F" stroke-width="3"/>
+        <text x="595" y="273" font-family="Inter,sans-serif" font-size="14" fill="#6B7684">historical average / target &#8212; no ticker quotes these</text>
+      </svg>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:1.2vh;max-width:1580px;">
+      <p class="read" style="font-size:clamp(.92rem,1.45vw,1.12rem);">Every dot answers the same question: <strong>what return do I require to hand my money to someone riskier?</strong> Each step right, the risk rises and the required return rises with it. Keep this line in view — it comes back at the end of the night with more names on it.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Sources: FOMC target range, Jul 2026 · 10Y Treasury close, Aug 3 2026 · ICE BofA US Corporate &amp; High Yield index effective yields, Jul 2026 · stocks &amp; VC: stylized, labeled</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 11 · CHAPTER III ============ -->
+<section class="slide dark" data-slide>
+  <div class="body">
+    <div class="chapternum">Act III</div>
+    <div class="chapter">Pricing<br>the Future</div>
+    <p class="muted" style="margin-top:2.2vh;font-size:clamp(.95rem,1.5vw,1.2rem);">The DCF: how every business on earth gets a price tag. We build one — on a bagel shop you already know.</p>
+  </div>
+  <div class="footer"><span>Act III · Pricing the Future</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 12 · DCF BRIDGE / ANATOMY ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act III · Pricing the Future · The Whole Idea</div>
+  <h2>A DCF answers one question: what is a stream of future cash worth today?</h2>
+  <div class="body">
+    <div class="eqbanner" style="max-width:1180px;margin:0 auto 1.8vh;width:100%;">
+      <p class="calc">NPV&nbsp;=&nbsp;<span class="sig"><span class="lim">n</span><span class="s">&Sigma;</span><span class="lim">t&thinsp;=&thinsp;1</span></span>&nbsp;&nbsp;CF<sub>t</sub>&nbsp;÷&nbsp;(1&nbsp;+&nbsp;r)<sup>t</sup>&nbsp;&nbsp;+&nbsp;&nbsp;TV&nbsp;÷&nbsp;(1&nbsp;+&nbsp;r)<sup>n</sup></p>
+      <p class="read" style="color:var(--muted);"><strong>DCF</strong> — discounted cash flow: each year's cash flow (CF), pulled back to today with the PV formula, then added up. <strong>NPV</strong> — net present value: the total. Three parts, in order:</p>
+    </div>
+    <div class="anagrid">
+      <div class="ana">
+        <span class="ananum">1</span>
+        <p class="anahead">The cash flows</p>
+        <p class="read">What the business will actually hand you, year by year. You just spent two sessions learning to find this number — it's the cash flow statement, projected forward.</p>
+      </div>
+      <div class="ana">
+        <span class="ananum">2</span>
+        <p class="anahead">The discount rate</p>
+        <p class="read">The price of waiting plus the price of risk — picked off the spectrum you just saw. Each year's cash gets pulled back to today with the PV formula — divided by (1+r), once per year of waiting.</p>
+      </div>
+      <div class="ana">
+        <span class="ananum">3</span>
+        <p class="anahead">The terminal value</p>
+        <p class="read">You can't project forever. At some point you stop — and pretend you sell the whole thing. The sale price at the end is the third part.</p>
+      </div>
+    </div>
+    <div class="specwrap step" data-step style="margin-top:2vh;max-width:1180px;">
+      <svg viewBox="0 0 1200 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DCF anatomy: yearly cash flows and a terminal value pulled back to today, shrinking with distance">
+        <line x1="40" y1="200" x2="1160" y2="200" stroke="#6B7684" stroke-width="2"/>
+        <g font-family="Inter,sans-serif" font-size="15" text-anchor="middle">
+          <text x="130" y="232" font-weight="700" fill="#22303F">TODAY</text>
+          <text x="380" y="232" fill="#6B7684">Yr 1</text>
+          <text x="520" y="232" fill="#6B7684">Yr 2</text>
+          <text x="660" y="232" fill="#6B7684">Yr 3</text>
+          <text x="800" y="232" fill="#6B7684">Yr 4</text>
+          <text x="940" y="232" fill="#6B7684">Yr 5</text>
+        </g>
+        <!-- 1: future cash bars -->
+        <g fill="#2E7D5B">
+          <rect x="368" y="138" width="24" height="62" rx="4"/>
+          <rect x="508" y="138" width="24" height="62" rx="4"/>
+          <rect x="648" y="138" width="24" height="62" rx="4"/>
+          <rect x="788" y="138" width="24" height="62" rx="4"/>
+          <rect x="928" y="138" width="24" height="62" rx="4"/>
+        </g>
+        
+        <!-- 3: terminal box -->
+        <rect x="1000" y="76" width="150" height="124" rx="8" fill="rgba(201,162,39,.16)" stroke="#C9A227" stroke-width="2.5"/>
+        <text x="1075" y="128" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="700" fill="#8a6d14">&#9314; THE SALE</text>
+        <text x="1075" y="148" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#8a6d14">terminal value</text>
+        <!-- 2: shrinking pile at today -->
+        <g fill="#1B2A41">
+          <rect x="60" y="148" width="20" height="52" rx="3"/>
+          <rect x="86" y="157" width="20" height="43" rx="3"/>
+          <rect x="112" y="164" width="20" height="36" rx="3"/>
+          <rect x="138" y="170" width="20" height="30" rx="3"/>
+          <rect x="164" y="175" width="20" height="25" rx="3"/>
+        </g>
+        <rect x="190" y="152" width="20" height="48" rx="3" fill="rgba(201,162,39,.25)" stroke="#C9A227" stroke-width="2"/>
+        <!-- pull-back curves, light -->
+        <g fill="none" stroke="#1B2A41" stroke-width="2" stroke-dasharray="6 5" opacity=".3">
+          <path d="M380,132 Q250,70 72,142"/>
+          <path d="M520,132 Q300,48 98,151"/>
+          <path d="M660,132 Q350,30 124,158"/>
+          <path d="M800,132 Q400,14 150,164"/>
+          <path d="M940,132 Q450,0 176,169"/>
+          <path d="M1000,110 Q480,-30 202,146"/>
+        </g>
+        <rect x="470" y="106" width="380" height="24" fill="#F7F3E9"/>
+        <text x="660" y="122" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" fill="#2E7D5B" font-weight="600">&#9312; cash the business hands you, year by year</text>
+        <rect x="8" y="100" width="248" height="46" fill="#F7F3E9"/>
+        <text x="130" y="118" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" fill="#1B2A41" font-weight="600">&#9313; each one pulled back to today &#8212;</text>
+        <text x="130" y="137" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" fill="#1B2A41" font-weight="600">worth less the farther it travels</text>
+      </svg>
+    </div>
+    <p class="read step" data-step style="margin-top:1.2vh;color:var(--muted);max-width:1180px;">The next six slides walk this picture left to right: the flows, the rate, the pull-back, the sale, the answer — then the same math run in reverse.</p>
+  </div>
+  <div class="footer"><span>Act III · Pricing the Future</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 13 · THE CASE ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act III · Part &#9312; · The Cash Flows</div>
+  <h2>Franklin's Bagels has a five-year plan.</h2>
+  <div class="body">
+    <div class="cols">
+      <div class="col" style="flex:1.45;">
+        <table class="ledger">
+          <caption>Franklin's Bagels — projected, $ thousands</caption>
+          <thead><tr><th></th><th>Yr 1</th><th>Yr 2</th><th>Yr 3</th><th>Yr 4</th><th>Yr 5</th></tr></thead>
+          <tbody>
+            <tr><td>Revenue</td><td>780</td><td>850</td><td class="mcol">1,150</td><td>1,650</td><td>1,950</td></tr>
+            <tr class="sub"><td>locations open</td><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td></tr>
+            <tr class="total"><td>Free cash flow</td><td class="pos">95</td><td class="pos">115</td><td class="neg hot">(70)</td><td class="pos">205</td><td class="pos">290</td></tr>
+          </tbody>
+        </table>
+        <div class="sourcestrip" style="margin-top:2vh;">
+          <div class="sslabel">Where these numbers come from</div>
+          <p class="ssbody">Nobody's filings — <strong>our own projections.</strong> Every line is an assumption. Your job tonight is to attack them: is $780K plausible for one shop? Does a second location really cost a year of cash? The model is only as honest as the people stress-testing it.</p>
+        </div>
+      </div>
+      <div class="col stack">
+        <div class="card goldcard">
+          <p class="read"><strong>Years 1–2:</strong> the one shop you built in Session 04 — already open and running, startup costs behind it. Modest growth, steady cash.</p>
+        </div>
+        <div class="card goldcard">
+          <p class="read"><strong>Year 3 — the plot twist:</strong> Franklin signs a lease across town. Ovens, buildout, staff hired before revenue: <strong class="neg">$70K of negative cash flow</strong> in the expansion year, even as revenue climbs.</p>
+        </div>
+        <div class="card goldcard">
+          <p class="read"><strong>Years 4–5:</strong> two shops at full speed. Cash flow triples off the Year 2 base. <em>If</em> the plan works.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>Act III · Pricing the Future · Franklin's Bagels, est. Session 04</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 14 · THE RATE ARGUMENT ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act III · Part &#9313; · The Discount Rate · Participation</div>
+  <h2>Impact of risk on money cost.</h2>
+  <div class="body">
+    <div class="specwrap" style="max-width:1180px;">
+      <svg viewBox="0 0 1200 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mini spectrum asking where Franklin's Bagels sits">
+        <defs>
+          <linearGradient id="riskline2" gradientUnits="userSpaceOnUse" x1="60" y1="90" x2="1140" y2="90">
+            <stop offset="0" stop-color="#1B2A41"/><stop offset="1" stop-color="#C9A227"/>
+          </linearGradient>
+        </defs>
+        <line x1="60" y1="90" x2="1140" y2="90" stroke="url(#riskline2)" stroke-width="4" stroke-linecap="round"/>
+        <g>
+          <circle cx="95" cy="90" r="7" fill="#1B2A41"/><circle cx="300" cy="90" r="7" fill="#1B2A41"/>
+          <circle cx="505" cy="90" r="7" fill="#3A4C66"/><circle cx="700" cy="90" r="7" fill="#6E6430"/>
+          <circle cx="880" cy="90" r="7" fill="none" stroke="#A2831F" stroke-width="3"/>
+          <circle cx="1080" cy="90" r="7" fill="none" stroke="#C9A227" stroke-width="3"/>
+        </g>
+        <g font-family="Inter,sans-serif" font-size="14" fill="#6B7684" text-anchor="middle">
+          <text x="95" y="125">Fed · 3.6%</text>
+          <text x="300" y="125">Treasury · 4.7%</text>
+          <text x="505" y="125">Blue-chip · 5.2%</text>
+          <text x="700" y="125">Junk · 7%</text>
+          <text x="880" y="125">Stocks · ~10%</text>
+          <text x="1080" y="125">VC · 25&#8211;30%</text>
+        </g>
+        <text x="960" y="42" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="44" font-weight="700" fill="#B3402F">?</text>
+        <path d="M960,52 L960,80" stroke="#B3402F" stroke-width="2.5" stroke-dasharray="4 4"/>
+      </svg>
+    </div>
+    <div class="cols" style="margin-top:1.6vh;">
+      <div class="col card">
+        <div class="boxtitle">Supporting Franklin's</div>
+        <ul class="mini">
+          <li>Real cash flow from day one — not a promise of one</li>
+          <li>People buy breakfast in every economy</li>
+          <li>Assets you can touch: ovens, lease, a known corner</li>
+        </ul>
+      </div>
+      <div class="col card">
+        <div class="boxtitle">Against Franklin's</div>
+        <ul class="mini">
+          <li>One neighborhood, one owner, one oven fire from zero</li>
+          <li>Thin food-service margins, no pricing power</li>
+          <li>You can't sell your stake on any screen — illiquid</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:1.8vh;">
+      <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);"><strong>Call it 20%.</strong> Riskier than the whole stock market, not as wild as a venture bet. Notice what just happened: no formula produced that number. <strong>We argued our way to it from the line</strong> — which is how every private-company rate on earth actually gets set. It's an assumption. We'll stress it in the model.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act III · Pricing the Future · r = 20%, an assumption on the record</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 15 · PULLING CASH BACK ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act III · Part &#9313; · The Pull-Back</div>
+  <h2>Five years of cash, pulled back to today.</h2>
+  <div class="body">
+    <div class="cols">
+      <div class="col" style="flex:1.3;">
+        <table class="ledger">
+          <caption>Each year through the machine, at r = 20%</caption>
+          <thead><tr><th>Year</th><th>Cash flow</th><th>÷ (1.20)<sup>n</sup></th><th>Worth today</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td class="pos">95</td><td>÷ 1.20</td><td>79</td></tr>
+            <tr><td>2</td><td class="pos">115</td><td>÷ 1.44</td><td>80</td></tr>
+            <tr class="hot"><td>3</td><td class="neg">(70)</td><td>÷ 1.73</td><td class="neg">(41)</td></tr>
+            <tr><td>4</td><td class="pos">205</td><td>÷ 2.07</td><td>99</td></tr>
+            <tr><td>5</td><td class="pos">290</td><td>÷ 2.49</td><td>117</td></tr>
+            <tr class="total"><td>Five years of bagels</td><td></td><td></td><td>≈ $334K</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col stack">
+        <div class="card goldcard">
+          <p class="read"><strong>Distance shrinks everything.</strong> Year 5's $290K arrives worth $117K in today's money — the machine took 60% off for five years of waiting and risk.</p>
+        </div>
+        <div class="card goldcard">
+          <p class="read"><strong>Even the bad year shrinks.</strong> The expansion's $70K hole costs only $41K in today's terms — pain that's three years away hurts less than pain today. The machine has no feelings; it discounts losses too.</p>
+        </div>
+        <div class="sourcestrip">
+          <div class="sslabel">Where the numbers come from</div>
+          <p class="ssbody">Cash flows: the Franklin's plan, two slides back. Rate: the 20% this room just argued to. Divisors: (1.20)ⁿ — the reverse gear, n years deep.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>Act III · Pricing the Future · figures rounded to the nearest $1K</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 16 · TERMINAL VALUE + MULTIPLES ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act III · Part &#9314; · The Terminal Value</div>
+  <h2>At Year 5, we stop projecting — and sell the shop.</h2>
+  <div class="body">
+    <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);max-width:1120px;">Nobody can see Year 12. So the model ends with a pretend sale: hand the business to a buyer at the end of Year 5. What would a buyer pay? In the real world, buyers quote <strong>multiples</strong> — a price expressed as "how many years of X."</p>
+    <div class="cols" style="margin-top:2vh;">
+      <div class="col card">
+        <p class="rtag" style="margin-bottom:.8vh;">Mature &amp; steady → price the profits</p>
+        <p class="anahead">P / E — price to earnings</p>
+        <p class="read">"I'll pay five years' worth of what it earns." For businesses whose story is the cash they make now.</p>
+      </div>
+      <div class="col card">
+        <p class="rtag" style="margin-bottom:.8vh;">Young &amp; growing → price the scale</p>
+        <p class="anahead">P / S — price to sales</p>
+        <p class="read">"I'll pay for the revenue and the trajectory." For businesses that are all growth and no profit — yet. (VCs live here.)</p>
+      </div>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:2.2vh;">
+      <p class="calc" style="margin-bottom:1.4vh;">5 × $290K Year-5 cash flow&nbsp;=&nbsp;$1.45M sale price&nbsp;&nbsp;→&nbsp;&nbsp;$1.45M ÷ (1.20)<sup>5</sup>&nbsp;=&nbsp;<span class="ans">≈ $583K today</span></p>
+      <p class="read">Calculating the terminal value using a P/E ratio of 5.0 against Year-5 cash flow of $290,000 yields a sale price of <strong>$1.45M</strong>. However, that $1.45M arrives five years from now — so we discount it for time: the present value is <strong>$583,000</strong>. The 5.0 ratio is our assumption, not a market quote. We test it in the model.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act III · Pricing the Future · multiple = assumption to stress, not a fact</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 17 · THE ASSEMBLED ANSWER ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Act III · The Answer — and the Confession</div>
+  <h2 style="color:var(--ivory);">What is Franklin's worth today?</h2>
+  <div class="body">
+    <div style="text-align:center;margin-bottom:1.8vh;">
+      <svg width="110" height="72" viewBox="0 0 110 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <ellipse cx="55" cy="38" rx="46" ry="27" fill="none" stroke="#C9A227" stroke-width="5"/>
+        <ellipse cx="55" cy="41" rx="15" ry="8.5" fill="none" stroke="#C9A227" stroke-width="4"/>
+        <g stroke="#D9BC5F" stroke-width="3" stroke-linecap="round">
+          <path d="M30,22 l7,-2"/><path d="M48,16 l7,-1"/><path d="M68,17 l7,2"/><path d="M84,26 l6,3"/><path d="M22,33 l7,1"/><path d="M89,40 l-7,1"/>
+        </g>
+      </svg>
+    </div>
+    <div class="eqrow" style="max-width:1150px;margin-left:auto;margin-right:auto;">
+      <div class="eqstat"><div class="v">$334K</div><div class="k">Five years of bagels</div><div class="n">every projected flow, pulled back at 20%</div></div>
+      <div class="eqop">+</div>
+      <div class="eqstat"><div class="v">$583K</div><div class="k">The sale</div><div class="n">5× Year-5 cash, pulled back five years</div></div>
+      <div class="eqop">=</div>
+      <div class="eqstat answer"><div class="v">$917K</div><div class="k">Net present value (NPV)</div><div class="n">every future dollar, discounted to today and summed</div></div>
+    </div>
+    <div class="specwrap step" data-step style="max-width:1150px;margin:3vh auto 0;">
+      <svg viewBox="0 0 1150 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="NPV composition: 36 percent operations, 64 percent terminal value">
+        <rect x="10" y="18" width="410" height="44" rx="6" fill="#2E7D5B"/>
+        <rect x="424" y="18" width="716" height="44" rx="6" fill="rgba(201,162,39,.2)" stroke="#C9A227" stroke-width="2.5"/>
+        <text x="215" y="46" text-anchor="middle" font-family="Inter,sans-serif" font-size="17" font-weight="700" fill="#F7F3E9">36% · the bagels</text>
+        <text x="782" y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="17" font-weight="700" fill="#D9BC5F">64% · one assumption about a sale</text>
+        <text x="782" y="58" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#D9BC5F">that hasn't happened, five years away</text>
+        <text x="575" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#8D99A9">where the $917K actually lives</text>
+      </svg>
+    </div>
+    <p class="quote step" data-step style="text-align:center;margin:2.6vh auto 0;font-size:clamp(1.1rem,2vw,1.6rem);">A DCF is mostly one big assumption wearing a lab coat.</p>
+    <p class="read step" data-step style="text-align:center;max-width:900px;margin:1.4vh auto 0;color:#C9D2DE;">That is not a reason to skip the math. It's the reason you <strong style="color:var(--gold-soft);">stress</strong> the math — which is exactly what we do next.</p>
+  </div>
+  <div class="footer"><span>Act III · Pricing the Future · $334K + $583K = $917K at r = 20%, exit 5×</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 18 · IRR ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act III · The Same Math, Reversed</div>
+  <h2>Calculating investment return.</h2>
+  <div class="body">
+    <div class="stack" style="gap:2.4vh;max-width:1180px;margin:0 auto;width:100%;">
+      <div class="card">
+        <div class="boxtitle">IRR — Internal Rate of Return</div>
+        <p class="read">The annual return a stream of cash flows actually earns on the money invested. Mathematically: the discount rate at which NPV equals exactly zero — the rate where the deal breaks even.</p>
+      </div>
+      <div class="card">
+        <div class="boxtitle">Two questions, one formula</div>
+        <p class="read"><strong>NPV asks:</strong> given my rate, what are these cash flows worth? We just answered it — r = 20% → $917K.<br><strong>IRR asks:</strong> given the price, what do these cash flows pay? You pick the dollars; the formula returns a rate.</p>
+      </div>
+      <div class="card goldcard step" data-step>
+        <p class="calc" style="margin-bottom:1vh;">Franklin asks $700K for the whole business today&nbsp;&nbsp;→&nbsp;&nbsp;his projected stream pays&nbsp;<span class="ans">27.7% per year</span></p>
+        <p class="read">Now the two answers can talk to each other: the stream pays 27.7%, and we demanded 20% — so at $700K, this deal clears our bar. <strong>This is the language investors speak.</strong> A VC won't say "your NPV is positive at my rate." They'll say "we underwrite to a 30% IRR" — meaning: at the price we're offering, the stream had better pay 30%.</p>
+      </div>
+    </div>
+    <div class="sourcestrip step" data-step style="margin-top:1.6vh;max-width:1180px;margin-left:auto;margin-right:auto;">
+      <div class="sslabel">Where the numbers come from</div>
+      <p class="ssbody">Same five cash flows + the $1.45M sale, against a $700K price today. Solve for the rate that balances the scale: 27.7%. (Excel does the solving — you'll see the formula in a minute.)</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act III · Pricing the Future · NPV speaks dollars · IRR speaks percent</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 19 · THE MODEL IS LIVE ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Act III · The Live Build · AI Block</div>
+  <div class="body">
+    <h2 style="color:var(--ivory);font-size:clamp(1.9rem,3.8vw,3.1rem);">Let's build a live model of Franklin's Bagels.</h2>
+    <p class="read" style="font-size:clamp(1rem,1.6vw,1.25rem);max-width:980px;color:#C9D2DE;">Everything you just watched — the flows, the rate, the sale, the pull-back — is sitting in a workbook, wired end to end. Nothing hard-coded. Your assumptions drive every cell.</p>
+    <ul class="clean" style="margin-top:2.4vh;">
+      <li><strong>You feed it.</strong> Call out a different rate. A meaner multiple. Push the second shop to Year 4.</li>
+      <li><strong>Watch what moves.</strong> One cell changes; the price tag repaints. Feel which assumptions the value actually hangs on.</li>
+      <li><strong>Claude argues the other side.</strong> We hand the room's assumptions to the AI and ask for the bear case — the buyer trying to pay less.</li>
+    </ul>
+  </div>
+  <div class="footer"><span>Workshop artifact takes over from here · deck resumes after the break</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 20 · BREAK ============ -->
+<section class="slide dark" data-slide>
+  <div class="body" style="text-align:center;align-items:center;">
+    <div class="chapternum">Intermission</div>
+    <div class="chapter" style="font-size:clamp(2rem,4.6vw,3.8rem);">Break — 8 minutes</div>
+    <p class="muted" style="margin-top:2.4vh;font-size:clamp(.95rem,1.5vw,1.2rem);">When we return… digging into the world of financial instruments.</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S06 · Understanding Finance</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 21 · CHAPTER IV ============ -->
+<section class="slide dark" data-slide>
+  <div class="body">
+    <div class="chapternum">Act IV</div>
+    <div class="chapter">Tools of the CFO —<br>Debt &amp; Equity</div>
+    <p class="muted" style="margin-top:2.2vh;font-size:clamp(.95rem,1.5vw,1.2rem);">Every dollar a business runs on is either rented or sold. The difference decides who owns you.</p>
+  </div>
+  <div class="footer"><span>Act IV · Debt vs Equity</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 22 · HOUSE VOTE ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Act IV · Predict Before Reveal</div>
+  <h2 style="color:var(--ivory);">Understanding leverage.</h2>
+  <div class="body">
+    <div style="text-align:center;">
+      <svg width="215" height="175" viewBox="0 0 86 70" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="margin-bottom:1.4vh;">
+        <g fill="none" stroke="#C9A227" stroke-width="4" stroke-linejoin="round">
+          <path d="M8,34 L43,8 L78,34"/>
+          <path d="M16,32 v32 h54 v-32"/>
+          <rect x="37" y="44" width="12" height="20" fill="rgba(201,162,39,.2)"/>
+          <rect x="23" y="40" width="9" height="9"/>
+          <rect x="55" y="40" width="9" height="9"/>
+        </g>
+      </svg>
+      <p class="quote" style="font-style:normal;font-size:clamp(1.4rem,2.7vw,2.3rem);">One house. Two buyers. Five years.</p>
+      <p class="read" style="color:#C9D2DE;font-size:clamp(.95rem,1.5vw,1.2rem);margin-top:1.2vh;">Both buy the same $500,000 house. Five years later, both sell it for $700,000.</p>
+    </div>
+    <div class="cols" style="margin-top:3vh;max-width:1150px;margin-left:auto;margin-right:auto;">
+      <div class="col card">
+        <p class="rtag" style="margin-bottom:1vh;">Buyer A</p>
+        <p class="quote" style="font-size:clamp(1.1rem,1.9vw,1.5rem);font-style:normal;">Writes a check for the whole $500,000.</p>
+        <p class="read" style="margin-top:1vh;color:#C9D2DE;">No bank, no payments, sleeps like a baby.</p>
+      </div>
+      <div class="col card">
+        <p class="rtag" style="margin-bottom:1vh;">Buyer B</p>
+        <p class="quote" style="font-size:clamp(1.1rem,1.9vw,1.5rem);font-style:normal;">Puts $100,000 down, borrows $400,000.</p>
+        <p class="read" style="margin-top:1vh;color:#C9D2DE;">30-year mortgage at 6% — $2,398 a month, every month, for all five years.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:3.4vh;">
+      <span class="votechip">Vote: who made more money?</span>
+      <p class="muted step" data-step style="margin-top:1.6vh;font-size:clamp(.85rem,1.3vw,1.05rem);">Lock in your answer before the next slide. Yes, the mortgage payments count.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act IV · Debt vs Equity</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 23 · HOUSE REVEAL ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act IV · The Reveal</div>
+  <h2>Everyone who voted is right.</h2>
+  <div class="body">
+    <div class="cols">
+      <div class="col">
+        <table class="ledger">
+          <caption>Buyer A — all cash</caption>
+          <tbody>
+            <tr><td>Cash in, day one</td><td>$500,000</td></tr>
+            <tr><td>Cash out at sale</td><td>$700,000</td></tr>
+            <tr class="total"><td>Profit</td><td class="pos">$200,000</td></tr>
+            <tr class="total"><td>Return on his cash</td><td>7.0% / yr</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col">
+        <table class="ledger">
+          <caption>Buyer B — $100K down + mortgage</caption>
+          <tbody>
+            <tr><td>Down payment</td><td>$100,000</td></tr>
+            <tr class="sub"><td>+ payments, $28.8K/yr × 5</td><td>$143,900</td></tr>
+            <tr><td>Total cash in</td><td>$243,900</td></tr>
+            <tr><td>Sale $700K − $372.2K still owed</td><td>$327,800</td></tr>
+            <tr class="total"><td>Profit</td><td class="pos">$83,900</td></tr>
+            <tr class="total hot"><td>Return on his cash</td><td>9.2% / yr</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:2.2vh;">
+      <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);"><strong>A made more dollars. B made more per dollar.</strong> "Who made more money" has two honest answers — and finance runs on the second one. B controlled the same $700K asset with a quarter of the cash, so every point of appreciation landed on a smaller base. That amplification is <strong>leverage</strong>.</p>
+    </div>
+    <div class="annotation step" data-step style="margin-top:1.6vh;">
+      <div class="anlabel">It cuts both ways</div>
+      <p class="read">Rerun it with the house selling flat at $500K: A breaks even. B is out $116,000 — five years of interest, paid for appreciation that never came. Leverage amplifies the direction you're already going. Both directions.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Buyer B: $400K, 30-yr fixed at 6.00% · payment $2,398/mo · balance after yr 5: $372,217</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 24 · THE $400K QUESTION ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act IV · The Follow-Up Question</div>
+  <h2>"Wait — what did B do with the other $400,000?"</h2>
+  <div class="body">
+    <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);max-width:1100px;">Exactly. B didn't burn the cash he didn't put in the house — he still <em>has</em> it. Say it goes into the Vanguard Extended Market Index fund the same day, and the market averages 10% a year for the five years <span class="muted">(the long-run neighborhood, not a promise)</span>.</p>
+    <div class="eqrow" style="margin-top:2.6vh;max-width:1150px;margin-left:auto;margin-right:auto;">
+      <div class="eqstat"><div class="v">$83,900</div><div class="k">House profit</div><div class="n">the leveraged purchase, as before</div></div>
+      <div class="eqop">+</div>
+      <div class="eqstat"><div class="v">$244,200</div><div class="k">Fund profit</div><div class="n">$400K growing at 10% for 5 yrs</div></div>
+      <div class="eqop">=</div>
+      <div class="eqstat answer"><div class="v">$328,100</div><div class="k">B's total profit</div><div class="n">vs. A's $200,000 — same $500K working</div></div>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:2.6vh;">
+      <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);"><strong>Leverage didn't create money. It freed B's capital to work two jobs at once</strong> — live in the house <em>and</em> ride the market. That's the real reason businesses borrow: not because debt is magic, but because the cash it releases can go earn more than the debt costs. When it can't, leverage is just expensive.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act IV · Debt vs Equity · fund return stylized at 10%/yr, labeled</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 25 · DEBT VS EQUITY ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act IV · Debt vs Equity</div>
+  <h2>Debt is renting money. Equity is selling the machine that makes it.</h2>
+  <div class="body">
+    <table class="ledger" style="max-width:1180px;">
+      <thead><tr><th style="width:22%;"></th><th class="bighead" style="text-align:left;">Debt</th><th class="bighead" style="text-align:left;">Equity</th></tr></thead>
+      <tbody>
+        <tr><td>What it is</td><td style="text-align:left;">A loan. You keep the company.</td><td style="text-align:left;">A sale. They keep a piece — forever.</td></tr>
+        <tr><td>Duration</td><td style="text-align:left;"><strong>Temporary.</strong> It has an end date, and then it's gone.</td><td style="text-align:left;"><strong>Permanent.</strong> No maturity. Your grandkids' company still has these shareholders.</td></tr>
+        <tr><td>What it costs</td><td style="text-align:left;">A fixed rate — cheaper, because lenders get paid first and can take collateral.</td><td style="text-align:left;">A slice of every future dollar — the most expensive money you'll ever raise, <em>if</em> you succeed.</td></tr>
+        <tr><td>When things go wrong</td><td style="text-align:left;">Miss payments and they can take the keys. Debt can kill a company.</td><td style="text-align:left;">Nothing is owed. Equity absorbs the bad years — that's what it's paid for.</td></tr>
+        <tr><td>At the exit</td><td style="text-align:left;">Paid back first, in full, capped there.</td><td style="text-align:left;">Paid last — and gets everything that's left.</td></tr>
+      </tbody>
+    </table>
+    <div class="card goldcard step" data-step style="margin-top:2.2vh;max-width:1180px;">
+      <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);"><strong>Buyer B just showed you why debt is cheaper for the buyer <em>and</em> the seller of money.</strong> The bank took the safe seat — first in line, house as collateral, 6% and capped there. B kept every dollar of upside past the interest. Equity flips both seats: the investor takes the risk seat, and charges accordingly.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act IV · Debt vs Equity</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 26 · COST OF CAPITAL / WACC ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act IV · The Blend</div>
+  <h2>Most companies drink both. Their cost of money is the blend.</h2>
+  <div class="body">
+    <div class="eqbanner" style="max-width:1180px;margin:0 auto;width:100%;">
+      <p class="calc">Cost of capital&nbsp;=&nbsp;<span style="color:var(--muted);">(cost of debt × share of debt)</span>&nbsp;+&nbsp;<span style="color:var(--muted);">(cost of equity × share of equity)</span></p>
+      <p class="read" style="color:var(--muted);">Weight each source's cost by how much of it you use. Finance calls the blend <strong>WACC</strong> — the weighted average cost of capital.</p>
+    </div>
+    <div class="stack" style="gap:1.4vh;max-width:1180px;margin:2vh auto 0;width:100%;">
+      <div class="card"><div class="boxtitle">Why it matters</div><p class="read">The blend is the hurdle every project inside a company must clear. Money that costs 12% can't fund projects that pay 8%.</p></div>
+      <div class="card"><div class="boxtitle">Why debt lowers the blend</div><p class="read">Debt is the cheaper source — lenders sit in the safer seat, and interest is tax-deductible. Up to the point where the payments can kill you.</p></div>
+      <div class="card step" data-step><div class="boxtitle">Where each cost comes from</div><p class="read">Cost of debt is easy to see — it's the interest rate on the loan. Cost of equity is the return investors require for the risk — the β equation from Act II prices it. The full build lands in S07, where the blend becomes the discount rate for your pro forma.</p></div>
+    </div>
+  </div>
+  <div class="footer"><span>Act IV · Debt vs Equity · full WACC treatment → S07</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 27 · DUPONT ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act IV · The Third Lever</div>
+  <h2>Understanding CFO magic.</h2>
+  <div class="body">
+    <div class="eqbanner" style="max-width:1220px;margin:0 auto;width:100%;">
+      <p class="calc">ROE&nbsp;=&nbsp;<span class="frac"><span class="top">Net income</span><span class="bot">Revenue</span></span>&nbsp;×&nbsp;<span class="frac"><span class="top">Revenue</span><span class="bot">Assets</span></span>&nbsp;×&nbsp;<span class="frac"><span class="top">Assets</span><span class="bot">Equity</span></span></p>
+      <p class="read" style="color:var(--muted);">The DuPont breakdown of return on equity. Notice Revenue and Assets each cancel out — the three fractions multiply down to Net income ÷ Equity, the return owners actually earn.</p>
+    </div>
+    <div class="cols" style="margin-top:2vh;max-width:1220px;margin-left:auto;margin-right:auto;">
+      <div class="col card"><div class="boxtitle">Profit margin</div><p class="read">Net income ÷ Revenue — how much of each sale you keep. Raise prices, cut costs. <strong>An operating skill.</strong></p></div>
+      <div class="col card"><div class="boxtitle">Asset turnover</div><p class="read">Revenue ÷ Assets — how much revenue each dollar of assets produces. <strong>An operating skill.</strong></p></div>
+      <div class="col card goldcard"><div class="boxtitle">Leverage</div><p class="read">Assets ÷ Equity — how much of the asset base is funded with borrowed money. <strong>A financing choice.</strong></p></div>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:2vh;max-width:1220px;">
+      <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);">Two of these levers are operating skills — earn more per sale, get more sales from the same assets. The third is a financing choice: run the business on borrowed money. <strong>Leverage multiplies the result of the other two — in both directions.</strong> A spectacular ROE deserves one question first: which lever produced it?</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act IV · Debt vs Equity · DuPont: gauges from S05, now with a why</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 28 · CHAPTER V ============ -->
+<section class="slide dark" data-slide>
+  <div class="body">
+    <div class="chapternum">Act V</div>
+    <div class="chapter">How Risk<br>Gets Priced</div>
+    <p class="muted" style="margin-top:2.2vh;font-size:clamp(.95rem,1.5vw,1.2rem);">Why the bank quotes 7% and the venture fund demands 30% — for the same company.</p>
+  </div>
+  <div class="footer"><span>Act V · How Risk Gets Priced</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 29 · BETA DRIVERS ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act V · How Risk Gets Priced</div>
+  <h2>Six criteria impacting your cost of money.</h2>
+  <div class="body">
+    <div class="cols" style="margin-bottom:1.4vh;">
+      <div class="col card"><div class="boxtitle">Revenue Quality</div><p class="read">Subscription revenue reads safe. Hit-driven, lumpy, one-big-customer revenue reads risky.</p></div>
+      <div class="col card"><div class="boxtitle">Industry Volatility</div><p class="read">People buy bagels in recessions. They don't buy yachts. Utilities sit left on the line; crypto exchanges sit far right.</p></div>
+      <div class="col card"><div class="boxtitle">GDP Correlation</div><p class="read">If your sales rise and fall with the economy, investors can't hide from you in a downturn — they charge for that.</p></div>
+    </div>
+    <div class="cols">
+      <div class="col card"><div class="boxtitle">Debt Levels</div><p class="read">Act IV's lesson: leverage amplifies everything — including how risky your equity is to hold.</p></div>
+      <div class="col card"><div class="boxtitle">Liquidity</div><p class="read">A public stock sells in seconds. A bagel-shop stake sells in months, at a discount, maybe. Illiquidity costs extra.</p></div>
+      <div class="col card"><div class="boxtitle">Exit Date</div><p class="read">Cash next quarter vs. cash in Year 9. The further out the payoff, the more heavily it gets discounted.</p></div>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:2.2vh;">
+      <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);">Wall Street compresses all six into the single number <strong>β</strong> from Act II. You don't need to compute it — you need the criteria. They're what an investor is silently scoring while you pitch, and every answer moves your rate.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act V · How Risk Gets Priced · β, unpacked</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 30 · SPECTRUM ANNOTATED / BLUF CASHED ============ -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Act V · The Line, With Names On It</div>
+  <h2>The full spectrum — who charges what, and why.</h2>
+  <div class="body">
+    <div class="specwrap">
+      <svg viewBox="0 0 1500 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Annotated spectrum of returns with who charges each rate and why">
+        <defs>
+          <linearGradient id="riskline3" gradientUnits="userSpaceOnUse" x1="70" y1="205" x2="1430" y2="205">
+            <stop offset="0" stop-color="#1B2A41"/><stop offset="1" stop-color="#C9A227"/>
+          </linearGradient>
+        </defs>
+        <line x1="70" y1="205" x2="1430" y2="205" stroke="url(#riskline3)" stroke-width="5" stroke-linecap="round"/>
+        <polygon points="1430,205 1414,197 1414,213" fill="#C9A227"/>
+        <g font-family="'Cormorant Garamond',serif" font-size="25" font-weight="700" fill="#1B2A41" text-anchor="middle">
+          <text x="110" y="250">3.5&#8211;3.75%</text>
+          <text x="320" y="250">~4.7%</text>
+          <text x="520" y="250">~5.2%</text>
+          <text x="715" y="250">~7.0%</text>
+          <text x="915" y="250">~10&#8211;11%</text>
+          <text x="1120" y="250" fill="#8a6d14">~10%/yr</text>
+          <text x="1330" y="250" fill="#8a6d14">25&#8211;30%+</text>
+        </g>
+        <g font-family="Inter,sans-serif" font-size="14.5" fill="#6B7684" text-anchor="middle">
+          <text x="110" y="273">overnight, riskless-ish</text>
+          <text x="320" y="273">your mortgage lives near here</text>
+          <text x="520" y="273">a CFO's borrowing cost</text>
+          <text x="715" y="273">a leveraged buyout's fuel</text>
+          <text x="915" y="273">what Franklin's banker quotes</text>
+          <text x="1120" y="273">your 401(k)'s engine</text>
+          <text x="1330" y="273">your Series A's price</text>
+        </g>
+        <circle cx="110" cy="205" r="9" fill="#1B2A41"/><circle cx="320" cy="205" r="9" fill="#1B2A41"/><circle cx="520" cy="205" r="9" fill="#3A4C66"/><circle cx="715" cy="205" r="9" fill="#6E6430"/><circle cx="915" cy="205" r="9" fill="#8a6d14"/>
+        <circle cx="1120" cy="205" r="9" fill="none" stroke="#A2831F" stroke-width="3.5"/><circle cx="1330" cy="205" r="9" fill="none" stroke="#C9A227" stroke-width="3.5"/>
+        <g font-family="Inter,sans-serif" font-size="16" font-weight="600" fill="#22303F" text-anchor="middle">
+          <text x="110" y="150">The Fed</text>
+          <text x="320" y="150">Uncle Sam</text>
+          <text x="520" y="150">Blue-chip lenders</text>
+          <text x="715" y="150">Junk lenders</text>
+          <text x="915" y="150">Small-business loans</text>
+          <text x="1120" y="150">Stock market</text>
+          <text x="1330" y="150">Venture capital</text>
+        </g>
+        <rect x="1155" y="30" width="330" height="86" rx="8" fill="rgba(201,162,39,.12)" stroke="#C9A227" stroke-width="2"/>
+        <text x="1320" y="58" text-anchor="middle" font-family="Inter,sans-serif" font-size="14.5" font-weight="700" fill="#8a6d14">WHY 25&#8211;30%, NOT 12%?</text>
+        <text x="1320" y="80" text-anchor="middle" font-family="Inter,sans-serif" font-size="13.5" fill="#5b5327">Most bets in the portfolio fail.</text>
+        <text x="1320" y="99" text-anchor="middle" font-family="Inter,sans-serif" font-size="13.5" fill="#5b5327">The winners must pay for the losers.</text>
+      </svg>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:1vh;max-width:1580px;">
+      <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);"><strong>Here's the promise, cashed.</strong> When an investor quotes your valuation, they have already placed you on this line and run tonight's math at that rate. The number that comes back isn't an insult — it's their seat's view of your risk. Now you can see the placement, question the six criteria behind it, and <strong>argue the rate instead of arguing feelings.</strong></p>
+    </div>
+  </div>
+  <div class="footer"><span>Act V · sources: Act II markets · small-business: SBA 7(a) max rates 9.75&#8211;11.75% at Prime 6.75%, Jul 2026</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 31 · CHAPTER VI ============ -->
+<section class="slide dark" data-slide>
+  <div class="body">
+    <div class="chapternum">Act VI</div>
+    <div class="chapter">Exotic Financial<br>Instruments</div>
+    <p class="muted" style="margin-top:2.2vh;font-size:clamp(.95rem,1.5vw,1.2rem);">Ten minutes through the instruments Wall Street builds — and the one idea behind all of them.</p>
+  </div>
+  <div class="footer"><span>Act VI · Exotic Financial Instruments</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 32 · OPTIONS VIA INSURANCE ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act VI · Exotic Instruments · Options</div>
+  <h2>You've bought options before. They were just called other things.</h2>
+  <div class="body">
+    <div class="stack" style="gap:1.6vh;max-width:1180px;margin:0 auto;width:100%;">
+      <div class="card">
+        <div class="boxtitle">A put is an insurance policy</div>
+        <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);">You pay a premium. If disaster hits — the stock craters — you still get to sell at the price the policy guarantees. If nothing happens, the premium is gone and you're glad. <strong>Homeowner's insurance, for a share of stock.</strong></p>
+      </div>
+      <div class="card">
+        <div class="boxtitle">A call is a deposit that reserves a price</div>
+        <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);">You pay a small fee to lock the right to buy at today's agreed price. If it soars, you buy at the locked price and smile. If it doesn't, you walk away, out only the fee. <strong>Putting a deposit on a house you're not sure about yet.</strong></p>
+      </div>
+      <div class="card goldcard step" data-step>
+        <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);">Notice what's actually for sale in both: <strong>not the stock — the risk.</strong> The put seller is paid to carry your downside. The call seller is paid to hand over your upside. Once you see risk itself changing hands, every instrument in this act makes sense.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>Act VI · Exotic Financial Instruments</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 33 · MARCUS'S COLLAR ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Act VI · Exotic Instruments · One Story</div>
+  <h2 style="color:var(--ivory);">Options in use.</h2>
+  <div class="body">
+    <div class="cols" style="align-items:center;max-width:1150px;margin:0 auto;width:100%;">
+      <div class="col" style="flex:2.6;">
+    <p class="read" style="font-size:clamp(1rem,1.6vw,1.25rem);color:#C9D2DE;">Marcus took his AI-powered SEO company public on NASDAQ in March. He owns a million shares at $32 — <strong style="color:var(--ivory);">$32 million on paper.</strong> The IPO lockup says he can't sell a single share for six months. Every morning he watches a number that is his entire net worth, and he is not allowed to do anything about it.</p>
+      </div>
+      <div class="col" style="flex:1;text-align:center;">
+        <svg width="190" height="200" viewBox="0 0 190 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M40,196 L40,30 Q40,10 62,10 L128,10 Q150,10 150,30 L150,196" fill="rgba(247,243,233,.05)" stroke="rgba(247,243,233,.35)" stroke-width="2.5"/>
+          <g>
+            <rect x="48" y="40" width="94" height="18" rx="3" fill="rgba(201,162,39,.28)"/>
+            <text x="95" y="53" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#D9BC5F">MRKS 32.00 &#9650;</text>
+            <rect x="48" y="66" width="94" height="12" rx="3" fill="rgba(247,243,233,.14)"/>
+            <rect x="48" y="86" width="94" height="12" rx="3" fill="rgba(201,162,39,.16)"/>
+            <rect x="48" y="106" width="94" height="12" rx="3" fill="rgba(247,243,233,.10)"/>
+            <rect x="48" y="126" width="94" height="12" rx="3" fill="rgba(201,162,39,.16)"/>
+            <rect x="48" y="146" width="94" height="12" rx="3" fill="rgba(247,243,233,.14)"/>
+          </g>
+          <path d="M20,196 h150" stroke="rgba(247,243,233,.35)" stroke-width="2.5"/>
+          <text x="95" y="186" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" letter-spacing="2" fill="rgba(247,243,233,.5)">NASDAQ</text>
+        </svg>
+      </div>
+    </div>
+    <div class="eqrow step" data-step style="margin-top:2.8vh;max-width:1150px;margin-left:auto;margin-right:auto;">
+      <div class="eqstat"><div class="v">Buys puts at $25</div><div class="k">The insurance</div><div class="n">whatever happens, he can sell at $25 — worst case locked at $25M</div></div>
+      <div class="eqop">paid for by</div>
+      <div class="eqstat"><div class="v">Selling calls at $45</div><div class="k">The upside, sold</div><div class="n">if it rockets past $45, the buyer of those calls gets the ride — not Marcus</div></div>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:2.6vh;max-width:1150px;margin-left:auto;margin-right:auto;">
+      <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);">The call premium pays for the put premium — the trade costs him <strong>nothing out of pocket.</strong> His six months are now bounded: never worse than $25M, never better than $45M. <strong>He gave up the upside above $45 to eliminate the risk below $25 — at no cost.</strong> The structure is called a collar.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act VI · Exotic Instruments · Marcus is fictional; the trade is done every lockup season</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 34 · ZOO MAP ============ -->
+<section class="slide dark wide" data-slide>
+  <div class="eyebrow">Act VI · Exotic Instruments · The Full Map</div>
+  <h2 style="color:var(--ivory);">Every instrument, sorted by the risk it prices.</h2>
+  <div class="body">
+    <div class="zoogrid two" style="max-width:1300px;margin:0 auto;width:100%;">
+      <div class="zoo"><div class="zrisk">Time</div><div class="zname">Bonds, zeros &amp; strips</div><div class="zdesc">Pure waiting, sliced by year and sold by the slice. The simplest instrument — you priced one tonight.</div></div>
+      <div class="zoo"><div class="zrisk">Catastrophe</div><div class="zname">Insurance &amp; cat bonds</div><div class="zdesc">The hurricane, syndicated. Your premium is a put on your own house; Wall Street scaled the idea to Florida.</div></div>
+      <div class="zoo"><div class="zrisk">Credit</div><div class="zname">Credit default swaps</div><div class="zdesc">"Will they pay it back?" — that worry, detached from the loan and sold separately, like insurance on someone else's promise.</div></div>
+      <div class="zoo"><div class="zrisk">Rates &amp; currency</div><div class="zname">Swaps</div><div class="zdesc">"I'll trade you my floating payments for your fixed ones." Two CFOs trading the risks they'd rather not hold.</div></div>
+      <div class="zoo"><div class="zrisk">Price</div><div class="zname">Futures &amp; options</div><div class="zdesc">"What will it cost in June?" — locked in today. Flour for Franklin, fuel for airlines, Marcus's collar.</div></div>
+      <div class="zoo"><div class="zrisk">Belief</div><div class="zname">Prediction markets</div><div class="zdesc">The election, priced by the minute. Pure disagreement, wearing a ticker.</div></div>
+    </div>
+    <p class="read step" data-step style="text-align:center;margin:2.8vh auto 0;font-size:clamp(1rem,1.6vw,1.3rem);max-width:1000px;color:#C9D2DE;">Every one of these is somebody's risk, carved out and sold to somebody willing to hold it — priced with tonight's math.</p>
+  </div>
+  <div class="footer"><span>Act VI · Exotic Financial Instruments</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 35 · HOMEWORK ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Take It Home</div>
+  <h2>The model leaves with you tonight.</h2>
+  <div class="body">
+    <p class="read" style="font-size:clamp(.98rem,1.55vw,1.2rem);max-width:1150px;margin:0 auto;width:100%;">The Franklin's workbook — assumptions, P&amp;L, cash flow, valuation, every formula annotated — comes home with you. Three experiments before we meet again:</p>
+    <div class="stack" style="gap:1.5vh;max-width:1150px;margin:2.2vh auto 0;width:100%;">
+      <div class="acard"><div class="anumeral">1</div><div><div class="boxtitle">Move r</div><p class="read">Run 15% and 25%. Watch what a five-point argument about risk does to the price tag — that's every valuation negotiation you'll ever have, in one cell.</p></div></div>
+      <div class="acard"><div class="anumeral">2</div><div><div class="boxtitle">Delay the second shop to Year 4</div><p class="read">Does the value drop as much as you'd guess? Timing is a lever too.</p></div></div>
+      <div class="acard"><div class="anumeral">3</div><div><div class="boxtitle">Cut the exit to 3×</div><p class="read">If the terminal multiple falls, is Franklin's still worth buying at $700K? Now you're stress-testing the model's biggest assumption.</p></div></div>
+    </div>
+    <p class="read step" data-step style="max-width:1150px;margin:2.2vh auto 0;width:100%;color:var(--muted);">Bring your results to S07 — next session you build the pro forma that feeds this model, line by line.</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S06 · Understanding Finance</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 36 · CLOSE ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">The Close</div>
+  <div class="body" style="text-align:center;align-items:center;">
+    <div style="margin-bottom:3vh;">
+      <h2 style="color:var(--ivory);margin:0 auto 1.6vh;font-size:clamp(1.8rem,3.6vw,3rem);">Money has a price.</h2>
+      <h2 class="step" data-step style="color:var(--ivory);margin:0 auto 1.6vh;font-size:clamp(1.8rem,3.6vw,3rem);">Time has a price.</h2>
+      <h2 class="step" data-step style="color:var(--ivory);margin:0 auto;font-size:clamp(1.8rem,3.6vw,3rem);">Risk has a price.</h2>
+    </div>
+    <p class="step" data-step style="font-size:clamp(.98rem,1.65vw,1.28rem);line-height:1.65;max-width:900px;margin:0 auto;color:#C9D2DE;">Every loan offer, term sheet, and acquisition price is built with the math you saw tonight — someone picks a rate, discounts your future, and hands you the result. Now you can check their work, from either side of the table.</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S06 · Understanding Finance</span><span class="counter" data-counter></span></div>
+</section>
+
+</div>
+<div class="hintbar">→ / space: advance ← back · Home/End</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('[data-slide]'));
+  var idx = 0;
+  function stepsOf(slide){ return Array.prototype.slice.call(slide.querySelectorAll('[data-step]')); }
+  function paint(){
+    slides.forEach(function(s,i){ s.classList.toggle('active', i===idx); });
+    slides.forEach(function(s){
+      s.querySelectorAll('[data-counter]').forEach(function(c){
+        c.textContent = (idx+1) + ' / ' + slides.length;
+      });
+    });
+  }
+  function advance(){
+    var pending = stepsOf(slides[idx]).filter(function(el){ return !el.classList.contains('shown'); });
+    if(pending.length){ pending[0].classList.add('shown'); return; }
+    if(idx < slides.length-1){ idx++; paint(); }
+  }
+  function back(){
+    var shown = stepsOf(slides[idx]).filter(function(el){ return el.classList.contains('shown'); });
+    if(shown.length){ shown[shown.length-1].classList.remove('shown'); return; }
+    if(idx > 0){ idx--; stepsOf(slides[idx]).forEach(function(el){ el.classList.add('shown'); }); paint(); }
+  }
+  function goto_(i, revealAll){
+    idx = Math.max(0, Math.min(slides.length-1, i));
+    stepsOf(slides[idx]).forEach(function(el){ el.classList.toggle('shown', !!revealAll); });
+    paint();
+  }
+  document.addEventListener('keydown', function(e){
+    switch(e.key){
+      case 'ArrowRight': case ' ': case 'PageDown': e.preventDefault(); advance(); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); back(); break;
+      case 'Home': e.preventDefault(); goto_(0,false); break;
+      case 'End': e.preventDefault(); goto_(slides.length-1,true); break;
+    }
+  });
+  document.addEventListener('click', function(e){
+    if(e.clientX < window.innerWidth/3){ back(); } else { advance(); }
+  });
+  paint();
+})();
+</script>
+</body>
+</html>
