@@ -17,7 +17,7 @@
 - **Primary failure mode to design against:** confirmation-seeking and solution-first thinking.
 - **Facilitator:** Scott Sill — program designer, builder, facilitator. Performs best in **reactive/live mode**, not scripted lecture.
 - **Live-example guardrail:** Torev Motors (Scott's board company) may be used only with **public positioning** — no non-public information, ever. Standing rule against public strategic analysis of Torev; AI-block demos use program companies or the session case instead.
-- **Real-company case guardrail (S09+):** Éclat Chocolate is used only within what its founder, Chris Curtin, has approved for class use and Discourse posting. Anything Chris hasn't confirmed is tagged as an assumption on screen. Scott's separate advisory work with Éclat stays separate from the class case.
+- **Real-company case guardrail (S09+):** Éclat Chocolate founder Chris Curtin agreed in the S09 debrief to continue working with the class. **He does not want detailed financial disclosure.** Any Éclat financial figure on a slide, handout or workbook is a clearly labeled assumption built from public information and reasonable estimates — never presented or implied as Éclat's actual numbers, and never attributed to Chris. Non-financial content (products, customers, channels, gifting program, positioning) is fair game within what Chris shares. Scott's separate advisory work with Éclat stays separate from the class case.
 - **Community platform:** self-hosted **Discourse** (threaded forum) at `community.fitlermba.com` — *not Discord; these are fundamentally different products*. Postmark for transactional email (`community@fitlermba.com`).
 
 ## 2. Hard rules (non-negotiable)
@@ -26,7 +26,7 @@
 2. **Participation beat every ~10 minutes** in teach sections — never clustered post-break. Live/reactive consistently outperforms scripted. Satisfy it *structurally* where possible (S04's predict-before-reveal makes every event a beat). (S03 post-mortem.)
 3. **Structure before building.** Architecture is discussed and batch-locked before any code or slide work begins. Ask-before-build is the default posture.
 4. **Session isolation + shared canon.** Each session's build lives in its own dedicated chat, bootstrapped by pasting this canon plus the session's handoff doc. Anything that outlives the session lands here, with a changelog entry.
-5. **Benchmark hygiene.** No unverified industry figures on slides. If a number can't be sourced, it's framed as an explicit assumption to stress-test, not a market fact. ("Verified drag beats borrowed benchmark" — S05.)
+5. **Benchmark hygiene.** No unverified industry figures on slides. If a number can't be sourced, it's framed as an explicit assumption to stress-test, not a market fact. ("Verified drag beats borrowed benchmark" — S05.) Applies with extra force to Éclat financials (§1).
 6. **Source strips on every computation slide.** The exact statement lines feeding a ratio sit beside the math. The room never holds a balance sheet in memory. (S05.)
 7. **Within-deck sequencing rule.** A slide may not reference material the deck hasn't yet introduced.
 8. **No quiz dynamics that suppress participation.** Predict-before-reveal is doctrine; vote-before-reveal on material the room is still learning to read is not (S05 v1 "Red Light, Green Light" rejected). Quizzing invites conversation; grading kills it.
@@ -84,7 +84,8 @@
 - **AI inside the workshop (S09+ direction):** analysis and plan development are done *with* AI in the room. The loop: the room makes each call → AI drafts from it → the room critiques and tags every claim F (observed fact) / A (assumption) / Q (open question) → repeat. The room decides; AI is the fast junior analyst whose work gets checked. One person drives the keyboard; prompts are loaded before the session; a pre-generated fallback output is on hand in case of latency or a bad run. AI claims about the case company are assumptions until the founder confirms them.
 - **Standing AI block:** 15–20 min per session, demoing on program companies or the session case (never Torev). Merges into the live workshop when the workshop *is* the AI-driven build (precedent: S06 Act 2B; standard from S09).
 - **Case vehicles (revised S09):**
-  - **Éclat Chocolate (primary, real, S09+).** West Chester, PA; founder Chris Curtin. Chosen because it is real, easy to visualize, tasteable, and straightforward, with both direct-consumer and B2B (corporate gifting) motions that transfer to the cohort's own businesses. Governed by the real-company guardrail (§1).
+  - **Éclat Chocolate (primary, real, S09+).** West Chester, PA; founder Chris Curtin. Chosen because it is real, easy to visualize, tasteable, and straightforward, with both direct-consumer and B2B (corporate gifting) motions that transfer to the cohort's own businesses. Governed by the real-company guardrail (§1): no detailed financial disclosure.
+  - **Éclat financial work** (pro forma, unit economics, valuation, cap table) runs on an **"Éclat-shaped" assumptions model**: every input labeled as an estimate, the build method shown so the room can challenge it, and a standing caption that the figures are not Éclat's. The lesson becomes how to build defensible assumptions when the real numbers aren't available — which is exactly the founder's position before launch.
   - **Main Line Sports Institute (fictional, services counterpart).** Multi-program facility (coached training, leagues, rehab/recovery, spa, restaurant/bar) positioned as premium advanced training for serious athletes; two segments — adult competitors, and high-school athletes whose parents pay for coaching as a path to top colleges. Use when a concept plays out differently for a services business.
   - **Franklin's Bagels / Carpenter Hall Marketing (retired from default).** Served the accounting and finance sessions (S04–S06). Carpenter Hall is too generic and commodity to carry marketing or strategy content. Franklin's workbook remains the reference model where it's already embedded.
   - **Awkward-fit sessions:** S12 (investors), S13 (fundraising) and S16 (cap tables) — a craft chocolatier probably shouldn't raise venture money. Either teach that as the lesson ("why Éclat shouldn't take this term sheet") or pose a clearly labeled hypothetical (e.g., Éclat raising to scale corporate gifting). Decide per session at scoping.
@@ -123,7 +124,7 @@
 
 **Deferred, with owed destinations:**
 - Amortization; cash vs. accrual methods (deferred from S04 → future accounting touchpoint)
-- Pro forma build + full WACC treatment → session TBD, **must land before S12** (originally S07)
+- Pro forma build + full WACC treatment → session TBD, **must land before S12** (originally S07). Runs on the Éclat-shaped assumptions model (§4)
 - Valuation & exits (multiples beyond P/E & P/S, EV/EBITDA, "what's a good multiple") → future-session candidate
 - CAPM formula → excluded by design program-wide; beta taught through drivers only
 - Sales process (pilots, indirect customers, sales flow) + price clinic → S17 (from S08)
@@ -144,6 +145,7 @@
 - **2026-09 (S07–S08, backfilled):** Pro forma/WACC moved off S07 to a session before S12; S08 sales-process content deferred to S17; AI block run as take-home prompts; human-voice slide rule (after two S08 drafts rejected).
 - **2026-09-15 (S09):** Astra "eight decisions" canvas framework rejected as the lecture spine; lecture rebuilt as a nine-beat, 12-slide sparse deck; Éclat workshop run freeflow with the founder present.
 - **2026-09-28 (S09 post-mortem):** Éclat adopted as the standing program case; Carpenter Hall retired from default; Main Line Sports Institute kept as the fictional services counterpart; AI moves inside the live workshop as the standard format.
+- **2026-09-28 (Chris Curtin debrief):** Chris agreed to continue with the class; no detailed financial disclosure. Éclat financial work runs on a labeled assumptions model.
 
 ## 9. Deferred backlog (Anti-Squirrel holding pen)
 
@@ -155,7 +157,6 @@
 
 ## 9a. Open items (owed, not deferred)
 
-- **Éclat case brief for Chris:** one page covering how Éclat will be used across sessions, what may be shared on screen and on Discourse, real vs. directional vs. no numbers, and which sessions he might attend (candidates: S10 competitive strategy, S17 sales, S18 scaling). Needed before S10 scoping.
 - **Two-landing decision** after S09's 8:30 finish (§4).
 - **S07/S08 backfill:** confirm S07 title and the S07/S08 delivery rows (§6).
 - **S07 cleanup:** missing repo assets, unbuilt Experiment Card.
@@ -164,13 +165,19 @@
 
 ## 10. Changelog
 
+### 2026-09-28 — Chris Curtin debrief: Éclat continues, no detailed financials
+- Scott debriefed with Chris after S09. Chris is on board to keep working with the class but does not want detailed financial disclosure. The planned case brief for Chris is no longer needed and is removed from open items.
+- Real-company guardrail rewritten (§1): Éclat financial figures are always labeled assumptions, never presented or implied as actuals, never attributed to Chris. Benchmark hygiene (§2.5) cross-referenced.
+- New doctrine (§4): Éclat financial sessions — pro forma, unit economics, valuation, cap table — run on an **Éclat-shaped assumptions model** with every input labeled and its build method shown. Teaching angle: building defensible assumptions when real numbers aren't available.
+- Continuity tracker: the owed pro forma/WACC session (before S12) uses this model.
+
 ### 2026-09-28 — S09 post-mortem: Éclat becomes the standing case; AI moves inside the workshop
 - **What worked:** a real company, its founder in the room (Chris Curtin, Éclat Chocolate), product to taste (~$250 of samples supplied by Éclat), and a live whole-room build. Highest energy and engagement of the program to date; the room stayed until ~8:30, an hour past the published end.
 - **Case vehicle decision:** Éclat is the default case going forward — real, easy to picture, tasteable, straightforward, with direct-consumer and B2B motions that map onto the cohort's own businesses. Carpenter Hall retired from default use (too generic and commodity outside accounting). Main Line Sports Institute kept as the fictional services counterpart. Real-company guardrail added (§1).
 - **Structure decision:** workshops include AI in the analysis and plan development. Room-decides / AI-drafts / room-critiques loop with F/A/Q tagging, one driver, prompts loaded ahead, pre-generated fallback on hand (§4). The standing AI block merges into the workshop.
 - **S09 deck history:** the Astra-derived "eight decisions" canvas deck was rejected — it missed marketing's mission (the story of the change you seek, earning interest and trust to drive action) and read as AI language. Rebuilt as a 12-slide sparse deck: BMC + VPC recap → VPC stories about the customer → marketing as the connector → Godin "people like us" → five market-entry scenarios → buyer journey and campaign fit → brand vs. product marketing (Red Bull/Nike vs. Nike shoe/Disney World) → LTV vs. CAC → smallest market test, then expand. Sparse-deck pattern logged (§3.2); human-voice rule promoted to hard rule 14 (§2).
 - **Continuity:** Get/Keep/Grow + LTV:CAC delivered (closes the S08 deferral). Moore → S17. Pro forma/WACC still owed before S12.
-- **Open:** Éclat case brief for Chris; two-landing decision; S07/S08 backfill confirmation (§9a).
+- **Open:** two-landing decision; S07/S08 backfill confirmation (§9a).
 
 ### 2026-08-04 — Canon reconstructed & committed; S06/S07 scoping decisions
 - Canon rebuilt from the conversation record and shipped decks after the July draft was never pushed. This is the first committed version. Palette drift between S04 (predecessor tokens) and S05 (locked standard) documented in §3.1.
