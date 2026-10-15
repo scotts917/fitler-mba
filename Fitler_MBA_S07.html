@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitler MBA · S07 · Product Development &amp; MVP Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A41;
+    --navy-deep:#111D2E;
+    --ivory:#F7F3E9;
+    --gold:#C9A227;
+    --gold-soft:#D9BC5F;
+    --ink:#22303F;
+    --muted:#6B7684;
+    --red:#B3402F;
+    --green:#2E7D5B;
+    --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --sans:'Inter', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{background:var(--navy-deep);font-family:var(--sans);color:var(--ink);overflow:hidden}
+  .deck{position:relative;width:100vw;height:100vh}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;padding:4vh 5.5vw;background:var(--ivory)}
+  .slide.active{display:flex}
+  .slide.dark{background:var(--navy);color:var(--ivory)}
+  .slide.dark .eyebrow{color:var(--gold-soft)}
+  .slide.dark h2{color:var(--ivory)}
+  .slide.dark .muted{color:#9AA6B5}
+
+  .eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2vh}
+  h1{font-family:var(--serif);font-weight:600;color:var(--ivory);line-height:1.04}
+  h2{font-family:var(--serif);font-weight:600;color:var(--navy);font-size:clamp(1.7rem,3.2vw,2.7rem);line-height:1.1;margin-bottom:1.8vh}
+  .muted{color:var(--muted)}
+  .rule{height:2px;background:var(--gold);width:64px;margin:1.5vh 0 2.2vh;border:0}
+  .body{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+  .footer{display:flex;justify-content:space-between;align-items:center;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-top:1.4vh;border-top:1px solid rgba(107,118,132,.25)}
+  .slide.dark .footer{border-top-color:rgba(247,243,233,.18);color:#8D99A9}
+  .counter{font-variant-numeric:tabular-nums}
+
+  .step{opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
+  .step.shown{opacity:1;transform:none}
+
+  .cols{display:flex;gap:2.6vw;align-items:stretch}
+  .col{flex:1;min-width:0}
+  .stack{display:flex;flex-direction:column;gap:2.6vh}
+  .bignum{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,4.4vw,3.8rem);line-height:1;color:var(--navy)}
+  .slide.dark .bignum{color:var(--ivory)}
+  .biglabel{font-size:.74rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-top:.7vh;line-height:1.5}
+
+  .card{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:1.8vh 1.4vw;box-shadow:0 1px 3px rgba(17,29,46,.06)}
+  .slide.dark .card{background:rgba(247,243,233,.06);border-color:rgba(247,243,233,.16);box-shadow:none}
+  .goldcard{border-left:4px solid var(--gold)}
+  .redcard{border-left:4px solid var(--red)}
+
+  .quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.15rem,2.1vw,1.7rem);line-height:1.35;color:var(--navy)}
+  .slide.dark .quote{color:var(--ivory)}
+
+  .sourcestrip{background:#FDFBF5;border:1px solid rgba(201,162,39,.45);border-radius:8px;padding:1.2vh 1vw}
+  .slide.dark .sourcestrip{background:rgba(247,243,233,.05);border-color:rgba(217,188,95,.4)}
+  .sslabel{font-size:.63rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:.7vh}
+  .ssbody{font-size:clamp(.72rem,1.05vw,.88rem);line-height:1.55;color:var(--ink)}
+  .slide.dark .ssbody{color:#C9D2DE}
+
+  ul.clean{list-style:none}
+  ul.clean li{padding:.8vh 0 .8vh 1.6em;position:relative;font-size:clamp(.9rem,1.4vw,1.1rem);line-height:1.45}
+  ul.clean li::before{content:"";position:absolute;left:0;top:calc(.8vh + .55em);width:.5em;height:2px;background:var(--gold)}
+  ul.mini{list-style:none;margin-top:.2vh}
+  ul.mini li{position:relative;padding:.28vh 0 .28vh 1.35em;font-size:clamp(.82rem,1.25vw,1rem);line-height:1.45}
+  ul.mini li::before{content:"";position:absolute;left:0;top:.75em;width:.55em;height:2px;background:var(--gold)}
+  .read{font-size:clamp(.82rem,1.25vw,1rem);line-height:1.5;color:var(--ink)}
+  .slide.dark .read{color:#D6DDE6}
+  .read strong{color:var(--navy)}
+  .slide.dark .read strong{color:var(--ivory)}
+
+  .chapter{font-family:var(--serif);font-size:clamp(2.2rem,5.4vw,4.4rem);font-weight:600;line-height:1.04;color:var(--ivory)}
+  .chapternum{font-size:.76rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:1.6vh}
+
+  .slide > *{width:100%;max-width:1280px;margin-left:auto;margin-right:auto}
+  .slide.wide > *{max-width:1580px}
+  .body > p{max-width:1120px}
+  ul.clean{max-width:1060px}
+  .narrow{max-width:1000px;margin-left:auto;margin-right:auto;width:100%}
+
+  .eqrow{display:flex;align-items:stretch;justify-content:center;gap:1.3vw}
+  .eqstat{background:rgba(247,243,233,.06);border:1px solid rgba(247,243,233,.18);border-radius:10px;padding:2.6vh 1.4vw;text-align:center;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+  .eqstat .v{font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,4.2vw,3.5rem);line-height:1;color:var(--ivory);font-variant-numeric:tabular-nums}
+  .eqstat .k{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#9AA6B5;margin-top:1.1vh;line-height:1.5}
+  .eqstat .n{font-size:.68rem;color:#7C8899;margin-top:.6vh;line-height:1.45}
+  .eqop{font-family:var(--serif);font-size:clamp(1.5rem,2.8vw,2.4rem);color:var(--gold-soft);font-weight:600;flex:none;display:flex;align-items:center}
+  .eqstat.answer{background:rgba(201,162,39,.14);border-color:rgba(201,162,39,.55)}
+  .eqstat.answer .v{color:var(--gold-soft)}
+  .eqstat.answer .k{color:var(--gold-soft)}
+  .slide:not(.dark) .eqstat{background:#fff;border-color:rgba(107,118,132,.2)}
+  .slide:not(.dark) .eqstat .v{color:var(--navy)}
+  .slide:not(.dark) .eqstat .k{color:var(--muted)}
+  .slide:not(.dark) .eqstat .n{color:var(--muted)}
+  .slide:not(.dark) .eqop{color:var(--gold)}
+  .slide:not(.dark) .eqstat.answer{background:rgba(201,162,39,.12);border-color:rgba(201,162,39,.5)}
+  .slide:not(.dark) .eqstat.answer .v{color:var(--gold)}
+  .slide:not(.dark) .eqstat.answer .k{color:var(--gold)}
+
+  .rolegrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2vw}
+  .rolegrid.two{grid-template-columns:1fr 1fr}
+  .rolegrid.four{grid-template-columns:1fr 1fr 1fr 1fr}
+  .role{background:#fff;border:1px solid rgba(107,118,132,.2);border-top:5px solid var(--gold);border-radius:10px;padding:2vh 1.3vw;display:flex;flex-direction:column;gap:1vh}
+  .slide.dark .role{background:rgba(247,243,233,.06);border-color:rgba(247,243,233,.16);border-top-color:var(--gold)}
+  .rname{font-family:var(--serif);font-weight:700;font-size:clamp(1.15rem,1.9vw,1.6rem);color:var(--navy)}
+  .slide.dark .rname{color:var(--ivory)}
+  .rtag{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
+
+  .votechip{display:inline-block;background:rgba(201,162,39,.14);border:1px solid rgba(201,162,39,.5);color:var(--gold-soft);border-radius:999px;padding:.5em 1.2em;font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+  .slide:not(.dark) .votechip{color:#8a6d14;background:rgba(201,162,39,.14);border-color:rgba(201,162,39,.55)}
+
+  .boxtitle{font-family:var(--serif);font-weight:700;font-size:clamp(1.15rem,1.85vw,1.55rem);color:var(--navy);line-height:1.15;margin-bottom:.8vh}
+  .slide.dark .boxtitle{color:var(--ivory)}
+
+  .agendagrid{display:grid;grid-template-columns:1fr;gap:1.4vh;max-width:1150px;margin:0 auto;width:100%}
+  .acard{display:flex;gap:1.1vw;align-items:flex-start;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:2vh 1.3vw;box-shadow:0 1px 3px rgba(17,29,46,.06)}
+  .slide.dark .acard{background:rgba(247,243,233,.06);border-color:rgba(247,243,233,.16);box-shadow:none}
+  .anumeral{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,2.6vw,2.2rem);color:var(--gold);line-height:1;min-width:2.4em;text-align:center;border-right:2px solid rgba(201,162,39,.35);padding-right:.5em;align-self:stretch;display:flex;align-items:center;justify-content:center}
+
+  .zoogrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.1vw}
+  .zoogrid.two{grid-template-columns:1fr 1fr;gap:2.6vh 2vw}
+  .zoo{background:rgba(247,243,233,.06);border:1px solid rgba(247,243,233,.16);border-left:4px solid var(--gold);border-radius:8px;padding:2.6vh 1.8vw}
+  .slide:not(.dark) .zoo{background:#fff;border-color:rgba(107,118,132,.2);border-left-color:var(--gold)}
+  .zrisk{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-soft);font-weight:700;margin-bottom:.5vh}
+  .slide:not(.dark) .zrisk{color:#8a6d14}
+  .zname{font-family:var(--serif);font-weight:700;font-size:clamp(1rem,1.55vw,1.3rem);color:var(--ivory);margin-bottom:.4vh}
+  .slide:not(.dark) .zname{color:var(--navy)}
+  .zdesc{font-size:clamp(.8rem,1.15vw,.98rem);line-height:1.55;color:#C9D2DE;margin-top:.4vh}
+  .slide:not(.dark) .zdesc{color:var(--ink)}
+
+  /* choice cards for conjoint */
+  .choicegrid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1vw}
+  .choice{background:#fff;border:1px solid rgba(107,118,132,.25);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+  .chead{background:var(--navy);color:var(--ivory);font-family:var(--serif);font-weight:700;font-size:clamp(1rem,1.6vw,1.35rem);text-align:center;padding:1.1vh 0;letter-spacing:.04em}
+  .cprice{font-family:var(--serif);font-weight:700;font-size:clamp(1.4rem,2.4vw,2rem);color:var(--gold);text-align:center;padding:1.2vh 0 .4vh;font-variant-numeric:tabular-nums}
+  .cper{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:.8vh}
+  .cfeat{list-style:none;padding:0 1vw 1.4vh}
+  .cfeat li{font-size:clamp(.72rem,1.05vw,.9rem);line-height:1.45;padding:.55vh 0;border-top:1px solid rgba(107,118,132,.14);text-align:center}
+  .cfeat li:first-child{border-top:none}
+  .cfeat li strong{color:var(--navy)}
+
+  /* hypothesis format */
+  .hypo{font-family:var(--serif);font-size:clamp(1.15rem,2.15vw,1.8rem);line-height:1.5;color:var(--navy)}
+  .slide.dark .hypo{color:var(--ivory)}
+  .hypo .blank{color:var(--gold);font-weight:700;border-bottom:2px solid rgba(201,162,39,.5);padding:0 .15em}
+  .slide.dark .hypo .blank{color:var(--gold-soft)}
+
+  /* prompt block for live build */
+  .promptbox{background:var(--navy-deep);border:1px solid rgba(217,188,95,.4);border-radius:10px;padding:2vh 1.4vw;font-family:'SF Mono',Consolas,Menlo,monospace;font-size:clamp(.72rem,1.1vw,.92rem);line-height:1.7;color:#D6DDE6;text-align:left}
+  .promptbox .pc{color:var(--gold-soft)}
+
+  .curveswrap svg{width:100%;height:auto;display:block}
+
+  .hintbar{position:fixed;bottom:10px;right:14px;font-size:.6rem;color:#5c6b7d;letter-spacing:.1em;text-transform:uppercase;opacity:.5;z-index:50}
+  @media (prefers-reduced-motion: reduce){.step{transition:none}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- ============ 1 · TITLE ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Fitler MBA · Session 07</div>
+  <div class="body">
+    <h1 style="font-size:clamp(2.2rem,5.4vw,4.3rem);max-width:1100px;">Product Development<br>&amp; MVP Strategy</h1>
+    <p style="font-family:var(--serif);font-size:clamp(1.3rem,2.6vw,2.1rem);color:var(--gold-soft);margin-top:1.2vh;font-weight:500;">Building Products People Actually Want</p>
+    <hr class="rule">
+    <p class="quote" style="color:#C9D2DE;font-size:clamp(1rem,1.8vw,1.4rem);">Three sessions of finance behind you.<br>Tonight we go back to building — carefully.</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S07 · Product Development &amp; MVP Strategy</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 2 · BLUF ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Bottom Line Up Front</div>
+  <div class="body">
+    <p class="quote" style="font-size:clamp(1.5rem,3vw,2.5rem);max-width:1080px;line-height:1.3;font-style:normal;">An MVP isn't a smaller product.<br>It's the <span style="color:var(--gold-soft);">smallest experiment that can prove you wrong.</span></p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S07 · Product Development &amp; MVP Strategy</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 3 · TWO FOUNDERS (VOTE) ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act I · What an MVP Buys You</div>
+  <h2>Two founders. Same idea. Same $60,000.</h2>
+  <div class="body">
+    <div class="cols" style="max-width:1180px;margin:0 auto;width:100%;">
+      <div class="col">
+        <div class="card" style="height:100%;border-top:5px solid var(--navy);">
+          <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin-bottom:1.2vh;" role="img" aria-label="A watchmaker bent over a workbench">
+            <!-- watchmaker at bench -->
+            <line x1="20" y1="96" x2="300" y2="96" stroke="#1B2A41" stroke-width="3"/>
+            <rect x="196" y="60" width="84" height="36" rx="3" fill="none" stroke="#1B2A41" stroke-width="2.5"/>
+            <circle cx="238" cy="52" r="16" fill="none" stroke="#C9A227" stroke-width="3"/>
+            <circle cx="238" cy="52" r="6" fill="none" stroke="#C9A227" stroke-width="2"/>
+            <line x1="238" y1="52" x2="238" y2="44" stroke="#C9A227" stroke-width="2"/>
+            <line x1="238" y1="52" x2="244" y2="55" stroke="#C9A227" stroke-width="2"/>
+            <circle cx="96" cy="34" r="13" fill="none" stroke="#1B2A41" stroke-width="2.5"/>
+            <path d="M96 47 C 84 52, 78 62, 76 74 L 76 96" fill="none" stroke="#1B2A41" stroke-width="2.5"/>
+            <path d="M96 47 C 108 52, 120 56, 138 60 L 196 68" fill="none" stroke="#1B2A41" stroke-width="2.5"/>
+            <path d="M104 26 a 10 10 0 0 1 10 6" fill="none" stroke="#C9A227" stroke-width="2"/>
+            <circle cx="112" cy="30" r="4.5" fill="none" stroke="#C9A227" stroke-width="2"/>
+            <line x1="150" y1="62" x2="176" y2="66" stroke="#1B2A41" stroke-width="2"/>
+            <rect x="128" y="82" width="40" height="14" rx="2" fill="none" stroke="#6B7684" stroke-width="1.5"/>
+            <line x1="134" y1="82" x2="134" y2="96" stroke="#6B7684" stroke-width="1"/>
+            <line x1="148" y1="82" x2="148" y2="96" stroke="#6B7684" stroke-width="1"/>
+          </svg>
+          <div class="rtag" style="color:var(--navy);">Founder A</div>
+          <div class="rname" style="margin:.6vh 0 1vh;">The Builder</div>
+          <p class="read">Spends six months and the full $60K building the product she has in mind — complete, polished, ready for launch day.</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card" style="height:100%;border-top:5px solid var(--gold);">
+          <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin-bottom:1.2vh;" role="img" aria-label="A chalkboard with a game-theory payoff matrix">
+            <!-- chalkboard with payoff matrix -->
+            <rect x="60" y="10" width="200" height="86" rx="4" fill="#1B2A41"/>
+            <rect x="66" y="16" width="188" height="74" fill="none" stroke="#C9A227" stroke-width="1.5" opacity=".55"/>
+            <line x1="120" y1="28" x2="120" y2="82" stroke="#F7F3E9" stroke-width="1.5" opacity=".9"/>
+            <line x1="176" y1="28" x2="176" y2="82" stroke="#F7F3E9" stroke-width="1.5" opacity=".9"/>
+            <line x1="92" y1="46" x2="232" y2="46" stroke="#F7F3E9" stroke-width="1.5" opacity=".9"/>
+            <line x1="92" y1="64" x2="232" y2="64" stroke="#F7F3E9" stroke-width="1.5" opacity=".9"/>
+            <g font-family="Inter,sans-serif" font-size="10" fill="#F7F3E9" opacity=".95">
+              <text x="106" y="41" text-anchor="middle">A,A</text><text x="148" y="41" text-anchor="middle">A,B</text><text x="204" y="41" text-anchor="middle">B,A</text>
+              <text x="106" y="59" text-anchor="middle">3,3</text><text x="148" y="59" text-anchor="middle">0,5</text><text x="204" y="59" text-anchor="middle" fill="#D9BC5F">5,0</text>
+              <text x="106" y="77" text-anchor="middle">5,0</text><text x="148" y="77" text-anchor="middle" fill="#D9BC5F">1,1</text><text x="204" y="77" text-anchor="middle">0,3</text>
+            </g>
+            <line x1="40" y1="96" x2="280" y2="96" stroke="#1B2A41" stroke-width="3"/>
+            <rect x="24" y="88" width="22" height="6" rx="2" fill="#C9A227"/>
+          </svg>
+          <div class="rtag">Founder B</div>
+          <div class="rname" style="margin:.6vh 0 1vh;">The Scientist</div>
+          <p class="read">Spends the same six months and the same $60K running four experiments — each one designed to kill a version of the idea.</p>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:3.4vh;">
+      <span class="votechip">Vote · Who is further along in six months?</span>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:2.6vh;max-width:1180px;">
+      <p class="read" style="font-size:clamp(.95rem,1.5vw,1.15rem);">Founder A has a product — and <strong>no idea whether anyone wants it.</strong> Founder B has no product — and knows which three versions of the idea are dead, and which one somebody actually paid for. <strong>One of them spent $60K on a guess. The other bought information.</strong></p>
+    </div>
+  </div>
+  <div class="footer"><span>Act I · What an MVP Buys You</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 4 · THE TWO ENEMIES ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Act I · What an MVP Buys You</div>
+  <h2 style="color:var(--ivory);">Time &amp; Cash Burn = Startup Timebombs</h2>
+  <div class="body">
+    <svg viewBox="0 0 520 92" xmlns="http://www.w3.org/2000/svg" style="width:min(420px,44vw);height:auto;display:block;margin:0 auto 2.4vh;" role="img" aria-label="A bundle of dynamite with a timer">
+      <!-- dynamite bundle -->
+      <g>
+        <rect x="150" y="26" width="150" height="16" rx="8" fill="none" stroke="#D9BC5F" stroke-width="2.5"/>
+        <rect x="142" y="44" width="150" height="16" rx="8" fill="none" stroke="#D9BC5F" stroke-width="2.5"/>
+        <rect x="158" y="62" width="150" height="16" rx="8" fill="none" stroke="#D9BC5F" stroke-width="2.5"/>
+        <line x1="196" y1="20" x2="196" y2="84" stroke="#F7F3E9" stroke-width="3" opacity=".7"/>
+        <line x1="252" y1="20" x2="252" y2="84" stroke="#F7F3E9" stroke-width="3" opacity=".7"/>
+      </g>
+      <!-- timer -->
+      <g>
+        <rect x="330" y="24" width="86" height="56" rx="6" fill="#111D2E" stroke="#B3402F" stroke-width="2.5"/>
+        <text x="373" y="60" text-anchor="middle" font-family="'SF Mono',Consolas,Menlo,monospace" font-size="24" font-weight="700" fill="#B3402F">0:59</text>
+        <line x1="300" y1="42" x2="330" y2="42" stroke="#B3402F" stroke-width="2.5"/>
+        <line x1="300" y1="62" x2="330" y2="62" stroke="#B3402F" stroke-width="2.5"/>
+      </g>
+      <!-- fuse -->
+      <path d="M150 34 C 120 30, 104 40, 96 52" fill="none" stroke="#D9BC5F" stroke-width="2.5"/>
+      <g stroke="#C9A227" stroke-width="2.5" stroke-linecap="round">
+        <line x1="92" y1="48" x2="84" y2="40"/><line x1="90" y1="56" x2="79" y2="56"/><line x1="94" y1="62" x2="87" y2="70"/>
+      </g>
+    </svg>
+    <div class="eqrow" style="max-width:1100px;margin:0 auto;width:100%;">
+      <div class="eqstat"><div class="v" style="font-size:clamp(1.7rem,3.4vw,2.8rem);">Time</div><div class="k">Every month is a month of runway</div><div class="n">and a month your competitor, or the market, moves</div></div>
+      <div class="eqop">&amp;</div>
+      <div class="eqstat"><div class="v" style="font-size:clamp(1.7rem,3.4vw,2.8rem);">Cash</div><div class="k">Every dollar spent building is gone</div><div class="n">whether or not anyone wanted what you built</div></div>
+    </div>
+    <p class="read step" data-step style="text-align:center;margin:3vh auto 0;font-size:clamp(1rem,1.7vw,1.35rem);max-width:1000px;">Every experiment you run spends both. The only question that matters:<br><strong style="color:var(--gold-soft);">what does it cost to find out — versus what does it cost to be wrong?</strong></p>
+    <div class="card step" data-step style="margin:3vh auto 0;max-width:1000px;background:rgba(247,243,233,.06);text-align:center;">
+      <p class="quote" style="font-size:clamp(1.05rem,1.9vw,1.5rem);font-style:normal;">Companies die from a lack of <span style="color:var(--gold-soft);">customers</span> —<br>not necessarily from a lack of cash.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act I · What an MVP Buys You</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 5 · FOUR FOUNDATION QUESTIONS ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act I · What an MVP Buys You</div>
+  <h2>The 4 Foundation Questions</h2>
+  <div class="body">
+    <div class="agendagrid" style="max-width:1080px;">
+      <div class="acard"><div class="anumeral">1</div><div><div class="boxtitle" style="margin-bottom:.3vh;">What problem do you solve?</div><p class="read" style="color:var(--muted);">Named plainly — not your product, the problem.</p></div></div>
+      <div class="acard"><div class="anumeral">2</div><div><div class="boxtitle" style="margin-bottom:.3vh;">Who's got it?</div><p class="read" style="color:var(--muted);">Groups you can describe, find, and call.</p></div></div>
+      <div class="acard"><div class="anumeral">3</div><div><div class="boxtitle" style="margin-bottom:.3vh;">What's the impact today?</div><p class="read" style="color:var(--muted);">What it costs them right now — money, hours, risk.</p></div></div>
+      <div class="acard"><div class="anumeral">4</div><div><div class="boxtitle" style="margin-bottom:.3vh;">Who pays to make it go away?</div><p class="read" style="color:var(--muted);">Not who likes it. Who <em>pays</em>.</p></div></div>
+    </div>
+    <p class="read step" data-step style="text-align:center;margin:3.2vh auto 0;font-size:clamp(1rem,1.7vw,1.35rem);max-width:1050px;"><strong>Your answers to these are guesses.</strong> An MVP is a machine for testing them — one at a time, cheapest first. Question 4 is where tonight ends.</p>
+  </div>
+  <div class="footer"><span>Act I · What an MVP Buys You · Callback: S02, Problem-Solution Fit</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 6 · DEFINITIONS ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act I · What an MVP Buys You</div>
+  <h2>Four words people use interchangeably. They aren't.</h2>
+  <div class="body">
+    <div class="agendagrid" style="gap:2.6vh;">
+      <div class="acard"><div class="anumeral" style="font-size:clamp(.95rem,1.5vw,1.2rem);flex:none;width:9.5em;min-width:0;">Prototype</div><div><p class="read"><strong>Answers: can it work?</strong> A test of feasibility, shown to yourselves. Nobody buys a prototype.</p></div></div>
+      <div class="acard"><div class="anumeral" style="font-size:clamp(.95rem,1.5vw,1.2rem);flex:none;width:9.5em;min-width:0;">MVP</div><div><p class="read"><strong>Answers: will they use it — will they pay?</strong> The smallest thing you can put in front of a real customer that produces a real decision. Tonight's word.</p></div></div>
+      <div class="acard"><div class="anumeral" style="font-size:clamp(.95rem,1.5vw,1.2rem);flex:none;width:9.5em;min-width:0;">Pilot</div><div><p class="read"><strong>Answers: does it survive contact with one real customer?</strong> Paid, scoped, delivered for real — the service business's natural MVP. More in Act II.</p></div></div>
+      <div class="acard"><div class="anumeral" style="font-size:clamp(.95rem,1.5vw,1.2rem);flex:none;width:9.5em;min-width:0;">MLP</div><div><p class="read"><strong>Minimum Lovable Product — answers: will they tell anyone?</strong> Enough polish that early users become your marketing. A later stage, not a starting point.</p></div></div>
+    </div>
+  </div>
+  <div class="footer"><span>Act I · What an MVP Buys You · Terms defined on first use</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 7 · ACT II SETUP ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Act II · What They Actually Built</div>
+  <div class="body">
+    <p class="chapternum">Act II</p>
+    <p class="chapter" style="font-size:clamp(1.9rem,4.2vw,3.4rem);">Four companies you know.<br><span style="color:var(--gold-soft);">What did Day One actually look like?</span></p>
+    <p class="read step" data-step style="margin-top:3vh;font-size:clamp(1rem,1.7vw,1.35rem);max-width:900px;">For each one: write down what you think they shipped first.<br>Then we'll look at what they actually did.</p>
+  </div>
+  <div class="footer"><span>Act II · What They Actually Built</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 8 · ZAPPOS ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act II · What They Actually Built</div>
+  <h2>Zappos, 1999 — "people will buy shoes online."</h2>
+  <div class="body">
+    <div class="cols" style="max-width:1240px;margin:0 auto;width:100%;align-items:stretch;">
+      <div class="col" style="flex:1.15;">
+        <div class="stack" style="gap:2.6vh;height:100%;">
+          <p class="read" style="font-size:clamp(1rem,1.6vw,1.3rem);">Nick Swinmurn can't find the boots he wants at the mall. He believes people would buy shoes on the internet — in 1999, when everyone knows you'd never buy shoes you can't try on. <strong>What does he build?</strong></p>
+          <div class="card goldcard step" data-step>
+            <p class="read" style="font-size:clamp(.95rem,1.55vw,1.2rem);">He builds almost nothing. He walks into local shoe stores, <strong>photographs the inventory,</strong> and posts the photos on a bare-bones site. When an order comes in, he goes back to the store, <strong>buys the pair at full retail,</strong> and ships it himself — losing money on every sale.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <svg viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;filter:drop-shadow(0 2px 6px rgba(17,29,46,.15));" role="img" aria-label="Recreation of the original 1999 Shoesite.com storefront in a period browser window">
+          <!-- 1999 browser chrome -->
+          <rect x="4" y="4" width="452" height="292" rx="6" fill="#C9C4B8" stroke="#8A8578" stroke-width="1.5"/>
+          <rect x="4" y="4" width="452" height="26" rx="6" fill="#3D4E63"/>
+          <text x="18" y="21" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#F7F3E9">Netscape — Shoesite.com</text>
+          <circle cx="428" cy="17" r="5" fill="#C9C4B8"/><circle cx="442" cy="17" r="5" fill="#C9C4B8"/>
+          <rect x="12" y="36" width="436" height="20" rx="3" fill="#EDEAE0" stroke="#8A8578" stroke-width="1"/>
+          <text x="20" y="50" font-family="'SF Mono',Consolas,monospace" font-size="10" fill="#3D4E63">http://www.shoesite.com/</text>
+          <!-- page -->
+          <rect x="12" y="62" width="436" height="226" fill="#FDFCF8" stroke="#8A8578" stroke-width="1"/>
+          <text x="230" y="88" text-anchor="middle" font-family="Georgia,serif" font-size="20" font-weight="700" fill="#1B2A41">Welcome to Shoesite.com!</text>
+          <text x="230" y="104" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#6B7684">The Web's shoe store — browse today's styles below</text>
+          <line x1="30" y1="114" x2="430" y2="114" stroke="#C9C4B8" stroke-width="1"/>
+          <!-- product grid: three photographed pairs -->
+          <g>
+            <rect x="42" y="126" width="110" height="96" fill="#fff" stroke="#C9C4B8" stroke-width="1"/>
+            <path d="M62 176 q6 -18 26 -16 q16 2 26 12 q10 8 22 8 l0 10 q-38 4 -74 -2 z" fill="none" stroke="#1B2A41" stroke-width="2"/>
+            <text x="97" y="206" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#22303F">Airwalk Boot</text>
+            <text x="97" y="217" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#8a6d14">$79.99 · Buy</text>
+          </g>
+          <g>
+            <rect x="175" y="126" width="110" height="96" fill="#fff" stroke="#C9C4B8" stroke-width="1"/>
+            <path d="M195 180 q4 -14 20 -14 q14 0 24 8 q8 6 20 6 l0 10 l-64 0 z" fill="none" stroke="#1B2A41" stroke-width="2"/>
+            <ellipse cx="227" cy="192" rx="32" ry="3" fill="none" stroke="#6B7684" stroke-width="1"/>
+            <text x="230" y="206" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#22303F">Oxford, Brown</text>
+            <text x="230" y="217" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#8a6d14">$64.99 · Buy</text>
+          </g>
+          <g>
+            <rect x="308" y="126" width="110" height="96" fill="#fff" stroke="#C9C4B8" stroke-width="1"/>
+            <path d="M326 182 q2 -20 18 -20 q10 0 16 10 q8 10 24 10 l0 8 l-58 0 z" fill="none" stroke="#1B2A41" stroke-width="2"/>
+            <line x1="334" y1="170" x2="342" y2="176" stroke="#1B2A41" stroke-width="1.5"/>
+            <text x="363" y="206" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#22303F">Runner, White</text>
+            <text x="363" y="217" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#8a6d14">$54.99 · Buy</text>
+          </g>
+          <text x="230" y="248" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#6B7684">Photos taken this morning at a San Francisco shoe store</text>
+          <rect x="150" y="258" width="160" height="18" rx="3" fill="#EDEAE0" stroke="#8A8578" stroke-width="1"/>
+          <text x="230" y="271" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#1B2A41">View Shopping Cart</text>
+          <text x="446" y="296" text-anchor="end" font-family="Inter,sans-serif" font-size="8" fill="#8A8578" transform="translate(0,-4)">recreation</text>
+        </svg>
+      </div>
+    </div>
+    <div class="eqrow step" data-step style="margin:3vh auto 0;max-width:1240px;">
+      <div class="eqstat"><div class="v" style="font-size:clamp(1.35rem,2.5vw,2.1rem);">What it cost</div><div class="n" style="font-size:clamp(.85rem,1.25vw,1rem);line-height:1.55;">a camera, a website, and shoe-store errands</div></div>
+      <div class="eqop">bought</div>
+      <div class="eqstat answer"><div class="v" style="font-size:clamp(1.35rem,2.5vw,2.1rem);">The answer</div><div class="n" style="font-size:clamp(.85rem,1.25vw,1rem);line-height:1.55;">strangers will buy shoes they can't try on — proven with their own money</div></div>
+    </div>
+    <div class="sourcestrip step" data-step style="margin:2.8vh auto 0;max-width:1240px;">
+      <div class="sslabel">Source</div>
+      <div class="ssbody">Swinmurn founded Zappos (as Shoesite.com) in 1999; sold to Amazon in 2009 for $1.2B. The store-photo test is the canonical "Wizard of Oz" MVP — manual labor behind a storefront that looks automated. Storefront shown is a recreation, not the original page.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Act II · What They Actually Built</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 9 · DOORDASH ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act II · What They Actually Built</div>
+  <h2>DoorDash, 2013 — "restaurants need delivery."</h2>
+  <div class="body">
+    <p class="read" style="font-size:clamp(1rem,1.6vw,1.3rem);max-width:1100px;">Four Stanford students hear a macaroon shop owner say she has to turn away delivery requests. They believe restaurant delivery is a business. <strong>What do they build?</strong></p>
+    <div class="card goldcard step" data-step style="margin-top:2.6vh;max-width:1100px;">
+      <p class="read" style="font-size:clamp(.95rem,1.55vw,1.2rem);">One afternoon of work: a landing page called <strong>PaloAltoDelivery.com</strong> — PDF menus found on the internet, and <strong>their own cell number</strong> at the bottom. They went back to their dorm rooms. The phone rang within hours: shrimp pad thai and egg rolls. They delivered it themselves.</p>
+    </div>
+    <div class="card step" data-step style="margin-top:2.2vh;max-width:1100px;">
+      <p class="read">The plan, if anyone called, was to say <em>"this is just a test — we're gathering data."</em> Then a real order came in from a real stranger, and they went and got the food. <strong>The test converted them.</strong></p>
+    </div>
+    <div class="sourcestrip step" data-step style="margin-top:2.2vh;max-width:1100px;">
+      <div class="sslabel">Source</div>
+      <div class="ssbody">Launched January 2013; first delivery January 12; $120K from Y Combinator that summer; renamed DoorDash. Founders did every delivery themselves for months — and DoorDash employees still do deliveries today.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Act II · What They Actually Built</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 10 · STRIPE ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act II · What They Actually Built</div>
+  <h2>Stripe, 2010 — "payments should be seven lines of code."</h2>
+  <div class="body">
+    <div class="cols" style="max-width:1240px;margin:0 auto;width:100%;align-items:stretch;">
+      <div class="col" style="flex:1.2;">
+        <div class="stack" style="gap:2.4vh;height:100%;justify-content:center;">
+          <p class="read" style="font-size:clamp(1rem,1.6vw,1.3rem);">The Collison brothers believe developers hate their payment processors enough to switch. The product genuinely is a few lines of code. <strong>So how do they get their first users?</strong></p>
+          <div class="card goldcard step" data-step>
+            <p class="read" style="font-size:clamp(.95rem,1.55vw,1.2rem);">When a founder said yes to trying the beta, they didn't send a link. They said <strong>"Right then, give me your laptop"</strong> — and installed it on the spot, watching every hesitation, every broken assumption, every question the user actually asked.</p>
+          </div>
+          <p class="read step" data-step>The link-senders learn whether people <em>say</em> they'll try it. The Collisons learned what happens when they actually <em>do</em> — which is a different answer entirely.</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="promptbox" style="height:100%;display:flex;flex-direction:column;justify-content:center;">
+          <div style="display:flex;gap:.5em;margin-bottom:1.2vh;"><span style="width:.7em;height:.7em;border-radius:50%;background:#B3402F;display:inline-block;"></span><span style="width:.7em;height:.7em;border-radius:50%;background:#C9A227;display:inline-block;"></span><span style="width:.7em;height:.7em;border-radius:50%;background:#2E7D5B;display:inline-block;"></span></div>
+<pre style="margin:0;font:inherit;white-space:pre-wrap;"><span style="color:#7C8899;">1</span>  Stripe.setPublishableKey(<span class="pc">'pk_live_…'</span>);
+<span style="color:#7C8899;">2</span>  Stripe.card.createToken({
+<span style="color:#7C8899;">3</span>    number: <span class="pc">'4242 4242 4242 4242'</span>,
+<span style="color:#7C8899;">4</span>    exp_month: <span class="pc">8</span>, exp_year: <span class="pc">2026</span>,
+<span style="color:#7C8899;">5</span>    cvc: <span class="pc">'123'</span>
+<span style="color:#7C8899;">6</span>  }, handleResponse);
+<span style="color:#7C8899;">7</span>  <span style="color:#2E7D5B;">// that's the whole integration.</span></pre>
+        </div>
+      </div>
+    </div>
+    <div class="sourcestrip step" data-step style="margin:2.8vh auto 0;max-width:1240px;">
+      <div class="sslabel">Source</div>
+      <div class="ssbody">Paul Graham named the move the "Collison installation" in his essay <em>Do Things That Don't Scale</em> — which is on tonight's resources slide. First user: Ross Boucher of 280 North, a YC friend. Code shown is illustrative of the era's API.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Act II · What They Actually Built</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 11 · FRANKLIN'S SECOND LOCATION ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Act II · What They Actually Built · The Room's Own Case</div>
+  <h2 style="color:var(--ivory);">Franklin's Bagels — the $210,000 question.</h2>
+  <div class="body">
+    <div class="cols" style="max-width:1240px;margin:0 auto;width:100%;align-items:center;">
+      <div class="col" style="flex:1.25;">
+        <p class="read" style="font-size:clamp(1rem,1.65vw,1.3rem);">Two weeks ago you priced this company. Year 3 of the model carries <strong style="color:var(--gold-soft);">$210K of capex for a second location</strong> — and the whole valuation moved when it did. That number is a bet that a neighborhood Franklin's has never sold a bagel in will show up.</p>
+        <div style="margin-top:2.6vh;"><span class="votechip">How do you de-risk $210,000 for $2,000?</span></div>
+      </div>
+      <div class="col">
+        <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;" role="img" aria-label="A farmers-market stall with a striped awning and a tray of bagels">
+          <!-- awning -->
+          <path d="M60 58 L340 58 L352 92 L48 92 Z" fill="none" stroke="#D9BC5F" stroke-width="2.5"/>
+          <g stroke="#D9BC5F" stroke-width="2" opacity=".65">
+            <line x1="97" y1="58" x2="86" y2="92"/><line x1="134" y1="58" x2="126" y2="92"/><line x1="171" y1="58" x2="166" y2="92"/><line x1="208" y1="58" x2="206" y2="92"/><line x1="245" y1="58" x2="246" y2="92"/><line x1="282" y1="58" x2="286" y2="92"/><line x1="319" y1="58" x2="326" y2="92"/>
+          </g>
+          <path d="M48 92 q10 14 24 0 q12 14 24 0 q12 14 24 0 q12 14 24 0 q12 14 24 0 q12 14 24 0 q12 14 24 0 q12 14 24 0 q12 14 24 0 q12 14 24 0 q12 14 24 0 q14 14 24 0" fill="none" stroke="#D9BC5F" stroke-width="2" opacity=".8"/>
+          <!-- posts -->
+          <line x1="64" y1="92" x2="64" y2="196" stroke="#F7F3E9" stroke-width="2.5" opacity=".85"/>
+          <line x1="336" y1="92" x2="336" y2="196" stroke="#F7F3E9" stroke-width="2.5" opacity=".85"/>
+          <!-- folding table -->
+          <rect x="96" y="140" width="208" height="10" rx="2" fill="none" stroke="#F7F3E9" stroke-width="2.5"/>
+          <line x1="108" y1="150" x2="98" y2="196" stroke="#F7F3E9" stroke-width="2.5" opacity=".85"/>
+          <line x1="292" y1="150" x2="302" y2="196" stroke="#F7F3E9" stroke-width="2.5" opacity=".85"/>
+          <!-- bagel tray -->
+          <rect x="126" y="118" width="102" height="22" rx="3" fill="none" stroke="#C9A227" stroke-width="2"/>
+          <g fill="none" stroke="#C9A227" stroke-width="2">
+            <circle cx="142" cy="129" r="7"/><circle cx="142" cy="129" r="2.5"/>
+            <circle cx="162" cy="129" r="7"/><circle cx="162" cy="129" r="2.5"/>
+            <circle cx="182" cy="129" r="7"/><circle cx="182" cy="129" r="2.5"/>
+            <circle cx="202" cy="129" r="7"/><circle cx="202" cy="129" r="2.5"/>
+          </g>
+          <!-- price sign -->
+          <rect x="242" y="108" width="56" height="32" rx="3" fill="#111D2E" stroke="#C9A227" stroke-width="2"/>
+          <text x="270" y="122" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#D9BC5F">BAGELS</text>
+          <text x="270" y="134" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#F7F3E9">$2.50</text>
+          <!-- banner -->
+          <text x="200" y="80" text-anchor="middle" font-family="Georgia,serif" font-size="15" font-weight="700" fill="#F7F3E9" letter-spacing=".06em">FRANKLIN'S BAGELS</text>
+          <line x1="30" y1="196" x2="370" y2="196" stroke="#F7F3E9" stroke-width="2" opacity=".5"/>
+        </svg>
+      </div>
+    </div>
+    <div class="card goldcard step" data-step style="margin:2.8vh auto 0;max-width:1240px;background:rgba(247,243,233,.06);">
+      <p class="read" style="font-size:clamp(.95rem,1.55vw,1.2rem);">A folding table. <strong>A farmers-market stall, six weekends, in the actual target neighborhood.</strong> Same bagels, same prices. You learn foot traffic, repeat faces by week three, what sells out, and what a Saturday grosses — before anyone signs a lease.</p>
+    </div>
+    <p class="read step" data-step style="margin:2.4vh auto 0;max-width:1240px;">The lease teaches you the same lesson for $210,000 — <strong style="color:var(--gold-soft);">after</strong> you've signed it. The stall teaches it for $2,000, first. <strong>No code anywhere in this MVP.</strong></p>
+  </div>
+  <div class="footer"><span>Act II · What They Actually Built · Callback: S06 Franklin's DCF</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 12 · THE PATTERN ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act II · What They Actually Built</div>
+  <h2>The pattern hiding in all four stories.</h2>
+  <div class="body">
+    <div class="eqrow" style="max-width:1050px;margin:0 auto;width:100%;">
+      <div class="eqstat"><div class="v" style="font-size:clamp(1.3rem,2.4vw,2rem);">Manual</div><div class="k">beats automated</div></div>
+      <div class="eqop">·</div>
+      <div class="eqstat"><div class="v" style="font-size:clamp(1.3rem,2.4vw,2rem);">Fake</div><div class="k">beats real</div></div>
+      <div class="eqop">·</div>
+      <div class="eqstat"><div class="v" style="font-size:clamp(1.3rem,2.4vw,2rem);">Now</div><div class="k">beats perfect</div></div>
+    </div>
+    <p class="quote step" data-step style="text-align:center;margin:3.4vh auto 0;font-size:clamp(1.35rem,2.7vw,2.2rem);font-style:normal;max-width:1050px;">Every one of these bought a <strong style="color:var(--gold);">customer decision</strong> — not a product.</p>
+    <div class="cols step" data-step style="margin-top:3vh;max-width:1180px;margin-left:auto;margin-right:auto;">
+      <div class="col"><div class="card" style="height:100%;border-top:5px solid var(--navy);">
+        <div class="rtag" style="color:var(--navy);">Notice the symmetry</div>
+        <p class="read" style="margin-top:.8vh;">The MVP of a <strong>product company</strong> is usually a <strong>service</strong> — a human photographing shoes, a founder delivering pad thai, a brother installing code by hand.</p>
+      </div></div>
+      <div class="col"><div class="card" style="height:100%;border-top:5px solid var(--gold);">
+        <div class="rtag">Which means</div>
+        <p class="read" style="margin-top:.8vh;">The MVP of a <strong>service business</strong> is usually a <strong>product</strong> — a fixed-scope, fixed-price slice of what you'd otherwise custom-quote. Next slide.</p>
+      </div></div>
+    </div>
+  </div>
+  <div class="footer"><span>Act II · What They Actually Built</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 13 · MVP WHEN YOU SELL HOURS ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act II · What They Actually Built · For the Service Businesses in the Room</div>
+  <h2>What's the MVP when you sell hours?</h2>
+  <div class="body">
+    <div class="rolegrid" style="max-width:1280px;">
+      <div class="role">
+        <div class="rtag">Move 1</div>
+        <div class="rname">The pilot engagement</div>
+        <p class="read">Paid, scoped, small, and honest about being a pilot. A real client paying a real invoice is worth fifty "we'd definitely buy that" conversations.</p>
+      </div>
+      <div class="role">
+        <div class="rtag">Move 2</div>
+        <div class="rname">The concierge test</div>
+        <p class="read">Deliver by hand what you'd eventually systematize. Zappos in a blazer: the client sees a service; you see whether the process is worth building.</p>
+      </div>
+      <div class="role">
+        <div class="rtag">Move 3</div>
+        <div class="rname">Sell before you staff</div>
+        <p class="read">A signed LOI for an offering that doesn't exist yet is the service world's preorder. If nobody signs, you just saved a hire.</p>
+      </div>
+    </div>
+    <p class="read step" data-step style="text-align:center;margin:3vh auto 0;font-size:clamp(.98rem,1.6vw,1.28rem);max-width:1050px;">All three test the same thing: <strong>Question 4 — who's willing to pay?</strong> Before you build the team, the system, or the office to deliver it.</p>
+  </div>
+  <div class="footer"><span>Act II · What They Actually Built</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 14 · OWN THE RELATIONSHIP · VANGUARD ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Act II · What They Actually Built · One More Story — Told Firsthand</div>
+  <h2 style="color:var(--ivory);">Own the client relationship — or someone else will.</h2>
+  <div class="body">
+    <div style="display:flex;align-items:center;gap:1.2vw;max-width:1080px;margin:0 auto 2.2vh;width:100%;">
+      <svg viewBox="0 0 120 74" xmlns="http://www.w3.org/2000/svg" style="width:clamp(70px,7vw,104px);height:auto;flex:none;" role="img" aria-label="Line drawing of a sailing ship">
+        <!-- generic tall ship, evoking the era -->
+        <path d="M14 56 L106 56 L96 68 L26 68 Z" fill="none" stroke="#D9BC5F" stroke-width="2.5"/>
+        <line x1="60" y1="56" x2="60" y2="10" stroke="#D9BC5F" stroke-width="2.5"/>
+        <path d="M60 12 q22 8 30 22 L60 34 Z" fill="none" stroke="#F7F3E9" stroke-width="2"/>
+        <path d="M60 16 q-18 8 -24 18 L60 34 Z" fill="none" stroke="#F7F3E9" stroke-width="2"/>
+        <line x1="60" y1="10" x2="72" y2="10" stroke="#C9A227" stroke-width="2"/>
+        <path d="M8 62 q8 6 16 0 q8 6 16 0 q8 6 16 0 q8 6 16 0 q8 6 16 0 q8 6 16 0 q8 6 16 0" fill="none" stroke="#9AA6B5" stroke-width="1.5" opacity=".7"/>
+      </svg>
+      <div>
+        <div style="font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,2.8vw,2.3rem);color:#F7F3E9;letter-spacing:.02em;line-height:1;">Vanguard</div>
+        <div style="font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:#9AA6B5;margin-top:.6vh;">Valley Forge, PA · est. 1975 · told firsthand</div>
+      </div>
+    </div>
+    <div class="agendagrid" style="max-width:1080px;">
+      <div class="acard"><div class="anumeral">1975</div><div><div class="boxtitle">Administration</div><p class="read">Vanguard is born as the Wellington funds' <strong>administrative arm</strong> — the back office. Explicitly barred from distribution and investment advisory. The lowest-value rung on the ladder.</p></div></div>
+      <div class="acard step" data-step><div class="anumeral">Then</div><div><div class="boxtitle">Distribution</div><p class="read">Within a few years it takes over <strong>marketing and distribution</strong> — and now it owns the shareholder relationship.</p></div></div>
+      <div class="acard step" data-step><div class="anumeral">Then</div><div><div class="boxtitle">Investment management</div><p class="read">Then the <strong>investment function itself.</strong> The back office became the $10-trillion brand; the advisor became a vendor.</p></div></div>
+    </div>
+    <p class="read step" data-step style="text-align:center;margin:2.8vh auto 0;font-size:clamp(1rem,1.7vw,1.35rem);max-width:1050px;"><strong style="color:var(--gold-soft);">If you don't own the client relationship, you're a feature in someone else's product</strong> — and someone can run it on you. Every white-label shop and subcontractor in this room: this slide is for you.</p>
+  </div>
+  <div class="footer"><span>Act II · What They Actually Built · Vanguard incorporated 1974, operations 1975</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 15 · BUILD-MEASURE-LEARN ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act III · Deciding What Goes In First</div>
+  <h2>The loop everyone quotes — and the part they skip.</h2>
+  <div class="body">
+    <div class="cols" style="max-width:1280px;margin:0 auto;width:100%;align-items:center;">
+      <div class="col" style="flex:0 0 42%;">
+        <svg viewBox="0 0 440 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+          <defs>
+            <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C9A227"/></marker>
+          </defs>
+          <circle cx="220" cy="205" r="118" fill="none" stroke="rgba(107,118,132,.18)" stroke-width="10"/>
+          <path d="M 220,87 A 118,118 0 0 1 322,264" fill="none" stroke="#C9A227" stroke-width="4" marker-end="url(#arw)"/>
+          <path d="M 322,264 A 118,118 0 0 1 118,264" fill="none" stroke="#C9A227" stroke-width="4" marker-end="url(#arw)"/>
+          <path d="M 118,264 A 118,118 0 0 1 220,87" fill="none" stroke="#C9A227" stroke-width="4" marker-end="url(#arw)"/>
+          <!-- node chips -->
+          <g>
+            <rect x="158" y="26" width="124" height="42" rx="21" fill="#1B2A41"/>
+            <text x="220" y="53" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="18" fill="#F7F3E9">BUILD</text>
+            <text x="220" y="16" text-anchor="middle" font-family="Inter,sans-serif" font-size="11.5" fill="#6B7684">the smallest testable thing</text>
+          </g>
+          <g>
+            <rect x="296" y="292" width="140" height="42" rx="21" fill="#1B2A41"/>
+            <text x="366" y="319" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="18" fill="#F7F3E9">MEASURE</text>
+            <text x="366" y="352" text-anchor="middle" font-family="Inter,sans-serif" font-size="11.5" fill="#6B7684">what real customers do</text>
+          </g>
+          <g>
+            <rect x="10" y="292" width="124" height="42" rx="21" fill="#1B2A41"/>
+            <text x="72" y="319" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="18" fill="#F7F3E9">LEARN</text>
+            <text x="72" y="352" text-anchor="middle" font-family="Inter,sans-serif" font-size="11.5" fill="#6B7684">did the hypothesis survive?</text>
+          </g>
+          <text x="220" y="199" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="16" fill="#8a6d14">one lap =</text>
+          <text x="220" y="221" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="16" fill="#8a6d14">one experiment</text>
+        </svg>
+      </div>
+      <div class="col">
+        <div class="stack" style="gap:2.2vh;">
+          <div class="card goldcard"><p class="read" style="font-size:clamp(.95rem,1.5vw,1.18rem);"><strong>The loop (Eric Ries, <em>The Lean Startup</em>):</strong> build the smallest thing that tests a hypothesis, measure what real customers do, learn whether the hypothesis survived — then go around again.</p></div>
+          <div class="card step" data-step><p class="read" style="font-size:clamp(.95rem,1.5vw,1.18rem);"><strong>Measure the right thing.</strong> Vanity metrics go up and to the right and decide nothing: signups, page views, followers. Actionable metrics are behaviors that cost the customer something: <strong>repeat use, referrals, money.</strong></p></div>
+          <div class="card redcard step" data-step><p class="read" style="font-size:clamp(.95rem,1.5vw,1.18rem);"><strong>The honest caveat:</strong> the loop assumes you already know what to measure — and which feature to test first. It doesn't tell you. That's the next fifteen minutes.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>Act III · Deciding What Goes In First</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 16 · THE RANKING TRAP ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act III · Deciding What Goes In First · Carpenter Hall Marketing</div>
+  <h2>Carpenter Hall is packaging a new offering. What's essential?</h2>
+  <div class="body">
+    <p class="read" style="max-width:1120px;font-size:clamp(.95rem,1.5vw,1.2rem);">Carpenter Hall Marketing is designing a monthly marketing package for small firms. Here's the candidate feature list. <strong>Raise your hand for every feature you'd call essential.</strong></p>
+    <div class="zoogrid" style="max-width:1260px;margin:3.2vh auto 0;grid-template-columns:1fr 1fr 1fr 1fr;gap:2.4vh 1.2vw;">
+      <div class="zoo" style="padding:2.4vh 1.1vw;display:flex;align-items:center;"><div class="zname" style="font-size:clamp(1rem,1.55vw,1.3rem);">Dedicated account manager</div></div>
+      <div class="zoo" style="padding:2.4vh 1.1vw;display:flex;align-items:center;"><div class="zname" style="font-size:clamp(1rem,1.55vw,1.3rem);">Weekly reporting</div></div>
+      <div class="zoo" style="padding:2.4vh 1.1vw;display:flex;align-items:center;"><div class="zname" style="font-size:clamp(1rem,1.55vw,1.3rem);">48-hour turnaround</div></div>
+      <div class="zoo" style="padding:2.4vh 1.1vw;display:flex;align-items:center;"><div class="zname" style="font-size:clamp(1rem,1.55vw,1.3rem);">Quarterly strategy workshop</div></div>
+      <div class="zoo" style="padding:2.4vh 1.1vw;display:flex;align-items:center;"><div class="zname" style="font-size:clamp(1rem,1.55vw,1.3rem);">Monthly analytics review</div></div>
+      <div class="zoo" style="padding:2.4vh 1.1vw;display:flex;align-items:center;"><div class="zname" style="font-size:clamp(1rem,1.55vw,1.3rem);">Social scheduling</div></div>
+      <div class="zoo" style="padding:2.4vh 1.1vw;display:flex;align-items:center;"><div class="zname" style="font-size:clamp(1rem,1.55vw,1.3rem);">Ad management</div></div>
+      <div class="zoo" style="padding:2.4vh 1.1vw;display:flex;align-items:center;"><div class="zname" style="font-size:clamp(1rem,1.55vw,1.3rem);">Content calendar</div></div>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:3.6vh;max-width:1260px;">
+      <p class="read" style="font-size:clamp(.95rem,1.55vw,1.2rem);"><strong>Everything got marked. It always does.</strong> Asked one at a time, every feature is essential — because saying yes costs nothing. A feature list rated feature-by-feature always comes back all-essential, and tells you exactly nothing about what to build first.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act III · Deciding What Goes In First</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 17 · STATED IMPORTANCE IS FREE ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Act III · Deciding What Goes In First</div>
+  <div class="body">
+    <p class="quote" style="font-size:clamp(1.5rem,2.9vw,2.4rem);max-width:1050px;line-height:1.35;font-style:normal;">Stated importance is free.<br><span style="color:var(--gold-soft);">Tradeoffs tell the truth.</span></p>
+    <div class="cols step" data-step style="margin-top:4vh;max-width:1150px;margin-left:auto;margin-right:auto;">
+      <div class="col"><div class="card" style="height:100%;background:rgba(247,243,233,.06);">
+        <div class="rtag" style="color:var(--gold-soft);">You already know this</div>
+        <p class="read" style="margin-top:.8vh;">S02: ask about <strong>past behavior, not future intentions.</strong> "Would you use this?" is worthless; "tell me about the last time" is evidence. Same rule, new domain.</p>
+      </div></div>
+      <div class="col"><div class="card" style="height:100%;background:rgba(247,243,233,.06);">
+        <div class="rtag" style="color:var(--gold-soft);">The fix</div>
+        <p class="read" style="margin-top:.8vh;">Never ask what matters. <strong>Force a choice between whole packages at real prices</strong> — and read what they gave up. There's a sixty-year-old science for this — invented at Wharton, a mile up Walnut Street.</p>
+      </div></div>
+    </div>
+  </div>
+  <div class="footer"><span>Act III · Deciding What Goes In First · Callback: S02, past behavior over stated intention</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 18 · CONJOINT, DEFINED ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act III · Deciding What Goes In First</div>
+  <h2>Conjoint analysis — invented at Wharton.</h2>
+  <div class="body">
+    <div class="card" style="max-width:1120px;border-left:4px solid var(--navy);margin-bottom:2.4vh;">
+      <div class="rtag" style="color:var(--navy);">Definition</div>
+      <p class="read" style="font-size:clamp(1rem,1.65vw,1.3rem);margin-top:.6vh;"><strong>Conjoint analysis</strong> is a survey method that measures what people actually value — by making them choose between complete packages instead of rating features one at a time.</p>
+    </div>
+    <div class="card goldcard step" data-step style="max-width:1120px;">
+      <p class="read" style="font-size:clamp(1rem,1.65vw,1.3rem);"><strong>The trick: it never asks what's important.</strong> It shows people complete packages — features bundled with a price — and makes them choose. Preference is inferred from <strong>what they were willing to give up,</strong> which is the only honest signal a hypothetical question can produce.</p>
+    </div>
+    <div class="cols step" data-step style="margin-top:2.6vh;max-width:1120px;margin-left:auto;margin-right:auto;">
+      <div class="col"><div class="card" style="height:100%;">
+        <div class="rtag">The pedigree</div>
+        <p class="read" style="margin-top:.8vh;">Developed by <strong>Paul Green</strong> in Wharton's marketing department in the mid-1960s; the landmark paper landed in 1971. It made him the most-cited author in marketing.</p>
+      </div></div>
+      <div class="col"><div class="card" style="height:100%;">
+        <div class="rtag">You've been in one</div>
+        <p class="read" style="margin-top:.8vh;">Conjoint designed <strong>Courtyard by Marriott</strong> and tested demand for <strong>E-ZPass.</strong> If you've driven the Schuylkill with a transponder, you're living inside a Wharton conjoint study.</p>
+      </div></div>
+    </div>
+    <div class="sourcestrip step" data-step style="margin-top:2.4vh;max-width:1120px;">
+      <div class="sslabel">Source</div>
+      <div class="ssbody">Green &amp; Rao, "Conjoint Measurement for Quantifying Judgmental Data," <em>Journal of Marketing Research</em>, 1971. Marriott and E-ZPass applications per Wharton Magazine and Knowledge at Wharton.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Act III · Deciding What Goes In First</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 19 · LIVE CHOICE CARDS ============ -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Act III · Deciding What Goes In First · Live — This Room Is the Sample</div>
+  <h2>You run a small firm. Which package do you buy?</h2>
+  <div class="body">
+    <div class="choicegrid" style="max-width:1480px;margin:0 auto;width:100%;">
+      <div class="choice">
+        <div class="chead">Package A</div>
+        <div class="cprice">$2,500</div><div class="cper">per month</div>
+        <ul class="cfeat">
+          <li><strong>Project-based</strong> work</li>
+          <li>Shared support team</li>
+          <li>5-day turnaround</li>
+          <li>Monthly report</li>
+        </ul>
+      </div>
+      <div class="choice">
+        <div class="chead">Package B</div>
+        <div class="cprice">$4,000</div><div class="cper">per month</div>
+        <ul class="cfeat">
+          <li><strong>Retainer</strong> relationship</li>
+          <li><strong>Dedicated manager</strong></li>
+          <li>5-day turnaround</li>
+          <li>Monthly report</li>
+        </ul>
+      </div>
+      <div class="choice">
+        <div class="chead">Package C</div>
+        <div class="cprice">$4,000</div><div class="cper">per month</div>
+        <ul class="cfeat">
+          <li><strong>Retainer</strong> relationship</li>
+          <li>Shared support team</li>
+          <li><strong>48-hour turnaround</strong></li>
+          <li>Monthly report</li>
+        </ul>
+      </div>
+      <div class="choice">
+        <div class="chead">Package D</div>
+        <div class="cprice">$5,500</div><div class="cper">per month</div>
+        <ul class="cfeat">
+          <li><strong>Retainer</strong> relationship</li>
+          <li><strong>Dedicated manager</strong></li>
+          <li><strong>48-hour turnaround</strong></li>
+          <li>Monthly report</li>
+        </ul>
+      </div>
+    </div>
+    <p class="read step" data-step style="text-align:center;margin:2.8vh auto 0;font-size:clamp(.95rem,1.55vw,1.25rem);max-width:1050px;"><strong>Hands up — one vote each.</strong> Notice what just happened to you: nobody asked whether a dedicated manager is important. You had to pay for it or give it up.</p>
+  </div>
+  <div class="footer"><span>Act III · Deciding What Goes In First · Tally on the whiteboard</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 21 · WHAT CONJOINT WON'T TELL YOU ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Act III · Deciding What Goes In First · The Honest Boundary</div>
+  <h2 style="color:var(--ivory);">What conjoint won't tell you.</h2>
+  <div class="body">
+    <div class="eqrow" style="max-width:1240px;margin:0 auto;width:100%;">
+      <div class="eqstat answer" style="padding:3.4vh 1.6vw;"><div class="v" style="font-size:clamp(1.5rem,2.9vw,2.4rem);">What it answers</div><div class="n" style="font-size:clamp(.92rem,1.4vw,1.15rem);line-height:1.65;margin-top:1.2vh;">What to build <strong>first</strong> — which features earn their place in version one, and which tier structure to test</div></div>
+      <div class="eqop">≠</div>
+      <div class="eqstat" style="padding:3.4vh 1.6vw;"><div class="v" style="font-size:clamp(1.5rem,2.9vw,2.4rem);">What it can't</div><div class="n" style="font-size:clamp(.92rem,1.4vw,1.15rem);line-height:1.65;margin-top:1.2vh;">Whether to build <strong>at all.</strong> A choice card is still a hypothetical — nobody's money moved</div></div>
+    </div>
+    <p class="read step" data-step style="text-align:center;margin:3.6vh auto 0;font-size:clamp(1.05rem,1.9vw,1.5rem);max-width:1050px;"><strong style="color:var(--gold-soft);">A customer who pays beats a customer who approves.</strong> Conjoint tells you what goes in the MVP — only a real purchase decision tells you whether the MVP lives.</p>
+    <p class="read step" data-step style="text-align:center;margin:2.2vh auto 0;max-width:1000px;color:#9AA6B5;">And yes — putting price on those cards surfaced willingness-to-pay. That thread is Session 8. We're pulling it deliberately, not tonight.</p>
+  </div>
+  <div class="footer"><span>Act III · Deciding What Goes In First · Pricing lands in S08</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ BREAK ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Intermission</div>
+  <div class="body" style="text-align:center;align-items:center;">
+    <p class="chapter" style="font-size:clamp(2.4rem,6vw,5rem);">Break — 10 minutes.</p>
+    <p class="read step" data-step style="margin-top:2.6vh;font-size:clamp(1rem,1.8vw,1.4rem);color:#C9D2DE;max-width:850px;">When we're back: we build a live product in this room, in real time —<br>and then ask why we shouldn't have.</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S07 · Product Development &amp; MVP Strategy</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 23 · THE OLD PREMISE ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act IV · When Building Gets Cheap</div>
+  <h2>Lean Startup rests on a premise. Check the date.</h2>
+  <div class="body">
+    <div class="cols" style="max-width:1100px;margin:0 auto;width:100%;align-items:center;">
+      <div class="col" style="flex:0 0 150px;">
+        <svg viewBox="0 0 130 180" xmlns="http://www.w3.org/2000/svg" style="width:min(130px,11vw);height:auto;display:block;margin:0 auto;filter:drop-shadow(2px 3px 4px rgba(17,29,46,.25));" role="img" aria-label="A book representing The Lean Startup">
+          <path d="M18 10 L112 10 L112 170 L18 170 Q10 170 10 162 L10 18 Q10 10 18 10 Z" fill="#1B2A41"/>
+          <path d="M18 10 L18 170" stroke="#111D2E" stroke-width="3"/>
+          <rect x="26" y="30" width="78" height="4" fill="#C9A227"/>
+          <text x="65" y="66" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="15" fill="#F7F3E9">THE</text>
+          <text x="65" y="86" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="15" fill="#F7F3E9">LEAN</text>
+          <text x="65" y="106" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="15" fill="#F7F3E9">STARTUP</text>
+          <rect x="26" y="118" width="78" height="2.5" fill="#C9A227"/>
+          <text x="65" y="140" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#9AA6B5">ERIC RIES</text>
+          <text x="65" y="158" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#6B7684">2011</text>
+        </svg>
+      </div>
+      <div class="col">
+        <div class="card">
+          <p class="read" style="font-size:clamp(1rem,1.65vw,1.3rem);"><em>The Lean Startup</em> is a 2011 book. Its core logic: <strong>building software is slow and expensive</strong> — months of engineering per attempt — so build the smallest thing that can teach you anything. The MVP was, at heart, <strong>a cost-control device.</strong></p>
+        </div>
+      </div>
+    </div>
+    <div class="eqrow step" data-step style="margin-top:3vh;max-width:1100px;margin-left:auto;margin-right:auto;">
+      <div class="eqstat"><div class="v" style="font-size:clamp(1.4rem,2.6vw,2.2rem);">2011</div><div class="k">A landing page + working prototype</div><div class="n">weeks of engineering, tens of thousands of dollars</div></div>
+      <div class="eqop">→</div>
+      <div class="eqstat answer"><div class="v" style="font-size:clamp(1.4rem,2.6vw,2.2rem);">2026</div><div class="k">The same artifact</div><div class="n">one prompt, a few minutes, effectively free</div></div>
+    </div>
+    <p class="read step" data-step style="text-align:center;margin:3vh auto 0;font-size:clamp(1rem,1.7vw,1.35rem);max-width:950px;">The premise collapsed. So does the discipline collapse with it?<br><strong>Let's find out — live.</strong></p>
+  </div>
+  <div class="footer"><span>Act IV · When Building Gets Cheap</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 24 · LIVE BUILD ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Act IV · When Building Gets Cheap · Live Build</div>
+  <h2 style="color:var(--ivory);">Carpenter Hall ships a product. Right now.</h2>
+  <div class="body">
+    <p class="read" style="max-width:1120px;font-size:clamp(.95rem,1.5vw,1.2rem);">Carpenter Hall wants to test Move 3 from earlier — a productized, fixed-price offering, sold before it's staffed. Here's the actual prompt. Watch the clock.</p>
+    <div class="promptbox" style="max-width:1120px;margin:2vh auto 0;">
+      <span class="pc">&gt;</span> Build a single-file landing page for Carpenter Hall Marketing's new productized service: <span class="pc">"The Marketing Audit — $2,500, delivered in two weeks."</span> Fixed scope: channel review, competitor snapshot, 90-day action plan. One clear headline, three proof points, and an intake form (name, email, company, biggest marketing frustration). Professional, trustworthy, small-business tone. No frameworks, no dependencies.
+    </div>
+    <p class="read step" data-step style="margin:2.6vh auto 0;max-width:1120px;text-align:center;font-size:clamp(.95rem,1.55vw,1.25rem);">While it builds, write down your prediction: <strong style="color:var(--gold-soft);">what will this page teach Carpenter Hall about the offering?</strong></p>
+    <div class="card step" data-step style="margin:2.4vh auto 0;max-width:1120px;background:rgba(247,243,233,.06);">
+      <p class="read"><strong style="color:var(--gold-soft);">This is the pattern, not a party trick:</strong> use AI to accelerate every step of MVP planning and execution — sharpening the hypothesis, drafting the test asset, writing the outreach. A frontier model does this best; tonight's build runs on <strong>Claude Fable 5.</strong> The Prompt Pack at the end of the deck chains the planning steps for you.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act IV · When Building Gets Cheap · Fallback page saved locally, just in case</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 25 · WHAT WE JUST DID, AND DIDN'T ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act IV · When Building Gets Cheap</div>
+  <h2>What we just did — and what we didn't.</h2>
+  <div class="body">
+    <div class="cols" style="max-width:1150px;margin:0 auto;width:100%;">
+      <div class="col"><div class="card" style="height:100%;border-top:5px solid var(--green);">
+        <div class="rtag" style="color:var(--green);">What we have</div>
+        <p class="read" style="margin-top:.8vh;">A real page. Real copy, a real form, a real price on a real offering. Ten minutes ago it didn't exist. Cost: one prompt and ten minutes.</p>
+      </div></div>
+      <div class="col"><div class="card" style="height:100%;border-top:5px solid var(--red);">
+        <div class="rtag" style="color:var(--red);">What we know</div>
+        <p class="read" style="margin-top:.8vh;"><strong>Nothing.</strong> Zero information about whether anyone wants a $2,500 audit. The page has taught us exactly as much as the unbuilt page: it hasn't met a customer yet.</p>
+      </div></div>
+    </div>
+    <div class="card goldcard step" data-step style="margin-top:3vh;max-width:1150px;">
+      <p class="read" style="font-size:clamp(.98rem,1.6vw,1.28rem);"><strong>The artifact was never the experiment.</strong> The experiment starts when a real prospect sees the page and decides. Everything before that moment is setup — and setup is now free. The customer's decision never will be.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act IV · When Building Gets Cheap</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 26 · WHY NOT JUST BUILD IT? ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Act IV · When Building Gets Cheap · The Question You're Already Forming</div>
+  <div class="body">
+    <p class="quote" style="font-size:clamp(1.6rem,3.2vw,2.7rem);max-width:1000px;line-height:1.3;font-style:normal;">"If building is free —<br><span style="color:var(--gold-soft);">why bother with an MVP at all?</span><br>Just build the whole thing."</p>
+    <p class="read step" data-step style="margin-top:4vh;font-size:clamp(1rem,1.75vw,1.4rem);max-width:1000px;">It's the right question, and the honest answer is: <strong>the old reason is gone.</strong> If the MVP was only ever about saving engineering cost, it's obsolete.</p>
+    <p class="read step" data-step style="margin-top:1.6vh;font-size:clamp(1rem,1.75vw,1.4rem);max-width:1000px;">But the constraint didn't disappear. <strong style="color:var(--gold-soft);">It moved.</strong></p>
+  </div>
+  <div class="footer"><span>Act IV · When Building Gets Cheap</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 27 · THE CONSTRAINT MOVED ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Act IV · When Building Gets Cheap</div>
+  <h2 style="color:var(--ivory);">The scarce resource was never engineering hours.</h2>
+  <div class="body">
+    <div class="card goldcard" style="max-width:1120px;background:rgba(247,243,233,.06);">
+      <p class="read" style="font-size:clamp(1rem,1.7vw,1.35rem);">It's <strong style="color:var(--gold-soft);">customer attention.</strong> You get a finite number of asks — emails answered, calls taken, pilots agreed to — before people stop replying. Spend them on a full product you guessed at, and you've burned the audience along with the build. <strong>That's what an MVP conserves now.</strong></p>
+    </div>
+    <p class="read step" data-step style="max-width:1120px;margin:3vh auto 0;font-size:clamp(.95rem,1.55vw,1.25rem);">So spend your first asks where the signal is richest — <strong>early adopters:</strong></p>
+    <svg class="step" data-step viewBox="0 0 760 190" xmlns="http://www.w3.org/2000/svg" style="max-width:900px;width:72%;height:auto;display:block;margin:1.8vh auto 0;" role="img" aria-label="The technology adoption curve with early adopters highlighted">
+      <!-- adoption curve (callback to S02/S03) -->
+      <path d="M30 160 C 90 158, 120 140, 160 112 C 200 84, 240 40, 320 34 C 400 28, 460 60, 520 100 C 580 140, 650 156, 730 160" fill="none" stroke="#9AA6B5" stroke-width="2.5"/>
+      <!-- early adopter band highlighted -->
+      <path d="M160 112 C 200 84, 226 52, 258 40 L 258 160 L 160 160 Z" fill="rgba(201,162,39,.28)" stroke="none"/>
+      <path d="M160 112 C 200 84, 226 52, 258 40" fill="none" stroke="#D9BC5F" stroke-width="4"/>
+      <g stroke="rgba(247,243,233,.35)" stroke-width="1.5" stroke-dasharray="4 4">
+        <line x1="160" y1="44" x2="160" y2="160"/><line x1="258" y1="44" x2="258" y2="160"/><line x1="430" y1="44" x2="430" y2="160"/><line x1="580" y1="44" x2="580" y2="160"/>
+      </g>
+      <line x1="20" y1="160" x2="740" y2="160" stroke="#F7F3E9" stroke-width="2" opacity=".6"/>
+      <!-- little customer figures in the highlighted band -->
+      <g stroke="#D9BC5F" stroke-width="2" fill="none">
+        <circle cx="196" cy="120" r="6"/><path d="M196 126 v14 M188 132 h16 M196 140 l-7 12 M196 140 l7 12"/>
+        <circle cx="222" cy="108" r="6"/><path d="M222 114 v14 M214 120 h16 M222 128 l-7 12 M222 128 l7 12"/>
+      </g>
+      <g font-family="Inter,sans-serif" font-size="11.5" fill="#9AA6B5">
+        <text x="95" y="180" text-anchor="middle">Innovators · 2.5%</text>
+        <text x="209" y="180" text-anchor="middle" fill="#D9BC5F" font-weight="700">Early adopters · 13.5%</text>
+        <text x="344" y="180" text-anchor="middle">Early majority · 34%</text>
+        <text x="505" y="180" text-anchor="middle">Late majority · 34%</text>
+        <text x="660" y="180" text-anchor="middle">Laggards · 16%</text>
+      </g>
+      <text x="209" y="28" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="14" fill="#D9BC5F">your first asks live here</text>
+    </svg>
+    <div class="rolegrid step" data-step style="max-width:1280px;margin-top:2.6vh;">
+      <div class="role" style="background:rgba(247,243,233,.06);"><div class="rtag">Trait 1</div><div class="rname" style="font-size:clamp(1rem,1.6vw,1.35rem);">Already in the problem</div><p class="read">They're actively hacking together a solution today — which means they'll actually engage.</p></div>
+      <div class="role" style="background:rgba(247,243,233,.06);"><div class="rtag">Trait 2</div><div class="rname" style="font-size:clamp(1rem,1.6vw,1.35rem);">Unoffended by rough edges</div><p class="read">Rough edges don't put them off — getting it first is the appeal.</p></div>
+      <div class="role" style="background:rgba(247,243,233,.06);"><div class="rtag">Trait 3</div><div class="rname" style="font-size:clamp(1rem,1.6vw,1.35rem);">Sought out by their circles</div><p class="read">Known for expertise, asked for advice — they're where word of mouth starts.</p></div>
+    </div>
+    <p class="read step" data-step style="text-align:center;margin:2.4vh auto 0;max-width:1000px;color:#9AA6B5;">The rest of the adoption curve — and the chasm between these people and everyone else — is Session 9.</p>
+  </div>
+  <div class="footer"><span>Act IV · When Building Gets Cheap · Adoption curve continues in S09</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 28 · SEAN ELLIS TEST ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act V · Knowing When You Have It</div>
+  <h2>How do you know it's working? One question.</h2>
+  <div class="body">
+    <div class="card goldcard" style="max-width:1150px;text-align:center;padding:3.2vh 2vw;">
+      <p class="quote" style="font-size:clamp(1.45rem,2.9vw,2.4rem);font-style:normal;">"How would you feel if you could<br>no longer use this product?"</p>
+      <p class="read" style="margin-top:1.8vh;">
+        <span style="display:inline-block;border:1.5px solid var(--gold);border-radius:999px;padding:.45em 1.1em;margin:0 .35em;font-weight:600;color:#8a6d14;">Very disappointed</span>
+        <span style="display:inline-block;border:1.5px solid rgba(107,118,132,.5);border-radius:999px;padding:.45em 1.1em;margin:0 .35em;color:var(--muted);">Somewhat disappointed</span>
+        <span style="display:inline-block;border:1.5px solid rgba(107,118,132,.5);border-radius:999px;padding:.45em 1.1em;margin:0 .35em;color:var(--muted);">Not disappointed</span>
+      </p>
+    </div>
+    <svg class="step" data-step viewBox="0 0 780 120" xmlns="http://www.w3.org/2000/svg" style="max-width:1000px;width:78%;height:auto;display:block;margin:3vh auto 0;" role="img" aria-label="Threshold bar showing the 40 percent product-market-fit line and Slack's 51 percent calibration point">
+      <!-- % scale bar -->
+      <rect x="40" y="46" width="700" height="20" rx="10" fill="none" stroke="rgba(107,118,132,.45)" stroke-width="2"/>
+      <rect x="320" y="46" width="420" height="20" rx="10" fill="rgba(201,162,39,.25)"/>
+      <g font-family="Inter,sans-serif" font-size="12" fill="#6B7684">
+        <text x="40" y="90" text-anchor="middle">0%</text>
+        <text x="390" y="90" text-anchor="middle">50%</text>
+        <text x="740" y="90" text-anchor="middle">100%</text>
+      </g>
+      <!-- 40% threshold -->
+      <line x1="320" y1="30" x2="320" y2="82" stroke="#C9A227" stroke-width="4"/>
+      <text x="320" y="20" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="14" fill="#8a6d14">40% — the fit line</text>
+      <!-- Slack calibration -->
+      <circle cx="397" cy="56" r="7" fill="#1B2A41"/>
+      <text x="397" y="112" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#1B2A41" font-weight="600">Slack, 2015 open survey: 51%</text>
+    </svg>
+    <div class="eqrow step" data-step style="margin:2.8vh auto 0;max-width:1150px;">
+      <div class="eqstat answer"><div class="v">40%+</div><div class="k">"very disappointed"</div><div class="n" style="font-size:clamp(.8rem,1.15vw,.95rem);">the product-market-fit signal — keep going, start scaling</div></div>
+      <div class="eqstat"><div class="v">&lt; 40%</div><div class="k">"very disappointed"</div><div class="n" style="font-size:clamp(.8rem,1.15vw,.95rem);">keep iterating — growth spend on top of this leaks</div></div>
+    </div>
+    <div class="sourcestrip step" data-step style="margin-top:2.6vh;max-width:1100px;">
+      <div class="sslabel">Source</div>
+      <div class="ssbody">Sean Ellis — first marketer at Dropbox, LogMeIn, and Eventbrite — derived the 40% threshold by comparing survey results across roughly 100 startups (published ~2009). The wording matters: disappointment, not satisfaction — loss reveals need; praise is free. Calibration point: Slack scored 51% in an open 2015 survey.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Act V · Knowing When You Have It</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 29 · READ THIS RESULT ============ -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Act V · Knowing When You Have It · You Make the Call</div>
+  <h2>Meridian HR Advisory, month six. Fit — or not?</h2>
+  <div class="body">
+    <p class="read" style="max-width:1480px;margin:0 auto 2vh;font-size:clamp(.95rem,1.5vw,1.2rem);"><strong>The setup:</strong> Meridian is a fictional 12-person HR consulting firm, six months after launching a monthly retainer product. Below is its actual dashboard — the same three instruments we just covered: a Sean Ellis score, pilot conversions, and retention curves. <strong>Apply the 40% test and read the curves. You make the call.</strong></p>
+    <div class="cols" style="max-width:1480px;margin:0 auto;width:100%;">
+      <div class="col">
+        <div class="stack" style="gap:1.4vh;">
+          <div class="card"><div class="bignum" style="font-size:clamp(1.6rem,3vw,2.6rem);">41%</div><div class="biglabel">"Very disappointed" · Sean Ellis survey, n = 22 clients</div></div>
+          <div class="card"><div class="bignum" style="font-size:clamp(1.6rem,3vw,2.6rem);">9 of 20</div><div class="biglabel">Pilots converted to retainer this year</div></div>
+        </div>
+      </div>
+      <div class="col" style="flex:1.4;">
+        <div class="card" style="height:100%;">
+          <div class="rtag">Month-over-month client retention, by segment</div>
+          <div class="curveswrap" style="margin-top:1vh;">
+            <svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg">
+              <line x1="40" y1="200" x2="540" y2="200" stroke="rgba(107,118,132,.4)" stroke-width="1.5"/>
+              <line x1="40" y1="200" x2="40" y2="20" stroke="rgba(107,118,132,.4)" stroke-width="1.5"/>
+              <g font-family="Inter,sans-serif" font-size="11" fill="#6B7684">
+                <text x="40" y="218" text-anchor="middle">M1</text><text x="140" y="218" text-anchor="middle">M2</text><text x="240" y="218" text-anchor="middle">M3</text><text x="340" y="218" text-anchor="middle">M4</text><text x="440" y="218" text-anchor="middle">M5</text><text x="540" y="218" text-anchor="middle">M6</text>
+                <text x="30" y="204" text-anchor="end">0%</text><text x="30" y="112" text-anchor="end">50%</text><text x="30" y="28" text-anchor="end">100%</text>
+              </g>
+              <path d="M40,20 L140,62 L240,76 L340,80 L440,81 L540,81" fill="none" stroke="#2E7D5B" stroke-width="3.5"/>
+              <path d="M40,20 L140,88 L240,130 L340,160 L440,180 L540,192" fill="none" stroke="#B3402F" stroke-width="3.5" stroke-dasharray="7 5"/>
+              <text x="540" y="62" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#2E7D5B" text-anchor="end">Firms 10–50 people · flattens ~66%</text>
+              <text x="540" y="176" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#B3402F" text-anchor="end">Enterprise · still falling</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2.2vh;"><span class="votechip">Vote · Does Meridian have product-market fit?</span></div>
+    <div class="card goldcard step" data-step style="margin-top:2vh;max-width:1300px;">
+      <div class="rtag">The lesson</div>
+      <p class="read" style="font-size:clamp(.92rem,1.45vw,1.15rem);margin-top:.6vh;"><strong>The honest read: yes — in one segment.</strong> The 41% clears the bar but n = 22 is thin. The tell is the shape of the curves: a retention curve that <strong>flattens</strong> is customers deciding to stay — that's fit. One that keeps <strong>decaying</strong> is a leaky bucket. Meridian has fit with 10–50-person firms and doesn't with enterprise. The move isn't "keep going" — it's <strong>focus.</strong></p>
+    </div>
+  </div>
+  <div class="footer"><span>Act V · Knowing When You Have It · Meridian is fictional; the pattern is everywhere</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 30 · FALSE POSITIVES + HONEST PIVOT ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act V · Knowing When You Have It</div>
+  <h2>Three signals that lie to you.</h2>
+  <div class="body">
+    <div class="rolegrid" style="max-width:1280px;gap:1.8vw;">
+      <div class="role" style="border-top-color:var(--red);gap:1.4vh;padding:2.8vh 1.5vw;"><div class="rtag" style="color:var(--red);">False positive 1</div><div class="rname" style="font-size:clamp(1.05rem,1.7vw,1.45rem);">Friends &amp; warm intros</div><p class="read" style="font-size:clamp(.9rem,1.4vw,1.12rem);">They're buying <em>you</em>, not the offering. Real signal starts with strangers — or at least friends' referrals, one step removed.</p></div>
+      <div class="role" style="border-top-color:var(--red);gap:1.4vh;padding:2.8vh 1.5vw;"><div class="rtag" style="color:var(--red);">False positive 2</div><div class="rname" style="font-size:clamp(1.05rem,1.7vw,1.45rem);">Launch-day spikes</div><p class="read" style="font-size:clamp(.9rem,1.4vw,1.12rem);">Novelty traffic decays by itself. Week-eight behavior is the truth; day-one behavior is a press release.</p></div>
+      <div class="role" style="border-top-color:var(--red);gap:1.4vh;padding:2.8vh 1.5vw;"><div class="rtag" style="color:var(--red);">False positive 3</div><div class="rname" style="font-size:clamp(1.05rem,1.7vw,1.45rem);">Paid traffic</div><p class="read" style="font-size:clamp(.9rem,1.4vw,1.12rem);">Money can simulate demand indefinitely. If growth stops when spend stops, you rented the signal — you don't have it.</p></div>
+    </div>
+    <div class="card goldcard step" data-step style="margin:4vh auto 0;max-width:1280px;padding:2.6vh 1.6vw;">
+      <p class="read" style="font-size:clamp(.98rem,1.6vw,1.28rem);"><strong>And one honest sentence on pivots:</strong> a pivot isn't giving up — it's a change of strategy that <strong>preserves what you learned.</strong> Which is only possible if you ran real experiments. Founder A from slide 3 can't pivot; she can only start over.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Act V · Knowing When You Have It</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 31 · FALSIFIABLE HYPOTHESIS ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act VI · Run It Like a Scientist</div>
+  <h2>Hypothesis Testing and Results Analysis</h2>
+  <div class="body">
+    <div class="card goldcard" style="max-width:1150px;text-align:center;padding:3vh 2vw;">
+      <p class="hypo">We believe <span class="blank">[customer]</span> will <span class="blank">[behavior]</span>.<br>We'll know within <span class="blank">[timeframe]</span> if <span class="blank">[measurable threshold]</span>.</p>
+    </div>
+    <div class="cols step" data-step style="margin-top:2.8vh;max-width:1150px;margin-left:auto;margin-right:auto;">
+      <div class="col"><div class="card redcard" style="height:100%;">
+        <div class="rtag" style="color:var(--red);">Fix this one — out loud</div>
+        <p class="quote" style="font-size:clamp(1rem,1.7vw,1.35rem);margin-top:.8vh;">"Clients want more strategic guidance."</p>
+        <p class="read" style="margin-top:1vh;color:var(--muted);">Can this sentence lose? Then it can't win either. Rebuild it in the format above.</p>
+      </div></div>
+      <div class="col"><div class="card step" data-step style="height:100%;border-top:5px solid var(--green);">
+        <div class="rtag" style="color:var(--green);">One rebuild that can fail</div>
+        <p class="read" style="margin-top:.8vh;font-size:clamp(.92rem,1.45vw,1.15rem);">"We believe <strong>owners of 10–50-person firms</strong> will <strong>pay $500 for a quarterly strategy session</strong>. We'll know within <strong>3 weeks</strong> if <strong>3 of the next 10 clients we offer it to buy</strong>."</p>
+      </div></div>
+    </div>
+    <p class="read step" data-step style="text-align:center;margin:2.6vh auto 0;font-size:clamp(.95rem,1.55vw,1.25rem);max-width:1050px;"><strong>One experiment at a time.</strong> Change two variables and you learn nothing about either.</p>
+  </div>
+  <div class="footer"><span>Act VI · Run It Like a Scientist</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 32 · A/B AT YOUR SCALE ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act VI · Run It Like a Scientist</div>
+  <h2>A/B testing — honestly, at your scale.</h2>
+  <div class="body">
+    <div class="cols" style="max-width:1240px;margin:0 auto;width:100%;">
+      <div class="col"><div class="card" style="height:100%;border-left:4px solid var(--navy);">
+        <div class="rtag" style="color:var(--navy);">The principle</div>
+        <p class="read" style="margin-top:.8vh;font-size:clamp(.98rem,1.55vw,1.25rem);">One variable at a time, threshold set <strong><em>before</em> you look.</strong></p>
+      </div></div>
+      <div class="col"><div class="card redcard" style="height:100%;">
+        <div class="rtag" style="color:var(--red);">The honest caveat</div>
+        <p class="read" style="margin-top:.8vh;font-size:clamp(.98rem,1.55vw,1.25rem);">Classic A/B is a traffic game — significance takes volume a thirty-client firm will never have. <strong>Run the low-volume versions:</strong></p>
+      </div></div>
+    </div>
+    <div class="cols step" data-step style="margin:3vh auto 0;max-width:1240px;">
+      <div class="col"><div class="card goldcard" style="height:100%;padding:2.6vh 1.6vw;">
+        <div class="rtag">Low-volume move 1 · Sequential testing</div>
+        <p class="read" style="margin-top:1vh;font-size:clamp(.95rem,1.5vw,1.2rem);">The next ten proposals go out as <strong>version B</strong> — new structure, new pricing page, new opener. Compare close rates against the last ten. Not lab-grade, but decision-grade.</p>
+      </div></div>
+      <div class="col"><div class="card goldcard" style="height:100%;padding:2.6vh 1.6vw;">
+        <div class="rtag">Low-volume move 2 · Test what you already ship</div>
+        <p class="read" style="margin-top:1vh;font-size:clamp(.95rem,1.5vw,1.2rem);">You don't have web traffic — you have <strong>outreach emails, proposals, pricing pages.</strong> Those are your funnel. <strong>Your proposal template is your homepage.</strong> Version it like one.</p>
+      </div></div>
+    </div>
+    <p class="quote step" data-step style="text-align:center;margin:3.6vh auto 0;font-size:clamp(1.15rem,2.2vw,1.8rem);font-style:normal;max-width:1050px;">The discipline transfers even where the statistics can't:<br><strong style="color:var(--gold);">decide what winning looks like before you peek.</strong></p>
+  </div>
+  <div class="footer"><span>Act VI · Run It Like a Scientist</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 33 · THE EXPERIMENT CARD ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Act VI · Run It Like a Scientist · Tonight's Artifact</div>
+  <h2 style="color:var(--ivory);">The Experiment Card — five fields, no escape hatches.</h2>
+  <div class="body">
+    <div class="agendagrid" style="max-width:1080px;">
+      <div class="acard"><div class="anumeral">1</div><div><div class="boxtitle">Riskiest assumption</div><p class="read">The belief that, if wrong, kills the idea. Usually a Question 4 answer.</p></div></div>
+      <div class="acard"><div class="anumeral">2</div><div><div class="boxtitle">What result proves you wrong</div><p class="read">Written as a result you could actually observe — not a feeling.</p></div></div>
+      <div class="acard"><div class="anumeral">3</div><div><div class="boxtitle">Cheapest test that produces it</div><p class="read">Stall, pilot, page, LOI — the least you can do that forces a real decision.</p></div></div>
+      <div class="acard"><div class="anumeral">4</div><div><div class="boxtitle">Threshold — set before you run</div><p class="read">The number that means proceed, written down <strong>before</strong> the data arrives — so you can't move the goalposts after.</p></div></div>
+      <div class="acard"><div class="anumeral">5</div><div><div class="boxtitle">Deadline</div><p class="read">Experiments without deadlines are hobbies.</p></div></div>
+    </div>
+    <p class="read step" data-step style="text-align:center;margin:2.6vh auto 0;font-size:clamp(.95rem,1.6vw,1.28rem);max-width:1000px;">Look again — <strong style="color:var(--gold-soft);">it's the hypothesis format with a calendar attached.</strong> The card link comes to you after tonight.</p>
+  </div>
+  <div class="footer"><span>Act VI · Run It Like a Scientist · Artifact released post-session</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 34 · WORKED EXAMPLE ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act VI · Run It Like a Scientist · Worked Example</div>
+  <h2>Carpenter Hall's card, filled in completely.</h2>
+  <div class="body">
+    <div class="agendagrid" style="max-width:1120px;">
+      <div class="acard"><div class="anumeral">1</div><div><p class="read"><strong>Riskiest assumption:</strong> small-firm owners will buy a fixed-price marketing audit <strong>without a discovery call</strong> — the productized offer sells itself from the page.</p></div></div>
+      <div class="acard step" data-step><div class="anumeral">2</div><div><p class="read"><strong>Proves us wrong:</strong> prospects read the page, then ask for a custom scope and a call anyway — or don't respond at all.</p></div></div>
+      <div class="acard step" data-step><div class="anumeral">3</div><div><p class="read"><strong>Cheapest test:</strong> tonight's landing page + the next <strong>10 sales conversations</strong> get pointed at it instead of a proposal.</p></div></div>
+      <div class="acard step" data-step><div class="anumeral">4</div><div><p class="read"><strong>Threshold, set now:</strong> <strong>3 of 10 buy</strong> at $2,500 → build the offering for real. 1–2 → revise the offer. 0 → the assumption is dead; discovery calls are part of the product.</p></div></div>
+      <div class="acard step" data-step><div class="anumeral">5</div><div><p class="read"><strong>Deadline:</strong> September 1 — results on the table when we meet for Session 8.</p></div></div>
+    </div>
+  </div>
+  <div class="footer"><span>Act VI · Run It Like a Scientist</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 35 · THE PROMPT PACK ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Act VI · Run It Like a Scientist · Take-Home Toolkit</div>
+  <h2>The Prompt Pack — three interviews, chained.</h2>
+  <div class="body">
+    <div class="agendagrid" style="max-width:1120px;">
+      <div class="acard"><div class="anumeral">P1</div><div><div class="boxtitle">Foundation Interview</div><p class="read"><strong>What it does:</strong> Claude interviews <em>you</em>, one question at a time, pushing each answer to the Four Foundation Questions until it names a specific customer, a specific problem, and what that problem costs today. Vague answers get challenged, not accepted.<br><strong>What you walk away with:</strong> a one-page Foundation Brief — your four answers, sharpened, with the weakest one flagged as your riskiest assumption.</p></div></div>
+      <div class="acard step" data-step><div class="anumeral">P2</div><div><div class="boxtitle">Segment &amp; Value Prop Explorer</div><p class="read"><strong>What it does:</strong> paste in the P1 brief. Claude maps 3–5 candidate customer segments, writes the value proposition for each, and ranks them by which is cheapest to reach and test first.<br><strong>What you walk away with:</strong> a segment map — a table that drops straight into your S03 Business Model Canvas, with a recommended first target.</p></div></div>
+      <div class="acard step" data-step><div class="anumeral">P3</div><div><div class="boxtitle">MVP Planner</div><p class="read"><strong>What it does:</strong> paste in P1 + P2. Claude designs the cheapest test of your riskiest assumption — MVP format (stall, pilot, page, LOI), target early adopters, outreach plan, and first messaging.<br><strong>What you walk away with:</strong> a one-page MVP plan, plus your Experiment Card pre-filled: assumption, disproof, test, threshold, deadline.</p></div></div>
+    </div>
+    <p class="read step" data-step style="text-align:center;margin:2.8vh auto 0;font-size:clamp(.95rem,1.55vw,1.25rem);max-width:1080px;">Each output feeds the next — <strong>the whole framework, run end to end on your own business.</strong> These are homework, not lecture. Links on the last slide.</p>
+  </div>
+  <div class="footer"><span>Act VI · Run It Like a Scientist · Take-home only</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 36 · CLOSE ============ -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">The Close</div>
+  <div class="body" style="text-align:center;align-items:center;">
+    <div style="margin-bottom:3vh;">
+      <h2 style="color:var(--ivory);margin:0 auto 1.6vh;font-size:clamp(1.8rem,3.6vw,3rem);">An MVP isn't a smaller product.</h2>
+      <h2 class="step" data-step style="color:var(--ivory);margin:0 auto;font-size:clamp(1.8rem,3.6vw,3rem);">It's the smallest experiment<br>that can <span style="color:var(--gold-soft);">prove you wrong.</span></h2>
+    </div>
+    <p class="step" data-step style="font-size:clamp(.98rem,1.65vw,1.28rem);line-height:1.65;max-width:900px;margin:0 auto;color:#C9D2DE;">Your assignment is one Experiment Card: one assumption, one test, one threshold set before you run it, one deadline — <strong style="color:var(--ivory);">two weeks from tonight.</strong> Session 8 opens with your results.</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S07 · Product Development &amp; MVP Strategy</span><span class="counter" data-counter></span></div>
+</section>
+
+<!-- ============ 37 · RESOURCES ============ -->
+<section class="slide" data-slide>
+  <div class="eyebrow">Resources</div>
+  <h2>Let's get testing!</h2>
+  <div class="body">
+    <div class="cols" style="max-width:1220px;margin:0 auto;width:100%;">
+      <div class="col">
+        <div class="card" style="height:100%;">
+          <div class="rtag">Tonight's tools</div>
+          <ul class="mini" style="margin-top:1vh;">
+            <li><strong>The Experiment Card</strong> — link posted to the community after tonight</li>
+            <li><strong>Prompt Pack P1–P3</strong> — Foundation Interview · Segment Explorer · MVP Planner, posted alongside it</li>
+            <li><strong>Carpenter Hall live-build page</strong> — tonight's demo, warts and all</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card" style="height:100%;">
+          <div class="rtag">Reading</div>
+          <ul class="mini" style="margin-top:1vh;">
+            <li>Paul Graham — <em>Do Things That Don't Scale</em> (the Collison installation essay)</li>
+            <li>First Round Review — <em>The Path to Product-Market Fit</em></li>
+            <li>Eric Ries — <em>The Lean Startup</em> (read with tonight's caveats)</li>
+            <li>Rob Fitzpatrick — <em>The Mom Test</em> (the S02 companion, still the best)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p class="read step" data-step style="text-align:center;margin:3vh auto 0;font-size:clamp(.95rem,1.55vw,1.25rem);max-width:1000px;color:var(--muted);">See you September 1 — bring a dead assumption and be proud of it.</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S07 · Product Development &amp; MVP Strategy</span><span class="counter" data-counter></span></div>
+</section>
+
+</div>
+<div class="hintbar">→ / space: advance · ← back · Home/End</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('[data-slide]'));
+  var idx = 0;
+  function stepsOf(slide){ return Array.prototype.slice.call(slide.querySelectorAll('[data-step]')); }
+  function paint(){
+    slides.forEach(function(s,i){ s.classList.toggle('active', i===idx); });
+    slides.forEach(function(s){
+      s.querySelectorAll('[data-counter]').forEach(function(c){
+        c.textContent = (idx+1) + ' / ' + slides.length;
+      });
+    });
+  }
+  function advance(){
+    var pending = stepsOf(slides[idx]).filter(function(el){ return !el.classList.contains('shown'); });
+    if(pending.length){ pending[0].classList.add('shown'); return; }
+    if(idx < slides.length-1){ idx++; paint(); }
+  }
+  function back(){
+    var shown = stepsOf(slides[idx]).filter(function(el){ return el.classList.contains('shown'); });
+    if(shown.length){ shown[shown.length-1].classList.remove('shown'); return; }
+    if(idx > 0){ idx--; stepsOf(slides[idx]).forEach(function(el){ el.classList.add('shown'); }); paint(); }
+  }
+  function goto_(i, revealAll){
+    idx = Math.max(0, Math.min(slides.length-1, i));
+    stepsOf(slides[idx]).forEach(function(el){ el.classList.toggle('shown', !!revealAll); });
+    paint();
+  }
+  document.addEventListener('keydown', function(e){
+    switch(e.key){
+      case 'ArrowRight': case ' ': case 'PageDown': e.preventDefault(); advance(); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); back(); break;
+      case 'Home': e.preventDefault(); goto_(0,false); break;
+      case 'End': e.preventDefault(); goto_(slides.length-1,true); break;
+    }
+  });
+  document.addEventListener('click', function(e){
+    if(e.clientX < window.innerWidth/3){ back(); } else { advance(); }
+  });
+  paint();
+})();
+</script>
+</body>
+</html>

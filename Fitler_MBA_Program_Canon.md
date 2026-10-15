@@ -71,7 +71,7 @@
 
 - **Single-file HTML + vanilla JS** (tiny reactive core at most). CDN-hostable from the repo.
 - **State discipline:** pure `compute(events, cursor)` core; rendering is a pure function of derived state; undo = decrement cursor + recompute.
-- **No `localStorage`/`sessionStorage`** (unsupported in the claude.ai artifact sandbox). In-memory state; explicit export when persistence matters.
+- **No `localStorage`/`sessionStorage`** in claude.ai in-chat previews (unsupported there). In-memory state; explicit export when persistence matters. *Amended 2026-10-13:* published Artifacts support `localStorage` per viewer (wrap in try/catch); the Pitch Builder uses it for drafts.
 - **Workbooks (S06+):** Excel joins the standing artifact classes. Structure: assumptions tab → P&L → cash flow → valuation (+ annotations tab documenting formulas). Nothing hard-coded downstream of assumptions. Formulas verified independently (recompute in Python, compare). Financial-model color code: blue inputs · black formulas · green cross-sheet links · yellow fill on the key levers.
 
 ## 4. Facilitation doctrine
@@ -113,18 +113,30 @@
 | S04 | Accounting I — The Language of Business | Delivered | Franklin's Bagels ledger artifact (15-event predict-before-reveal ladder), Carpenter Hall; ran short → elasticity doctrine |
 | S05 | Accounting II — Understanding What the Numbers Tell Us | Delivered | Peloton three-chapter case (Darling / Bill / Survivor); 26 slides; toolkit-then-story; ran ~110 min. Session cards shipped on index.html |
 | S06 | The Price of Money (Finance / Capital Markets) | Delivered | 36-slide deck + Franklin's DCF workbook; recording posted |
-| S07 | *(title to confirm)* | Delivered *(confirm)* | Deck chassis reused for S08. Not the pro forma session — pro forma/WACC moved to a later session. Open cleanup: missing repo assets, unbuilt Experiment Card |
+| S07 | Product Development & MVP Strategy | Delivered | Deck chassis reused for S08. Not the pro forma session — pro forma/WACC moved to a later session. Open cleanup: missing repo assets, unbuilt Experiment Card |
 | S08 | Pricing Strategy & Revenue Optimization | Delivered *(confirm)* | 24 slides on the S07 chassis; eleven pricing strategies in three movements; 13 embedded photos. Sales-process content and price clinic moved to overflow → S17. AI block take-home (P4 Competitive Analysis, P5 Pricing Analysis) |
 | S09 | Marketing & Go-to-Market Strategy | Delivered 2026-09-15 | 12-slide sparse deck (~40 min) + live Éclat Chocolate workshop with founder Chris Curtin present, no slides; Éclat supplied ~$250 of samples. Room stayed to 8:30. See changelog |
-| S10+ | — | Unscoped | Original syllabus is the reference spine, resequenced as needed. Éclat is the default case |
+| S10 | Competitive Strategy | Delivered 2026-09-29 *(confirm)* | Porter, Blue Ocean, McGrath; Éclat open forum |
+| S11 | Creating & Pitching a Deal | Delivered 2026-10-13 | 19-slide deck on the S10 chassis; absorbs old S15 pitching content. 7 tests anchor; Sequoia+ (10 + Traction + The Ask) with test-mapping grid; TAM/SAM/SOM; live four-gate SOM calculator on Éclat corporate gifting (labeled hypothetical); "Is this a VC deal?" beat; Zendayfus exec summary. Ran 90 min non-stop. Supplement: Airbnb seed deck teardown PDF |
+| S12 | Investors & Capital Markets | Scoping (delivers 2026-10-20) | How investors think: fund economics, why VCs need fund-sized outcomes, return math, angel/seed/A mindset, Conway's criteria. Handoff: `S12_Handoff.md` (local) |
+| S13 | Fundraising Mechanics | Unscoped | SAFE / note / priced round, term sheets, valuation and dilution, round sizing, full 9-step VC process |
+| S14 | Legal Foundations | Unscoped | + practical IP: trademarks, who owns the work, IP assignment, trade secrets |
+| S15 | Negotiations & Communications | Unscoped | New (replaces Pitching & Storytelling, absorbed into S11) |
+| S16–S17 | Cap Tables · Sales Strategy | Unscoped | Per syllabus |
+| S18 | Scaling Ops & Org Design | Unscoped | + Core Team (moved from S11) |
+| S19 | AI Across All Functions | Unscoped | Per syllabus |
+| S20 | Capstone Pitch Night | Unscoped | Replaces IP & Strategic Positioning |
 
 ## 7. Continuity tracker (introduced vs. deferred)
 
-**Introduced:** three statements + interconnection (S04); ratios/gauges, burn & runway, source-strip reading (S05); PV/FV, DCF/NPV/IRR, terminal value via P/E & P/Sales, debt vs. equity, leverage/DuPont, beta-as-intuition, options/hedging via CEO collar (S06); eleven pricing strategies (S08); BMC + VPC recap as marketing's foundation, marketing as the story of the change you seek, Godin's "people like us do things like this," market-entry scenarios, buyer-journey stages, brand vs. product marketing, Get/Keep/Grow + LTV vs. CAC, smallest-viable market test (S09).
+**Introduced:** three statements + interconnection (S04); ratios/gauges, burn & runway, source-strip reading (S05); PV/FV, DCF/NPV/IRR, terminal value via P/E & P/Sales, debt vs. equity, leverage/DuPont, beta-as-intuition, options/hedging via CEO collar (S06); eleven pricing strategies (S08); BMC + VPC recap as marketing's foundation, marketing as the story of the change you seek, Godin's "people like us do things like this," market-entry scenarios, buyer-journey stages, brand vs. product marketing, Get/Keep/Grow + LTV vs. CAC, smallest-viable market test (S09); three pitch audiences, angel vs. VC, the 9-step deal process (strip only), the 7 tests, four problem questions, elevator pitch framework, document stack, executive summary (Zendayfus), Sequoia+ with test mapping, TAM/SAM/SOM, bottom-up SOM as the lowest of four gates (Demand, Sales Channel Capacity, CAC Budget, Production Level), what the round buys, milestones-first raise sizing, matching the money to the deal (Éclat = lender, not VC), winning pitch tactics / pitch killers (S11).
 
 **Deferred, with owed destinations:**
 - Amortization; cash vs. accrual methods (deferred from S04 → future accounting touchpoint)
-- Pro forma build + full WACC treatment → session TBD, **must land before S12** (originally S07). Runs on the Éclat-shaped assumptions model (§4)
+- Pro forma build + full WACC treatment → session TBD, **must land before S13** (relaxed from S12 on 2026-10-13). Runs on the Éclat-shaped assumptions model (§4)
+- Fund economics, why VCs need fund-sized outcomes, the return path for test 6, Conway's criteria → S12 (owed from S11)
+- Full VC process, term sheets, valuation, dilution → S13 (owed from S11)
+- Pitch delivery practice → S20 Capstone Pitch Night
 - Valuation & exits (multiples beyond P/E & P/S, EV/EBITDA, "what's a good multiple") → future-session candidate
 - CAPM formula → excluded by design program-wide; beta taught through drivers only
 - Sales process (pilots, indirect customers, sales flow) + price clinic → S17 (from S08)
@@ -146,6 +158,8 @@
 - **2026-09-15 (S09):** Astra "eight decisions" canvas framework rejected as the lecture spine; lecture rebuilt as a nine-beat, 12-slide sparse deck; Éclat workshop run freeflow with the founder present.
 - **2026-09-28 (S09 post-mortem):** Éclat adopted as the standing program case; Carpenter Hall retired from default; Main Line Sports Institute kept as the fictional services counterpart; AI moves inside the live workshop as the standard format.
 - **2026-09-28 (Chris Curtin debrief):** Chris agreed to continue with the class; no detailed financial disclosure. Éclat financial work runs on a labeled assumptions model.
+- **2026-10-13 (S11 scoping):** Class asked for deal creation and pitching instead of Core Team. Program resequenced: S11 absorbs S15 pitching; S12 investors; S13 fundraising mechanics + full VC process; S14 + practical IP; S15 → Negotiations & Communications; Core Team → S18; IP session dropped; S20 → Capstone Pitch Night; pro forma due before S13. Fresh-eyes reviewer agent scored outline v6 8/10; its fixes adopted.
+- **2026-10-14 (S11 debrief):** Visual frameworks students photograph are the program's strongest asset; a real deck walkthrough was the missing piece (fixed with the Airbnb teardown supplement).
 
 ## 9. Deferred backlog (Anti-Squirrel holding pen)
 
@@ -157,13 +171,28 @@
 
 ## 9a. Open items (owed, not deferred)
 
-- **Two-landing decision** after S09's 8:30 finish (§4).
-- **S07/S08 backfill:** confirm S07 title and the S07/S08 delivery rows (§6).
+- **Two-landing decision** after S09's 8:30 finish (§4). S11 also ran 90 min non-stop with no natural break.
+- **Pitch Builder artifact** (promised to S11 students): twelve Sequoia+ sections, readiness check, four-gate SOM worksheet with LTV:CAC warning, markdown export.
+- **S11 recording** to post.
+- **S07/S08 backfill:** S07 title confirmed (Product Development & MVP Strategy); confirm the S08 and S10 delivery rows (§6).
 - **S07 cleanup:** missing repo assets, unbuilt Experiment Card.
 
 ---
 
 ## 10. Changelog
+
+### 2026-10-14 — S11 debrief and distribution
+- **Delivered 2026-10-13.** Went very well; the room got on a roll and Scott taught 90 minutes non-stop with no natural break. Good questions, very attentive.
+- **What landed:** the 7 tests and the Sequoia+ format. Students photographed the Sequoia test-mapping grid, the 7 tests, and the elevator pitch fill-in framework. Strong interest in the Pitch Builder.
+- **Scott's review:** concepts well presented, but a walkthrough of a real top-quality deck would have been more powerful. Fix: `Fitler_MBA_S11_Airbnb_Deck_Teardown.pdf` (slide-by-slide analysis of Airbnb's 2009 seed deck against Sequoia+ and the 7 tests, plus Reid Hoffman's annotated LinkedIn Series B deck), linked rather than redistributing the decks themselves.
+- **Design implications going forward:** build one or two photographable frameworks per session on purpose; plan a break or beat structure for long sessions; prefer real examples over hypotheticals where available.
+- **Repo:** S07–S11 decks and PDFs, S07/S09/S11 supplements and index.html session cards added in one commit.
+
+### 2026-10-13 — S11 built: Creating & Pitching a Deal
+- Built from Scott's Science Inc. "Elements of a Pitch" deck (15+ years in use) through outline v1–v7 in one late-night chat, then two rounds of Scott's slide notes on delivery day. Outline approval gate held.
+- **Deck:** `Fitler_MBA_S11.html`, 19 slides on the S10 chassis, N-key notes throughout, title-case headings. Key slides: the 7 tests (vertical list); VC fund raising process (9 steps in four phases); document stack; elevator pitch fill-in (Éclat labeled hypothetical); Zendayfus executive summary; Sequoia pitch structure as a sections × tests grid revealed on one click; TAM/SAM/SOM with Seer Interactive formulas; interactive four-gate SOM calculator (defaults 500 / 20 / 16 / 12 clients, Production Level binds; conversion and December-capacity steppers); "Wrap Up: Where Does the Round Get the Company?"; Éclat's ask from gate → milestones → $85K raise with "not a VC deal" reveal; Winning Pitch Tactics / Pitch Killers grouped Before / In the room / After.
+- **Attribution hygiene:** "team with a B idea" presented as Scott's own view (classic attribution is Doriot/Rock); Blank narrative-vs-facts line unattributed; an AI search summary of "Conway pitch tips" rejected as unsourced. Runway rule of thumb and "95% are fiction" spoken only. All Éclat figures labeled teaching assumptions.
+- **PDF:** generated from screenshots at 1728×1080 with every reveal pre-shown (print-variant rule, §3.2).
 
 ### 2026-09-28 — Chris Curtin debrief: Éclat continues, no detailed financials
 - Scott debriefed with Chris after S09. Chris is on board to keep working with the class but does not want detailed financial disclosure. The planned case brief for Chris is no longer needed and is removed from open items.

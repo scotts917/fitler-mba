@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Marketing Audit — Carpenter Hall Marketing</title>
+<meta name="description" content="A fixed-scope marketing audit for small businesses. $2,500, delivered in two weeks: channel review, competitor snapshot, 90-day action plan.">
+<style>
+  :root {
+    --paper: #F6F5F1;
+    --card: #FFFFFF;
+    --ink: #26323C;
+    --ink-soft: #55616B;
+    --rule: #D9D6CD;
+    --brick: #A13D2D;
+    --brick-dark: #86321F;
+    --brass: #8C6D3F;
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  header {
+    border-bottom: 1px solid var(--rule);
+    padding: 20px 0;
+  }
+  .header-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .wordmark {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+  }
+  .wordmark span { color: var(--brick); }
+  .header-note {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* Hero */
+  .hero { padding: 72px 0 56px; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2.1rem, 5.4vw, 3.3rem);
+    line-height: 1.14;
+    letter-spacing: -0.01em;
+    max-width: 15em;
+  }
+  .hero p.sub {
+    margin-top: 22px;
+    max-width: 34em;
+    font-size: 1.08rem;
+    color: var(--ink-soft);
+  }
+  .hero-cta-row {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-block;
+    background: var(--brick);
+    color: #fff;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 14px 26px;
+    border: none;
+    border-radius: 3px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .btn:hover { background: var(--brick-dark); }
+  .btn:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 3px solid var(--brick);
+    outline-offset: 2px;
+  }
+  .hero-price {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--ink);
+  }
+  .hero-price strong { font-weight: 600; }
+
+  /* Work order card — the scope */
+  .order-section { padding: 8px 0 64px; }
+  .order-card {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-top: 4px solid var(--ink);
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(38,50,60,0.06);
+    padding: 36px 40px 32px;
+  }
+  .order-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .order-title {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .order-title strong {
+    display: block;
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink);
+    margin-top: 6px;
+  }
+  .order-stamp {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    text-align: right;
+    color: var(--brick);
+    border: 1.5px solid var(--brick);
+    border-radius: 3px;
+    padding: 8px 14px;
+    transform: rotate(-1.2deg);
+  }
+  .scope-list { list-style: none; margin-top: 8px; }
+  .scope-list li {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 14px;
+    padding: 20px 0;
+    border-bottom: 1px dashed var(--rule);
+  }
+  .scope-list li:last-child { border-bottom: none; }
+  .scope-mark {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--brass);
+    padding-top: 3px;
+  }
+  .scope-list h3 {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 1.02rem;
+    margin-bottom: 4px;
+  }
+  .scope-list p { color: var(--ink-soft); font-size: 0.95rem; max-width: 44em; }
+  .order-foot {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+
+  /* Proof points */
+  .proof-section { padding: 0 0 72px; }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 24px;
+  }
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+  .proof h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.3rem;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+  .proof p { color: var(--ink-soft); font-size: 0.95rem; }
+  .proof { border-top: 2px solid var(--ink); padding-top: 18px; }
+
+  /* Form */
+  .form-section {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 72px 0 80px;
+  }
+  .form-section .section-label { color: #C9A96E; }
+  .form-section h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1.7rem, 4vw, 2.3rem);
+    line-height: 1.2;
+    max-width: 18em;
+  }
+  .form-section p.form-sub {
+    margin-top: 14px;
+    color: #AEB8C0;
+    max-width: 36em;
+    font-size: 1rem;
+  }
+  form { margin-top: 40px; max-width: 620px; }
+  .field { margin-bottom: 22px; }
+  label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #AEB8C0;
+    margin-bottom: 8px;
+  }
+  input, textarea {
+    width: 100%;
+    background: #303D48;
+    border: 1px solid #47535D;
+    border-radius: 3px;
+    color: var(--paper);
+    font-family: var(--sans);
+    font-size: 1rem;
+    padding: 13px 14px;
+    transition: border-color 0.15s ease;
+  }
+  input:hover, textarea:hover { border-color: #5B6771; }
+  textarea { min-height: 120px; resize: vertical; }
+  input::placeholder, textarea::placeholder { color: #79858E; }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .form-note {
+    font-size: 0.85rem;
+    color: #8A959E;
+    margin-top: 16px;
+  }
+  .success {
+    display: none;
+    margin-top: 40px;
+    max-width: 620px;
+    background: #303D48;
+    border: 1px solid #47535D;
+    border-left: 4px solid #C9A96E;
+    border-radius: 3px;
+    padding: 26px 28px;
+  }
+  .success h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.35rem;
+    margin-bottom: 8px;
+  }
+  .success p { color: #C4CDD4; font-size: 0.95rem; }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 28px 0 40px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  footer .wrap {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  @media (max-width: 720px) {
+    .proof-grid { grid-template-columns: 1fr; gap: 28px; }
+    .form-row { grid-template-columns: 1fr; }
+    .order-card { padding: 28px 22px 24px; }
+    .order-stamp { text-align: left; transform: none; }
+    .hero { padding: 52px 0 44px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-row">
+    <div class="wordmark">Carpenter Hall <span>Marketing</span></div>
+    <div class="header-note">Philadelphia, PA</div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">A fixed-scope engagement · No retainer required</p>
+      <h1>Two weeks to a marketing plan you can actually run.</h1>
+      <p class="sub">The Marketing Audit is a $2,500 flat-fee review of what's working, what isn't, and what to do next — built for small businesses that want straight answers, not a pitch for more services.</p>
+      <div class="hero-cta-row">
+        <a class="btn" href="#intake">Request your audit</a>
+        <div class="hero-price"><strong>$2,500</strong> · delivered in 14 days</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="order-section" aria-label="What's included">
+    <div class="wrap">
+      <div class="order-card">
+        <div class="order-head">
+          <div class="order-title">
+            Scope of work
+            <strong>The Marketing Audit</strong>
+          </div>
+          <div class="order-stamp">FIXED PRICE<br>$2,500 · 14 DAYS</div>
+        </div>
+        <ul class="scope-list">
+          <li>
+            <span class="scope-mark">[1]</span>
+            <div>
+              <h3>Channel review</h3>
+              <p>We go through every channel you're spending time or money on — website, email, social, ads, referrals — and tell you plainly which ones are earning their keep and which ones aren't.</p>
+            </div>
+          </li>
+          <li>
+            <span class="scope-mark">[2]</span>
+            <div>
+              <h3>Competitor snapshot</h3>
+              <p>A clear-eyed look at how the three businesses you lose customers to are positioning, pricing, and showing up — and where that leaves an opening for you.</p>
+            </div>
+          </li>
+          <li>
+            <span class="scope-mark">[3]</span>
+            <div>
+              <h3>90-day action plan</h3>
+              <p>A prioritized, week-by-week plan your team can run without us. Every recommendation sized to your actual budget and staff — not an agency's wish list.</p>
+            </div>
+          </li>
+        </ul>
+        <div class="order-foot">Delivered as a written report and a 60-minute walkthrough call. Nothing else is sold on that call.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proof-section" aria-label="Why Carpenter Hall">
+    <div class="wrap">
+      <p class="section-label">Why business owners trust us</p>
+      <div class="proof-grid">
+        <div class="proof">
+          <h3>Senior eyes on every audit.</h3>
+          <p>Your audit is done by a principal strategist with 15+ years running marketing for small businesses — never handed down to a junior team.</p>
+        </div>
+        <div class="proof">
+          <h3>Fixed price. Fixed timeline. In writing.</h3>
+          <p>$2,500 and 14 days, agreed before we start. No scope creep, no surprise invoices, and no "discovery phase" that turns into a retainer.</p>
+        </div>
+        <div class="proof">
+          <h3>Built to run without us.</h3>
+          <p>The action plan assumes your team executes it. If you want help afterward, that's your call — most clients don't need it, and we tell you so.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="form-section" id="intake">
+    <div class="wrap">
+      <p class="section-label">Get started</p>
+      <h2>Tell us where it hurts. We'll take it from there.</h2>
+      <p class="form-sub">Fill this out and we'll reply within one business day to schedule a 20-minute fit call. If the audit isn't right for you, we'll say so on that call.</p>
+
+      <form id="intake-form" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Your name</label>
+            <input type="text" id="name" name="name" autocomplete="name" required placeholder="Jane Carpenter">
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" required placeholder="jane@yourcompany.com">
+          </div>
+        </div>
+        <div class="field">
+          <label for="company">Company</label>
+          <input type="text" id="company" name="company" autocomplete="organization" required placeholder="Your business name">
+        </div>
+        <div class="field">
+          <label for="frustration">Your biggest marketing frustration</label>
+          <textarea id="frustration" name="frustration" required placeholder="In a sentence or two — what's not working, or what you can't figure out."></textarea>
+        </div>
+        <button type="submit" class="btn">Request your audit</button>
+        <p class="form-note">We read every submission ourselves. No newsletter, no drip campaign — just a reply.</p>
+      </form>
+
+      <div class="success" id="success" role="status">
+        <h3>Got it — thank you.</h3>
+        <p>Your request is in. We'll reply within one business day to set up a short fit call. Keep an eye on your inbox.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Carpenter Hall Marketing</div>
+    <div>hello@carpenterhallmarketing.com</div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var form = document.getElementById('intake-form');
+    var success = document.getElementById('success');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      // Basic validation
+      var required = form.querySelectorAll('[required]');
+      var ok = true;
+      required.forEach(function (el) {
+        if (!el.value.trim()) { ok = false; el.style.borderColor = '#A13D2D'; }
+        else { el.style.borderColor = ''; }
+      });
+      var email = document.getElementById('email');
+      if (email.value && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)) {
+        ok = false; email.style.borderColor = '#A13D2D';
+      }
+      if (!ok) return;
+      form.style.display = 'none';
+      success.style.display = 'block';
+      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  })();
+</script>
+
+</body>
+</html>
