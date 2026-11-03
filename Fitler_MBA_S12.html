@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitler MBA · S12 · Investors &amp; Capital Markets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A41; --navy-deep:#111D2E; --ivory:#F7F3E9; --gold:#C9A227; --gold-soft:#D9BC5F;
+    --ink:#22303F; --muted:#6B7684; --red:#B3402F; --green:#2E7D5B;
+    --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --sans:'Inter', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{background:var(--navy-deep);font-family:var(--sans);color:var(--ink);overflow:hidden}
+  .deck{position:relative;width:100vw;height:100vh}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;padding:4vh 5.5vw;background:var(--ivory)}
+  .slide.active{display:flex}
+  .slide.dark{background:var(--navy);color:var(--ivory)}
+  .slide.dark .eyebrow{color:var(--gold-soft)}
+  .slide.dark h2{color:var(--ivory)}
+  .slide.dark .muted{color:#9AA6B5}
+
+  .eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2vh}
+  h1{font-family:var(--serif);font-weight:600;color:var(--ivory);line-height:1.04}
+  h2{font-family:var(--serif);font-weight:600;color:var(--navy);font-size:clamp(1.7rem,3.2vw,2.7rem);line-height:1.1;margin-bottom:1.8vh}
+  .muted{color:var(--muted)}
+  .rule{height:2px;background:var(--gold);width:64px;margin:1.5vh 0 2.2vh;border:0}
+  .body{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+  .footer{display:flex;justify-content:space-between;align-items:center;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-top:1.4vh;border-top:1px solid rgba(107,118,132,.25)}
+  .slide.dark .footer{border-top-color:rgba(247,243,233,.18);color:#8D99A9}
+  .counter{font-variant-numeric:tabular-nums}
+
+  .step{opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
+  .step.shown{opacity:1;transform:none}
+
+  .slide > *{width:100%;max-width:1280px;margin-left:auto;margin-right:auto}
+  .slide.wide > *{max-width:1580px}
+
+  .cols{display:flex;gap:2.4vw;align-items:stretch}
+  .col{flex:1;min-width:0}
+  .card{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:2.2vh 1.6vw;box-shadow:0 1px 3px rgba(17,29,46,.06)}
+  .slide.dark .card{background:rgba(247,243,233,.06);border-color:rgba(247,243,233,.16);box-shadow:none}
+  .card.lit{border:2px solid var(--gold);box-shadow:0 0 0 4px rgba(201,162,39,.18)}
+  .card.dim{opacity:.55}
+  .boxtitle{font-family:var(--serif);font-weight:700;font-size:clamp(1.25rem,2vw,1.7rem);color:var(--navy);line-height:1.15;margin-bottom:1vh}
+  .slide.dark .boxtitle{color:var(--ivory)}
+  .kicker{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.6vh}
+  .read{font-size:clamp(.95rem,1.45vw,1.22rem);line-height:1.5;color:var(--ink)}
+  .slide.dark .read{color:#D6DDE6}
+  .read strong{color:var(--navy)}
+  .slide.dark .read strong{color:var(--ivory)}
+  .big{font-family:var(--serif);font-size:clamp(1.5rem,2.9vw,2.6rem);line-height:1.25;color:var(--navy);font-weight:500}
+  .slide.dark .big{color:var(--ivory)}
+  .big .g{color:var(--gold)}
+  .slide.dark .big .g{color:var(--gold-soft)}
+  .quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.15rem,2.1vw,1.7rem);line-height:1.35;color:var(--navy)}
+  .slide.dark .quote{color:var(--ivory)}
+
+  ul.mini{list-style:none}
+  ul.mini li{position:relative;padding:.55vh 0 .55vh 1.35em;font-size:clamp(.95rem,1.45vw,1.2rem);line-height:1.45}
+  ul.mini li::before{content:"";position:absolute;left:0;top:.8em;width:.55em;height:2px;background:var(--gold)}
+
+  .kv{display:flex;gap:1vw;padding:.7vh 0;border-bottom:1px solid rgba(107,118,132,.16);font-size:clamp(.95rem,1.4vw,1.15rem);line-height:1.45}
+  .kv:last-child{border-bottom:0}
+  .kv .k{flex:0 0 7.5em;font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding-top:.35em}
+  .kv .v{flex:1;color:var(--ink)}
+  .kv .v strong{color:var(--navy)}
+
+  .ask{background:rgba(201,162,39,.10);border:1px solid rgba(201,162,39,.45);border-radius:10px;padding:1.5vh 1.4vw}
+  .ask .al{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:#8a6d14;font-weight:700;margin-bottom:.5vh}
+  .slide.dark .ask .al{color:var(--gold-soft)}
+  .ask p{font-size:clamp(1rem,1.6vw,1.35rem);line-height:1.45;color:var(--ink)}
+  .slide.dark .ask p{color:#E6E1D4}
+
+  .sourcestrip{background:#FDFBF5;border:1px solid rgba(201,162,39,.45);border-radius:8px;padding:1.1vh 1vw}
+  .slide.dark .sourcestrip{background:rgba(247,243,233,.05);border-color:rgba(217,188,95,.4)}
+  .sslabel{font-size:.63rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:.5vh}
+  .ssbody{font-size:clamp(.82rem,1.15vw,1rem);line-height:1.5;color:var(--ink)}
+  .slide.dark .ssbody{color:#C9D2DE}
+
+  /* five-across cards */
+  .five{display:grid;grid-template-columns:repeat(5,1fr);gap:1vw}
+  .five .card{padding:2vh 1vw;display:flex;flex-direction:column;gap:.6vh}
+  .five .n{font-family:var(--serif);font-weight:700;font-size:clamp(1.4rem,2.4vw,2.1rem);color:var(--gold);line-height:1}
+  .five .t{font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);line-height:1.35;min-height:2.7em}
+  .five .m{font-family:var(--serif);font-style:italic;font-size:clamp(1rem,1.6vw,1.35rem);line-height:1.3;color:var(--navy);margin-top:auto}
+
+  /* journey strip */
+  .journey{display:grid;grid-template-columns:repeat(5,1fr);gap:.8vw;align-items:stretch}
+  .stage{background:#fff;border:1px solid rgba(107,118,132,.2);border-top:5px solid var(--gold);border-radius:10px;padding:1.8vh 1vw;display:flex;flex-direction:column;gap:.8vh}
+  .stage .sn{font-size:.66rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .stage .st{font-family:var(--serif);font-weight:700;font-size:clamp(1.15rem,1.9vw,1.6rem);color:var(--navy);line-height:1.1}
+  .stage .sm{font-size:clamp(.88rem,1.25vw,1.05rem);line-height:1.45;color:var(--ink)}
+  .stage .sj{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-top:auto;padding-top:.6vh}
+
+  /* equation row */
+  .eqrow{display:flex;align-items:stretch;justify-content:center;gap:1.3vw}
+  .eqstat{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:2.6vh 1.4vw;text-align:center;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+  .eqstat .v{font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,4.2vw,3.5rem);line-height:1;color:var(--navy);font-variant-numeric:tabular-nums}
+  .eqstat .k{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:1.1vh;line-height:1.5}
+  .eqstat .n{font-size:.8rem;color:var(--muted);margin-top:.6vh;line-height:1.45}
+  .eqop{font-family:var(--serif);font-size:clamp(1.5rem,2.8vw,2.4rem);color:var(--gold);font-weight:600;flex:none;display:flex;align-items:center}
+  .eqstat.answer{background:rgba(201,162,39,.12);border-color:rgba(201,162,39,.5)}
+  .eqstat.answer .v,.eqstat.answer .k{color:var(--gold)}
+
+  .teach{display:flex;gap:2.8vw;align-items:center;width:100%}
+  .teach .left{flex:1.1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2vh}
+  .teach .right{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+  svg text{font-family:var(--sans)}
+  svg .serif{font-family:var(--serif)}
+
+  .tools{display:grid;grid-template-columns:repeat(5,1fr);gap:.8vw}
+  .tool{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:8px;padding:1.3vh .9vw;font-size:clamp(.82rem,1.15vw,1rem);line-height:1.4;color:var(--ink)}
+  .tool b{display:block;color:var(--navy);font-weight:600;margin-bottom:.3vh}
+
+  /* facilitator notes overlay (N key) */
+  .notes{display:none}
+  .notesbox{position:fixed;right:0;top:0;bottom:0;width:38vw;background:rgba(17,29,46,.96);color:#E6E1D4;padding:3vh 2vw;overflow:auto;z-index:100;font-size:.9rem;line-height:1.55;border-left:3px solid var(--gold);display:none}
+  .notesbox.on{display:block}
+  .notesbox h4{font-family:var(--serif);color:var(--gold-soft);font-size:1.3rem;margin-bottom:1vh}
+  .notesbox b{color:var(--gold-soft);font-weight:600}
+  .notesbox p{margin-bottom:1.2vh}
+  .hintbar{position:fixed;bottom:10px;right:14px;font-size:.6rem;color:#5c6b7d;letter-spacing:.1em;text-transform:uppercase;opacity:.5;z-index:50}
+  @media (prefers-reduced-motion: reduce){.step{transition:none}}
+
+  
+  /* ---- S11 additions ---- */
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4vw}
+  .aud{background:#fff;border:1px solid rgba(107,118,132,.2);border-top:5px solid var(--gold);border-radius:10px;padding:2.2vh 1.4vw;display:flex;flex-direction:column;gap:1.2vh}
+  .aud .at{font-family:var(--serif);font-weight:700;font-size:clamp(1.4rem,2.3vw,2rem);color:var(--navy);line-height:1.1}
+  .aud .aw{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700}
+
+  table.av{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;overflow:hidden}
+  table.av th,table.av td{padding:1.55vh 1.3vw;text-align:left;vertical-align:top;border-bottom:1px solid rgba(107,118,132,.16);font-size:clamp(1rem,1.5vw,1.25rem);line-height:1.35}
+  table.av tr:last-child th,table.av tr:last-child td{border-bottom:0}
+  table.av thead th{font-family:var(--serif);font-size:clamp(1.3rem,2.1vw,1.8rem);font-weight:700;color:var(--ivory);background:var(--navy)}
+  table.av thead th:first-child{background:#FBF8F0}
+  table.av tbody th{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;width:19%;padding-top:1.9vh}
+  table.av td{width:40.5%}
+
+  .strip{display:grid;grid-template-columns:repeat(9,1fr);gap:.5vw}
+  .strip .s{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:8px;padding:1.6vh .5vw;text-align:center;display:flex;flex-direction:column;gap:.7vh;min-height:16vh}
+  .strip .s .sn{font-family:var(--serif);font-weight:700;font-size:clamp(1.3rem,2.2vw,1.9rem);color:var(--muted);line-height:1}
+  .strip .s .sl{font-size:clamp(.8rem,1.15vw,1rem);line-height:1.3;color:var(--ink);font-weight:500}
+  .strip .s.hot{border:2px solid var(--gold);background:rgba(201,162,39,.08)}
+  .strip .s.hot .sn{color:var(--gold)}
+  .bracket{display:grid;grid-template-columns:repeat(9,1fr);gap:.5vw;margin-top:1vh}
+  .bracket .b{grid-column:1 / span 4;border-top:3px solid var(--gold);padding-top:1vh;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:#8a6d14;font-weight:700;text-align:center}
+  .bracket .b2{grid-column:5 / span 5;border-top:3px solid rgba(107,118,132,.35);padding-top:1vh;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;text-align:center}
+
+  .yeses{display:grid;grid-template-columns:repeat(7,1fr);gap:.8vw}
+  .yes{background:rgba(247,243,233,.06);border:1px solid rgba(247,243,233,.18);border-radius:10px;padding:2.2vh .8vw;display:flex;flex-direction:column;gap:1.2vh;min-height:26vh}
+  .yes .yn{font-family:var(--serif);font-weight:700;font-size:clamp(2rem,3.6vw,3.2rem);color:var(--gold-soft);line-height:1}
+  .yes .yt{font-family:var(--serif);font-size:clamp(1.05rem,1.75vw,1.5rem);line-height:1.2;color:var(--ivory);font-weight:500}
+
+  .qs{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2vw}
+  .qs .q{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:2.4vh 1.2vw;display:flex;flex-direction:column;gap:1vh;min-height:24vh}
+  .qs .q .qn{font-family:var(--serif);font-weight:700;font-size:clamp(1.6rem,2.8vw,2.4rem);color:var(--gold);line-height:1}
+  .qs .q .qt{font-family:var(--serif);font-weight:600;font-size:clamp(1.2rem,2vw,1.7rem);line-height:1.2;color:var(--navy)}
+
+  .mad{font-family:var(--serif);font-size:clamp(1.05rem,1.75vw,1.5rem);line-height:1.75;color:var(--navy)}
+  .mad .bl{display:inline-block;border-bottom:2px solid var(--gold);min-width:6em;padding:0 .2em;color:var(--muted);font-family:var(--sans);font-size:.62em;letter-spacing:.04em;line-height:1.4;vertical-align:baseline}
+  .mad .fill{border-bottom:2px solid var(--gold);color:var(--navy);font-weight:600}
+  .mad .open{display:inline-block;border-bottom:2px dashed var(--muted);min-width:5em}
+
+  .stack{display:grid;grid-template-columns:repeat(5,1fr);gap:1vw;align-items:end}
+  .stack .d{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:1.8vh 1vw;display:flex;flex-direction:column;gap:.8vh;justify-content:flex-end}
+  .stack .d .dt{font-family:var(--serif);font-weight:700;font-size:clamp(1.15rem,1.9vw,1.6rem);color:var(--navy);line-height:1.1}
+  .stack .d .dw{font-size:clamp(.85rem,1.2vw,1.02rem);line-height:1.4;color:var(--ink)}
+  .stack .d .dk{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
+
+  .seq{display:grid;grid-template-columns:repeat(4,1fr);gap:.9vw}
+  .seq .sq{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:1.5vh 1vw;display:flex;align-items:center;gap:.8vw;min-height:10vh}
+  .seq .sq .no{font-family:var(--serif);font-weight:700;font-size:clamp(1.3rem,2.2vw,1.9rem);color:var(--muted);width:1.4em;flex:none;line-height:1}
+  .seq .sq .nm{font-family:var(--serif);font-weight:700;font-size:clamp(1.15rem,1.85vw,1.6rem);color:var(--navy);line-height:1.1;flex:1}
+  .seq .sq.add{background:#ECE7DA;border:1px dashed #8a6d14}
+  .seq .sq.add .no{color:#8a6d14}
+  .seq .sq .tag{font-family:var(--serif);font-weight:700;font-size:clamp(1rem,1.6vw,1.35rem);color:var(--gold);white-space:nowrap}
+  .seq .sq .tag.step{transform:none}
+  .legend{display:flex;gap:2vw;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-top:1.4vh}
+  .legend span::before{content:"";display:inline-block;width:.9em;height:.9em;border-radius:3px;margin-right:.5em;vertical-align:-.1em;background:#fff;border:1px solid rgba(107,118,132,.4)}
+  .legend span.a::before{background:#ECE7DA;border:1px dashed #8a6d14}
+
+  /* SOM gates */
+  .gates{display:grid;grid-template-columns:repeat(4,1fr);gap:1vw}
+  .gate{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:1.8vh 1vw;display:flex;flex-direction:column;gap:.7vh;transition:border-color .3s, box-shadow .3s, background .3s}
+  .gate .gn{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .gate .gt{font-family:var(--serif);font-weight:700;font-size:clamp(1.25rem,2vw,1.7rem);color:var(--navy);line-height:1.1}
+  .gate .gm{font-size:clamp(.82rem,1.15vw,.98rem);line-height:1.45;color:var(--ink);min-height:4.4em}
+  .gate .gv{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,3.8vw,3.2rem);line-height:1;color:var(--navy);font-variant-numeric:tabular-nums;margin-top:auto}
+  .gate .gu{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .gate.bind{border:2px solid var(--gold);background:rgba(201,162,39,.10);box-shadow:0 0 0 4px rgba(201,162,39,.16)}
+  .gate.bind .gv{color:#8a6d14}
+  .gate.bind .gn::after{content:" · this one limits you";color:#8a6d14}
+  .ctl{display:flex;gap:2vw;align-items:center;flex-wrap:wrap;margin-top:1.6vh}
+  .knob{display:flex;align-items:center;gap:.8vw;background:#fff;border:1px solid rgba(107,118,132,.25);border-radius:999px;padding:.6vh .6vw .6vh 1.2vw}
+  .knob .kl{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .knob .kv2{font-family:var(--serif);font-weight:700;font-size:clamp(1.1rem,1.7vw,1.45rem);color:var(--navy);min-width:4.6em;text-align:center;font-variant-numeric:tabular-nums}
+  .knob button{font:inherit;font-size:1.2rem;width:2.1em;height:2.1em;border-radius:50%;border:1px solid rgba(201,162,39,.6);background:#FDFBF5;color:var(--navy);cursor:pointer;line-height:1}
+  .knob button:hover{background:rgba(201,162,39,.18)}
+  .somout{margin-left:auto;font-family:var(--serif);font-size:clamp(1.2rem,2vw,1.7rem);color:var(--navy)}
+  .somout b{color:#8a6d14}
+
+  .ft{display:grid;grid-template-columns:1fr auto 1fr;gap:1.6vw;align-items:stretch}
+  .ft .box{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:2.2vh 1.4vw}
+  .ft .box.to{border:2px solid var(--gold)}
+  .ft .arrow{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.4rem);color:var(--gold);display:flex;align-items:center}
+
+  .dd{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:1.2vw}
+  .dd .grp{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:2vh 1.2vw}
+  .dd .grp .kicker{margin-bottom:1vh}
+  .dd li{list-style:none;position:relative;padding:.75vh 0 .75vh 1.35em;font-size:clamp(1rem,1.5vw,1.25rem);line-height:1.35;color:var(--ink)}
+  .dd li::before{content:"";position:absolute;left:0;top:1.15em;width:.55em;height:2px;background:var(--gold)}
+  .dd.no li::before{background:var(--red)}
+  .dd li i{display:block;font-family:var(--serif);font-size:.95em;color:var(--muted);margin-top:.2vh}
+  .fine{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+  .seq .sq .tag{opacity:0;transition:opacity .4s ease}
+  .seqtrig{height:0;margin:0;padding:0}
+  .seqtrig.shown + .seq .tag{opacity:1}
+
+  /* ---- sizing pass after render check ---- */
+  .slide.dark .kv{border-bottom-color:rgba(247,243,233,.14)}
+  .slide.dark .kv .k{color:#9AA6B5}
+  .slide.dark .kv .v{color:#E6E1D4}
+  .slide.dark .kv .v strong{color:var(--ivory)}
+  .strip .s{min-height:24vh;justify-content:center;gap:1.4vh}
+  .strip .s .sn{font-size:clamp(1.6rem,2.8vw,2.6rem)}
+  .strip .s .sl{font-size:clamp(.95rem,1.4vw,1.3rem)}
+  .bracket .b,.bracket .b2{font-size:.9rem}
+  .stack .d{padding:2.4vh 1.2vw}
+  .stack .d .dt{font-size:clamp(1.4rem,2.3vw,2rem)}
+  .stack .d .dw{font-size:clamp(1rem,1.45vw,1.25rem)}
+  .stack .d .dk{font-size:.78rem}
+  .seq{gap:1.1vw}
+  .seq .sq{min-height:15vh;padding:2vh 1.3vw}
+  .seq .sq .nm{font-size:clamp(1.35rem,2.3vw,2rem)}
+  .seq .sq .no{font-size:clamp(1.5rem,2.6vw,2.3rem)}
+  .seq .sq .tag{font-size:clamp(1.3rem,2.2vw,1.9rem)}
+  .legend{font-size:.85rem}
+  .mad{font-size:clamp(1.1rem,1.75vw,1.5rem) !important;line-height:1.85}
+  .mad .bl{font-size:.7em}
+  .dd li{font-size:clamp(1.15rem,1.8vw,1.55rem);padding:1.1vh 0 1.1vh 1.35em}
+  .dd .grp{padding:2.6vh 1.5vw}
+  .dd .grp .kicker{font-size:.8rem}
+  .tool{font-size:clamp(.95rem,1.4vw,1.2rem);padding:1.8vh 1.1vw}
+  .ft .box{padding:3vh 1.6vw}
+  .gate .gm{font-size:clamp(.9rem,1.3vw,1.1rem)}
+  .gate{padding:2.2vh 1.2vw;min-height:30vh}
+  .qs .q{min-height:28vh}
+  .qs .q .qt{font-size:clamp(1.35rem,2.3vw,2rem)}
+  table.av th,table.av td{padding:2vh 1.4vw;font-size:clamp(1.1rem,1.7vw,1.45rem)}
+  .aud{padding:3vh 1.6vw;min-height:30vh}
+  .aud .at{font-size:clamp(1.6rem,2.7vw,2.3rem)}
+  .yes{min-height:32vh}
+
+  /* ---- v2 round-1 edits ---- */
+  .ico{width:clamp(56px,6vw,96px);height:clamp(56px,6vw,96px);display:block;margin-bottom:1.2vh}
+  .aud ul.mini li{font-size:clamp(1.05rem,1.6vw,1.35rem)}
+  .aud .at{font-size:clamp(1.9rem,3.2vw,2.8rem)}
+  table.av thead th .hi{display:flex;align-items:center;gap:1vw}
+  table.av thead th svg{width:clamp(40px,4vw,64px);height:clamp(40px,4vw,64px);flex:none}
+
+  .chev{display:grid;grid-template-columns:3fr 1fr 2fr 3fr;gap:.6vw}
+  .phase{display:flex;flex-direction:column;gap:1vh}
+  .phase .ph{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--muted);padding:0 .3vw}
+  .phase .row{display:flex;gap:.4vw}
+  .phase .c{flex:1;background:#fff;border:1px solid rgba(107,118,132,.22);padding:2.4vh .6vw 2.4vh 1.4vw;min-height:22vh;display:flex;flex-direction:column;justify-content:center;gap:1vh;clip-path:polygon(0 0,88% 0,100% 50%,88% 100%,0 100%,12% 50%)}
+  .phase .c .n{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,2.6vw,2.3rem);color:var(--muted);line-height:1;padding-left:.6vw}
+  .phase .c .l{font-size:clamp(.9rem,1.35vw,1.2rem);line-height:1.25;font-weight:600;color:var(--ink);padding-left:.6vw;padding-right:1.4vw}
+  .pitchzone .c{background:var(--navy);border-color:var(--navy)}
+  .pitchzone .c .n{color:var(--gold-soft)}
+  .pitchzone .c .l{color:var(--ivory)}
+  .pitchzone .ph{color:#8a6d14}
+  .zonebar{display:grid;grid-template-columns:4fr 5fr;gap:.6vw;margin-top:1.6vh}
+  .zonebar div{padding-top:1vh;font-size:.9rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;text-align:center}
+  .zonebar .z1{border-top:4px solid var(--gold);color:#8a6d14}
+  .zonebar .z2{border-top:4px solid rgba(107,118,132,.35);color:var(--muted)}
+
+  .ylist{display:flex;flex-direction:column;gap:.9vh;max-width:1100px}
+  .yrow{display:flex;align-items:center;gap:1.6vw;background:rgba(247,243,233,.06);border:1px solid rgba(247,243,233,.16);border-radius:10px;padding:1.2vh 1.6vw}
+  .yrow .yn{font-family:var(--serif);font-weight:700;font-size:clamp(1.8rem,3vw,2.6rem);color:var(--gold-soft);width:1.4em;line-height:1}
+  .yrow .yt{font-family:var(--serif);font-size:clamp(1.3rem,2.2vw,1.9rem);color:var(--ivory);font-weight:500}
+  .yrow .yk{margin-left:auto;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#9AA6B5;font-weight:700}
+
+  .docs{display:grid;grid-template-columns:repeat(5,1fr);gap:1vw}
+  .doc{background:#fff;border:1px solid rgba(107,118,132,.2);border-top:5px solid var(--gold);border-radius:10px;padding:2.4vh 1.2vw 0;display:flex;flex-direction:column;min-height:44vh}
+  .doc .dt{font-family:var(--serif);font-weight:700;font-size:clamp(1.4rem,2.3vw,2rem);color:var(--navy);line-height:1.1;margin-bottom:1.2vh}
+  .doc ul.mini li{font-size:clamp(.98rem,1.4vw,1.2rem)}
+  .doc .sz{margin-top:auto;margin-left:-1.2vw;margin-right:-1.2vw;padding:1.4vh 1.2vw;background:#FBF8F0;border-top:1px solid rgba(107,118,132,.16);border-radius:0 0 10px 10px;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#8a6d14}
+
+  table.yg{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;overflow:hidden}
+  table.yg th,table.yg td{border-bottom:1px solid rgba(107,118,132,.14);padding:.62vh .6vw;text-align:center;vertical-align:middle}
+  table.yg thead th{font-size:clamp(.62rem,.85vw,.78rem);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;background:#FBF8F0;line-height:1.25;padding:1.1vh .4vw}
+  table.yg thead th b{display:block;font-family:var(--serif);font-size:clamp(1.2rem,1.9vw,1.6rem);color:var(--gold);letter-spacing:0;line-height:1;margin-bottom:.3vh}
+  table.yg tbody th{text-align:left;font-family:var(--serif);font-weight:700;font-size:clamp(1.05rem,1.65vw,1.4rem);color:var(--navy);white-space:nowrap;padding-left:1.2vw}
+  table.yg tbody th span{display:inline-block;width:2em;color:var(--muted);font-weight:600}
+  table.yg tr.add th,table.yg tr.add td{background:#F3EEDF}
+  table.yg tr:last-child th,table.yg tr:last-child td{border-bottom:0}
+  .dot{display:inline-block;width:1.05em;height:1.05em;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .4s ease;font-size:clamp(1rem,1.5vw,1.3rem);vertical-align:middle}
+  .ygtrig{height:0;margin:0;padding:0}
+  .ygtrig.shown + table .dot{opacity:1}
+
+  .tsr{display:flex;flex-direction:column;gap:1.4vh}
+  .tsr .r{display:flex;gap:1.4vw;align-items:center;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:1.6vh 1.4vw}
+  .tsr .r .ab{font-family:var(--serif);font-weight:700;font-size:clamp(1.8rem,3vw,2.6rem);color:var(--navy);width:2.6em;flex:none;line-height:1}
+  .tsr .r.som{border:2px solid var(--gold);background:rgba(201,162,39,.08)}
+  .tsr .r.som .ab{color:#8a6d14}
+  .tsr .r .nm{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:.4vh}
+  .tsr .r .fx{font-size:clamp(1rem,1.5vw,1.28rem);line-height:1.4;color:var(--ink)}
+  .tsr .r .fx b{color:var(--navy)}
+
+  .gate .gt{font-size:clamp(1.5rem,2.5vw,2.15rem)}
+  .headrow{display:flex;align-items:flex-end;justify-content:space-between;gap:2vw}
+  .headrow svg{width:clamp(90px,9vw,150px);height:auto;flex:none;margin-bottom:1vh}
+
+  .steps4{display:grid;grid-template-columns:1fr 1.25fr 1.5fr;gap:1.1vw}
+  .steps4 .card .kicker{font-size:.78rem}
+  .steps4 .card ul.mini li{font-size:clamp(.98rem,1.4vw,1.2rem)}
+  .moneyrow{display:flex;flex-direction:column;gap:.2vh}
+  .moneyrow .m{display:flex;justify-content:space-between;font-size:clamp(1rem,1.45vw,1.22rem);padding:.6vh 0;border-bottom:1px solid rgba(107,118,132,.14);font-variant-numeric:tabular-nums}
+  .moneyrow .m.t{border-bottom:0;border-top:2px solid var(--gold);font-weight:700;color:var(--navy);font-family:var(--serif);font-size:clamp(1.3rem,2.1vw,1.8rem);padding-top:1vh}
+
+  .hw{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6vw}
+  .hw .h{border-top:3px solid var(--gold-soft);padding-top:2vh}
+  .hw .h .n{font-family:var(--serif);font-weight:700;font-size:clamp(3rem,6vw,5rem);color:var(--gold-soft);line-height:1}
+  .hw .h .t{font-family:var(--serif);font-size:clamp(1.4rem,2.4vw,2.1rem);color:var(--ivory);line-height:1.2;margin-top:1vh}
+
+  .ft .box ul.mini li{font-size:clamp(1.1rem,1.7vw,1.45rem)}
+  .ft .box .kicker{font-size:.8rem}
+  .steps4 .card{padding:2.8vh 1.5vw}
+  .steps4 .card ul.mini li{font-size:clamp(1.08rem,1.6vw,1.38rem)}
+  .moneyrow .m{font-size:clamp(1.08rem,1.6vw,1.38rem)}
+  .tool b{font-size:clamp(1.05rem,1.55vw,1.32rem)}
+  .headrow svg{width:clamp(110px,11vw,180px)}
+
+  /* ---- round 2 ---- */
+  .chev{grid-template-columns:repeat(9,1fr) !important;align-items:end}
+  .chev .phase:nth-child(1){grid-column:span 3}
+  .chev .phase:nth-child(2){grid-column:span 1}
+  .chev .phase:nth-child(3){grid-column:span 2}
+  .chev .phase:nth-child(4){grid-column:span 3}
+  .phase .ph{min-height:2.8em;display:flex;align-items:flex-end;line-height:1.3}
+  .phase .row{gap:.6vw}
+  .phase .c{min-height:24vh;height:24vh}
+  .zonebar{grid-template-columns:4fr 5fr}
+  .ylist{gap:1.8vh}
+  .yrow{padding:1.5vh 1.6vw}
+  table.yg tr.add th,table.yg tr.add td{background:#FCF4DC}
+  table.yg tr.add th{box-shadow:inset 4px 0 0 var(--gold)}
+  table.yg tr.add th span{color:#8a6d14;font-weight:700}
+  .legend span.a::before{background:#FCF4DC;border:1px solid var(--gold);box-shadow:inset 3px 0 0 var(--gold)}
+
+  .pages{display:flex;gap:2vw;justify-content:center;align-items:flex-start;height:100%}
+  .pages img{height:74vh;max-width:46%;object-fit:contain;background:#fff;border:1px solid rgba(107,118,132,.25);box-shadow:0 6px 18px rgba(17,29,46,.14)}
+
+
+  /* ---- S12 additions ---- */
+  .capmap{display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:auto auto auto minmax(10vh,1fr) auto;gap:0 .7vw}
+  .cm{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:2.2vh .9vw;display:grid;grid-row:span 5;grid-template-rows:subgrid;row-gap:1.2vh;min-height:40vh}
+  .cm .cg{display:block}
+  .cm .cn{font-family:var(--serif);font-weight:700;font-size:clamp(1.15rem,1.85vw,1.6rem);color:var(--navy);line-height:1.1;align-self:start}
+  .cm .cw{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .cm .cv{font-size:clamp(.95rem,1.35vw,1.18rem);line-height:1.4;color:var(--ink)}
+  .cm .cb{align-self:end;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#8a6d14}
+  .cm.vc{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold);background:rgba(201,162,39,.08)}
+  .riskbar{display:flex;justify-content:space-between;align-items:center;margin-top:1.6vh;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+  .riskbar .line{flex:1;height:3px;margin:0 1.2vw;background:linear-gradient(90deg,rgba(107,118,132,.3),var(--gold))}
+
+  .lpgp{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:1.2vw;align-items:center}
+  .node{background:#fff;border:1px solid rgba(107,118,132,.2);border-top:5px solid var(--gold);border-radius:10px;padding:2.6vh 1.4vw;min-height:30vh;display:flex;flex-direction:column;gap:1vh}
+  .node .nt{font-family:var(--serif);font-weight:700;font-size:clamp(1.6rem,2.8vw,2.4rem);color:var(--navy);line-height:1.05}
+  .node .nw{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .arr{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.4rem);color:var(--gold)}
+  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2vw;margin-top:2.4vh}
+  .lpgp .node{min-height:24vh;padding:2vh 1.2vw}
+  .lpgp .node ul.mini li{font-size:clamp(.92rem,1.3vw,1.12rem);padding:.35vh 0 .35vh 1.35em}
+  .flow{display:flex;flex-direction:column;align-items:center;gap:0}
+  .flow .fl{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;white-space:nowrap}
+  .flow .arr{line-height:.9}
+  .flow .arr.back{color:var(--navy);opacity:.55}
+
+  .twenty{display:flex;gap:2.4vw;align-items:center}
+  .twenty .samimg{width:clamp(120px,11vw,190px);mix-blend-mode:multiply;flex:none}
+  .twenty .target{flex:0 0 31%;border:2px solid var(--gold);background:rgba(201,162,39,.08);padding:2vh 1.3vw}
+  .target .tv{font-family:var(--serif);font-weight:700;font-size:clamp(2rem,3.8vw,3.2rem);color:#8a6d14;line-height:1}
+  .target .tl2{font-size:clamp(.92rem,1.3vw,1.12rem);line-height:1.45;margin-top:1vh;color:var(--ink)}
+  .target .tl2 b{color:var(--navy)}
+  .bignum{font-family:var(--serif);font-weight:700;font-size:clamp(3.4rem,7vw,6rem);line-height:.9;color:var(--navy)}
+  .bignum .g{color:var(--gold)}
+
+  .wf{display:grid;grid-template-columns:repeat(4,1fr);gap:.9vw}
+  .wf .card{padding:1.8vh 1vw}
+  .wf .kicker{font-size:.72rem}
+  .wf .amt{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,2.6vw,2.2rem);color:var(--navy);line-height:1.1}
+  .wf .who{font-size:clamp(.9rem,1.3vw,1.1rem);color:var(--ink);line-height:1.4;margin-top:.6vh}
+  .tot{display:grid;grid-template-columns:1fr 1fr;gap:1.2vw;margin-top:1.6vh}
+  .tot .card{display:flex;align-items:baseline;gap:1vw;justify-content:center;padding:1.8vh 1vw}
+  .tot .t1{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .tot .t2{font-family:var(--serif);font-weight:700;font-size:clamp(1.6rem,2.8vw,2.4rem);color:var(--navy)}
+  .tot .t3{font-family:var(--serif);font-weight:700;font-size:clamp(1.3rem,2.2vw,1.9rem);color:#8a6d14}
+
+  .chain{display:flex;flex-direction:column;gap:.9vh}
+  .chain .r{display:flex;align-items:center;gap:1vw;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:8px;padding:1.1vh 1.2vw}
+  .chain .r .l{flex:1;font-size:clamp(.98rem,1.45vw,1.22rem);color:var(--ink);line-height:1.3}
+  .chain .r .l i{font-style:normal;color:var(--muted);font-size:.85em}
+  .chain .r .v{font-family:var(--serif);font-weight:700;font-size:clamp(1.3rem,2.2vw,1.9rem);color:var(--navy);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .chain .r.ans{border:2px solid var(--gold);background:rgba(201,162,39,.12)}
+  .chain .r.ans .v{color:#8a6d14;font-size:clamp(1.7rem,3vw,2.6rem)}
+  .pgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:.6vw}
+  .pc{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:clamp(1.1rem,1.9vw,1.6rem)}
+  .pc.lose{background:#E9E5DA;color:#9AA0A8}
+  .pc.back{background:#C9D2DE;color:var(--navy)}
+  .pc.three{background:var(--navy);color:var(--ivory)}
+  .pc.win{background:var(--gold);color:#fff;font-size:clamp(1.6rem,2.8vw,2.4rem)}
+  .pkey{display:grid;grid-template-columns:1fr 1fr;gap:.6vh 1vw;margin-top:1.4vh;font-size:clamp(.85rem,1.2vw,1rem);color:var(--ink)}
+  .pkey span::before{content:"";display:inline-block;width:.9em;height:.9em;border-radius:3px;margin-right:.5em;vertical-align:-.1em}
+  .pkey .k1::before{background:#E9E5DA}.pkey .k2::before{background:#C9D2DE}.pkey .k3::before{background:var(--navy)}.pkey .k4::before{background:var(--gold)}
+
+  .tl{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2vw}
+  .tl .card{border-top:5px solid var(--gold);padding:2.4vh 1.4vw;min-height:22vh}
+  .tl .yr{font-family:var(--serif);font-weight:700;font-size:clamp(2rem,3.6vw,3rem);color:var(--gold);line-height:1}
+  .tl .ev{font-size:clamp(1.05rem,1.6vw,1.35rem);line-height:1.4;color:var(--ink);margin-top:1vh}
+  .tl .ev b{color:var(--navy)}
+  .payoff{margin-top:2.4vh;text-align:center}
+  .payoff .bignum{font-size:clamp(3.4rem,7.5vw,6.2rem)}
+
+  .three-terms{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4vw}
+  .three-terms .card{border-top:5px solid var(--gold);padding:2.6vh 1.5vw;min-height:34vh;display:flex;flex-direction:column;gap:1.2vh}
+  .three-terms .tt{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,2.5vw,2.1rem);color:var(--navy);line-height:1.1}
+
+  table.lad{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;overflow:hidden}
+  table.lad th,table.lad td{padding:1.7vh 1.2vw;border-bottom:1px solid rgba(107,118,132,.14);text-align:left;font-size:clamp(1.08rem,1.6vw,1.38rem);line-height:1.3;font-variant-numeric:tabular-nums}
+  table.lad thead th{background:var(--navy);color:var(--ivory);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+  table.lad tbody th{font-family:var(--serif);font-weight:700;font-size:clamp(1.3rem,2.1vw,1.8rem);color:var(--navy);white-space:nowrap}
+  table.lad td.n{font-family:var(--serif);font-weight:600;font-size:clamp(1.3rem,2.1vw,1.8rem);color:var(--navy)}
+  table.lad td.d{color:#8a6d14}
+  table.lad tr:last-child th,table.lad tr:last-child td{border-bottom:0}
+  table.lad tr.seed th,table.lad tr.seed td{background:#FCF4DC}
+  table.irrt td{font-family:var(--serif);font-weight:600;font-size:clamp(1.25rem,2vw,1.7rem);color:var(--navy)}
+  table.irrt td.irr{color:#8a6d14;font-weight:700}
+  table.irrt tr.vcrow th,table.irrt tr.vcrow td{background:var(--navy);color:var(--ivory)}
+  table.irrt tr.vcrow td.irr{color:var(--gold-soft)}
+
+  .lg2{display:flex;gap:2.2vw;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-top:.4vh}
+  .lg2 .sw{display:inline-block;width:.9em;height:.9em;margin-right:.5em;vertical-align:-.1em}
+  .lg2 .sw.bar{background:var(--navy);border-radius:2px}
+  .lg2 .sw.med{background:var(--gold);border-radius:50%}
+  .lg2 .sw.dec{background:#fff;border:2px solid var(--muted);border-radius:50%}
+  .big-list li{font-size:clamp(1.15rem,1.75vw,1.5rem) !important;padding:1.1vh 0 1.1vh 1.35em !important}
+  .callouts{display:grid;grid-template-columns:1fr 1fr;gap:1.2vw;margin-top:1.4vh}
+  .note-sm{font-size:.78rem;color:var(--muted);line-height:1.4;margin-top:1vh}
+
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+<!-- 1 · TITLE -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Fitler MBA · Session 12</div>
+  <div class="body">
+    <h1 style="font-size:clamp(2.2rem,5.4vw,4.3rem);max-width:1100px;">Investors &amp; Capital Markets</h1>
+    <p style="font-family:var(--serif);font-size:clamp(1.3rem,2.6vw,2.1rem);color:var(--gold-soft);margin-top:1.2vh;font-weight:500;">How the people across the table make their money.</p>
+    <hr class="rule">
+    <p class="read" style="font-size:clamp(1rem,1.6vw,1.3rem);max-width:900px;color:#C9D2DE;">Where money comes from. How a fund works. Why one deal has to carry the fund. How to pick your investor.</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Investors &amp; Capital Markets</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Title</h4><p>Last week was the pitch. Tonight is the other side of the table. Three things owed from S11 get paid tonight: why VCs need fund-sized outcomes, the return path for test 6, and Conway.</p><p><b>Clock:</b> break around 6:48. Payoff by 7:25. Overflow after 7:30.</p><p>Every fund number that isn't from PitchBook, Carta or the press on First Round is an illustration. Every Éclat number is a labeled hypothetical. None of it is Chris's.</p></div>
+</section>
+<!-- 2 · BLUF -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">The bottom line</div>
+  <div class="body">
+    <p class="big" style="font-size:clamp(1.9rem,3.8vw,3.3rem);max-width:1200px;">Investors are running a <span class="g">business</span> too.</p>
+    <p class="big" style="font-size:clamp(1.9rem,3.8vw,3.3rem);max-width:1200px;margin-top:2vh;">Know their math and you'll know what they need to hear, and whether to talk to them at all.</p>
+    <hr class="rule" style="margin-top:3.5vh;">
+    <p class="read muted" style="max-width:1000px;">Where money comes from · How a fund makes money · The dream and the reality · Who's across the table · Your return path · Picking your investor</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · The bottom line</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>BLUF</h4><p>Say it once. We come back to it at the wrap.</p><p>The arc: where money comes from, how a VC fund makes money, why that forces them to swing for the fences, who's across the table at each stage, test 6 from their chair, and how you pick them.</p></div>
+</section>
+<!-- 3 · CAPITAL MAP -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Part 1 · Where money comes from</div>
+  <h2>The Capital Map</h2>
+  <div class="body">
+    <div class="capmap"><div class="cm"><div class="cn">Your cash &amp; customers</div><div class="cw">Wants back</div><div class="cv">Nothing. You keep it all.</div><div class="cg"></div><div class="cb">Slowest</div></div><div class="cm"><div class="cn">Friends &amp; family</div><div class="cw">Wants back</div><div class="cv">Their money back. Maybe a share.</div><div class="cg"></div><div class="cb">Handle with care</div></div><div class="cm"><div class="cn">Bank / SBA / equipment</div><div class="cw">Wants back</div><div class="cv">Interest, and usually your personal guarantee.</div><div class="cg"></div><div class="cb">Debt</div></div><div class="cm"><div class="cn">Revenue-based financing</div><div class="cw">Wants back</div><div class="cv">A cut of revenue until a cap is repaid.</div><div class="cg"></div><div class="cb">Debt-like</div></div><div class="cm"><div class="cn">Angels</div><div class="cw">Wants back</div><div class="cv">A multiple on their own money.</div><div class="cg"></div><div class="cb">Equity</div></div><div class="cm vc"><div class="cn">Venture capital</div><div class="cw">Wants back</div><div class="cv">A fund-sized outcome, and a board seat.</div><div class="cg"></div><div class="cb">Equity</div></div><div class="cm"><div class="cn">Strategic / PE</div><div class="cw">Wants back</div><div class="cv">Control. Often the whole company.</div><div class="cg"></div><div class="cb">Buyer</div></div></div>
+    <div class="riskbar"><span>Less risk to them</span><span class="line"></span><span>More risk, bigger return demanded</span></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Part 1</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>The capital map</h4><p><b>Show of hands at each stop:</b> "Where did the money for your business come from?" Walk left to right.</p><p>Debt wants it back with interest. Equity wants a multiple. Callback S06.</p><p>Callback S11: Éclat's ask was a lender's deal, not a VC deal.</p><p>Most of this room lives on the left half of the map. Tonight is about the gold box, so you know when not to go there.</p><p>Strategic / PE is on the map as a buyer as much as a funder. It comes back on the Éclat slide.</p></div>
+</section>
+<!-- 4 · FUND STRUCTURE -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Part 2 · How a VC fund makes money</div>
+  <h2>How a VC Fund Works</h2>
+  <div class="body">
+    <div class="lpgp">
+      <div class="node"><div class="nw">Limited partners · LPs</div><div class="nt">The money</div><ul class="mini"><li>Pensions, endowments, foundations, family offices</li><li>Commit money for 10+ years</li><li>VC is a small slice of what they manage</li></ul></div>
+      <div class="flow"><div class="fl">Capital calls</div><div class="arr">→</div><div class="arr back">←</div><div class="fl">Cash back</div></div>
+      <div class="node"><div class="nw">General partner · GP</div><div class="nt">The VC firm</div><ul class="mini"><li>Raises the fund, picks the deals</li><li>Sits on boards, helps, pushes</li><li>Paid 2 and 20 (next)</li></ul></div>
+      <div class="flow"><div class="fl">Invests</div><div class="arr">→</div><div class="arr back">←</div><div class="fl">Exits</div></div>
+      <div class="node"><div class="nw">Portfolio</div><div class="nt">About 20 companies</div><ul class="mini"><li>First check, then follow-ons in the winners</li><li>Most return little or nothing</li><li>A sale or IPO is the only way out</li></ul></div>
+    </div>
+    <div class="cols step" data-step style="margin-top:2.2vh;align-items:stretch">
+      <div class="col card" style="flex:1.45"><div class="kicker">The 10-year clock</div><svg viewBox="0 0 900 300" width="100%" style="max-height:30vh" role="img" aria-label="Ten-year VC fund life">
+<line x1="150.0" x2="150.0" y1="28" y2="260" stroke="rgba(107,118,132,.18)"/>
+<text x="150.0" y="284" text-anchor="middle" font-size="15" fill="#6B7684">Yr 0</text>
+<line x1="271.7" x2="271.7" y1="28" y2="260" stroke="rgba(107,118,132,.18)"/>
+<text x="271.7" y="284" text-anchor="middle" font-size="15" fill="#6B7684">Yr 2</text>
+<line x1="393.3" x2="393.3" y1="28" y2="260" stroke="rgba(107,118,132,.18)"/>
+<text x="393.3" y="284" text-anchor="middle" font-size="15" fill="#6B7684">Yr 4</text>
+<line x1="515.0" x2="515.0" y1="28" y2="260" stroke="rgba(107,118,132,.18)"/>
+<text x="515.0" y="284" text-anchor="middle" font-size="15" fill="#6B7684">Yr 6</text>
+<line x1="636.7" x2="636.7" y1="28" y2="260" stroke="rgba(107,118,132,.18)"/>
+<text x="636.7" y="284" text-anchor="middle" font-size="15" fill="#6B7684">Yr 8</text>
+<line x1="758.3" x2="758.3" y1="28" y2="260" stroke="rgba(107,118,132,.18)"/>
+<text x="758.3" y="284" text-anchor="middle" font-size="15" fill="#6B7684">Yr 10</text>
+<line x1="880.0" x2="880.0" y1="28" y2="260" stroke="rgba(107,118,132,.18)"/>
+<text x="880.0" y="284" text-anchor="middle" font-size="15" fill="#6B7684">Yr 12</text>
+<text x="138" y="58" text-anchor="end" font-size="16" font-weight="600" fill="#22303F">New companies</text>
+<rect x="150.0" y="40" width="243.3" height="28" rx="5" fill="#1B2A41"/>
+<text x="138" y="110" text-anchor="end" font-size="16" font-weight="600" fill="#22303F">Follow-on checks</text>
+<rect x="241.2" y="92" width="334.6" height="28" rx="5" fill="#5B6E86"/>
+<text x="138" y="162" text-anchor="end" font-size="16" font-weight="600" fill="#22303F">Exits, cash back</text>
+<rect x="423.8" y="144" width="334.6" height="28" rx="5" fill="#C9A227"/>
+<text x="138" y="214" text-anchor="end" font-size="16" font-weight="600" fill="#22303F">Extensions</text>
+<rect x="758.3" y="196" width="121.7" height="28" rx="5" fill="#E2D3A0" stroke="#C9A227" stroke-dasharray="6 5" stroke-width="2"/>
+<line x1="393.3" x2="393.3" y1="22" y2="260" stroke="#B3402F" stroke-width="2.5" stroke-dasharray="6 5"/>
+<text x="401.3" y="20" font-size="15" font-weight="700" fill="#B3402F">Raise Fund II</text>
+</svg></div>
+      <div class="col card" style="flex:1"><div class="kicker">The LPs' J-curve (illustrative)</div><svg viewBox="0 0 520 300" width="100%" style="max-height:30vh" role="img" aria-label="Illustrative J-curve for LPs">
+<line x1="64" x2="504" y1="252.7" y2="252.7" stroke="rgba(107,118,132,.18)"/>
+<text x="56" y="257.7" text-anchor="end" font-size="14" fill="#6B7684">&#8722;$100M</text>
+<line x1="64" x2="504" y1="180.0" y2="180.0" stroke="rgba(107,118,132,.6)"/>
+<text x="56" y="185.0" text-anchor="end" font-size="14" fill="#6B7684">$0</text>
+<line x1="64" x2="504" y1="107.3" y2="107.3" stroke="rgba(107,118,132,.18)"/>
+<text x="56" y="112.3" text-anchor="end" font-size="14" fill="#6B7684">+$100M</text>
+<line x1="64" x2="504" y1="34.5" y2="34.5" stroke="rgba(107,118,132,.18)"/>
+<text x="56" y="39.5" text-anchor="end" font-size="14" fill="#6B7684">+$200M</text>
+<path d="M64.0,180.0 L100.7,196.0 L137.3,212.7 L174.0,227.3 L210.7,238.2 L247.3,244.0 L284.0,238.2 L320.7,216.4 L357.3,180.0 L394.0,129.1 L430.7,70.9 L467.3,49.1 L504.0,37.5" fill="none" stroke="#C9A227" stroke-width="4" stroke-linejoin="round"/>
+<circle cx="247.3" cy="244.0" r="6" fill="#1B2A41"/>
+<text x="247.3" y="250.0" dx="14" font-size="14" font-weight="600" fill="#1B2A41">Deepest hole, year 5</text>
+<text x="420.7" y="74.9" text-anchor="end" font-size="15" font-weight="700" fill="#8a6d14">LPs end +$196M</text>
+<text x="64.0" y="288" text-anchor="middle" font-size="14" fill="#6B7684">Yr 0</text>
+<text x="210.7" y="288" text-anchor="middle" font-size="14" fill="#6B7684">Yr 4</text>
+<text x="357.3" y="288" text-anchor="middle" font-size="14" fill="#6B7684">Yr 8</text>
+<text x="504.0" y="288" text-anchor="middle" font-size="14" fill="#6B7684">Yr 12</text>
+</svg></div>
+    </div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Part 2</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>How a VC fund works</h4><p><b>Predict:</b> "Whose money is the VC investing?" Pays off S11 slide 4: the angel invests their own money, the VC invests other people's.</p><p>LPs don't wire the money on day one. They commit, and the GP calls it as deals come up. Cash comes back up the same chain when companies sell.</p><p>For a pension fund, VC is a small slice. They're buying the chance at outsized returns, and they're picky about managers. Top quartile or nothing.</p><p>The GP is running a business. Its customers are the LPs. It goes back to them every 3 to 4 years for the next fund, before the last one has shown much cash. That's why early markups matter so much to a VC.</p><p><b>Click: the clock.</b> New companies in the first 3 to 4 years. Reserves go into the winners for years after that. Exits and cash back mostly come in the back half. Ten years, often extended a year or two.</p><p><b>The J-curve.</b> LPs are in a hole for years: fees and losses show up early, wins show up late. Same $100M fund as the next slide: LPs put in $98M and end up $196M ahead. The real version of this, by vintage, comes later tonight.</p></div>
+</section>
+<!-- 5 · 2 AND 20 -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Part 2 · How a VC fund makes money</div>
+  <h2>Why All MBAs Want to Be VCs!</h2>
+  <div class="body">
+    <div class="twenty">
+      <img class="samimg" alt="Uncle Sam pointing" src="data:image/jpeg;base64,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">
+      <div style="flex:1;min-width:0">
+        <div class="bignum">2 <span class="g">/</span> 20</div>
+        <div class="kv" style="margin-top:1.6vh"><div class="k">2%</div><div class="v"><strong>Management fee</strong> every year. Pays salaries and rent.</div></div>
+        <div class="kv"><div class="k">20%</div><div class="v"><strong>Carry.</strong> The GP's share of the profits.</div></div>
+        <div class="kv"><div class="k">First</div><div class="v"><strong>LPs get all their money back</strong> before the GP sees any carry.</div></div>
+      </div>
+      <div class="card step target" data-step>
+        <div class="kicker">The target</div>
+        <div class="tv">25% IRR</div>
+        <div class="tl2">25% a year for 7 years = <b>4.8x</b></div>
+        <div class="tl2 muted">But money goes in over years 1–4 and comes back over years 5–10. The average dollar is out about 5 years: 25% for 5 years ≈ <b>3x</b>.</div>
+      </div>
+    </div>
+    <div class="step" data-step style="margin-top:2vh">
+      <div class="wf">
+        <div class="card"><div class="kicker">Committed</div><div class="amt">$100M</div><div class="who">LPs $98M · GP $2M</div></div>
+        <div class="card"><div class="kicker">Less fees</div><div class="amt">−$14M</div><div class="who">2% × 7 years</div></div>
+        <div class="card"><div class="kicker">Invested</div><div class="amt">$86M</div><div class="who">Into the portfolio</div></div>
+        <div class="card" style="border:2px solid var(--gold)"><div class="kicker">Returned</div><div class="amt">$350M</div><div class="who">3.5x the fund · 4.1x what was invested · how, in two slides</div></div>
+      </div>
+    </div>
+    <div class="step" data-step>
+      <div class="tot">
+        <div class="card"><span class="t1">LPs</span><span class="t2">$98M → $294M</span><span class="t3">3.0x</span></div>
+        <div class="card"><span class="t1">GP</span><span class="t2">$2M → $56M</span><span class="t3">28x</span></div>
+      </div>
+      <p class="note-sm">Waterfall: $100M capital back first · $250M profit · $50M carry to GP (20%) · $200M split 98/2. Illustrative fund on today's medians: 2% GP commit, 2% fee, 20% carry, no hurdle (Carta Fund Economics Report 2025). Simplified: flat fee, whole-fund.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Part 2</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Why all MBAs want to be VCs</h4><p><b>Story slot:</b> the fund side of the table. Why you're here today: 2/20.</p><p>The fee keeps the lights on. The carry is where partners get rich, and carry only comes from profits.</p><p><b>Click 1, the target.</b> 25% IRR. Ask first: "25% a year for 7 years. What multiple is that?" 4.8x. Then the catch: the money doesn't all go in on day one or come out on the last day. The average dollar is out about 5 years, so 25% works out to about 3x for LPs. Callback S06 IRR.</p><p><b>Click 2, the sample fund.</b> $100M committed, $14M of fees, $86M goes to work, $350M comes back. Where the $350M comes from is the fund dynamics slide in two minutes.</p><p><b>Predict before click 3:</b> "The LPs put in $98M. What do they get back? What does the GP take home on its $2M?"</p><p>LPs $294M, 3.0x: right on the target. GP $56M, 28x, and $50M of it is carry on other people's money. That's why every MBA wants to be a VC.</p><p><b>Story slot: Cross Atlantic, 1999.</b> GP commit was 5% then. Today's median is 1.7% (Carta 2025). An 8% hurdle was common too; today only about 1 in 10 VC funds has one.</p><p>Say out loud: simplified. Fees usually step down after the investment period, and this is a whole-fund waterfall: LPs get all their money back before any carry. Some funds pay carry deal by deal, with a clawback.</p></div>
+</section>
+<!-- 6 · RETURN THE FUND -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Part 2 · How a VC fund makes money</div>
+  <h2>Return the Fund</h2>
+  <div class="body">
+    <p class="read" style="max-width:1100px;margin-bottom:2.4vh">The question behind every VC yes: <strong>can this one company pay back the whole fund?</strong></p>
+    <div class="eqrow">
+      <div class="eqstat"><div class="v">$100M</div><div class="k">Fund size</div></div>
+      <div class="eqop">÷</div>
+      <div class="eqstat"><div class="v">15%</div><div class="k">What they own at the exit</div></div>
+      <div class="eqop">=</div>
+      <div class="eqstat answer step" data-step><div class="v">$667M</div><div class="k">The exit they need</div><div class="n">Just to pay the fund back once</div></div>
+    </div>
+    <div class="sourcestrip" style="margin-top:1.4vh"><div class="sslabel">Source</div><div class="ssbody">Illustrative: $100M fund, 15% ownership at exit (an assumption we check after the break). $100M ÷ 0.15 = $667M.</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Part 2</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Return the fund</h4><p><b>Predict before the click:</b> "If they own 15% when you sell, how big does the sale have to be to pay back the whole fund?"</p><p>Ownership in one line: the share of the company they hold on the day it sells.</p><p>That's "pay back the fund once." A good fund needs about 3x. This is the floor.</p><p>This is what S11 meant by a fund-sized outcome.</p><p>"Hold on to that 15%. We'll check it after the break."</p></div>
+</section>
+<!-- 7 · FUND DYNAMICS -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Part 2 · How a VC fund makes money</div>
+  <h2>Fund Dynamics: Why One Deal Carries the Fund</h2>
+  <div class="body">
+    <div class="cols" style="align-items:center">
+      <div class="col" style="flex:1.35"><div class="chain"><div class="r step " data-step><div class="l">Fund size</div><div class="v">$100M</div></div><div class="r step " data-step><div class="l">Less fees <i>(2% × 7 years)</i></div><div class="v">$86M</div></div><div class="r step " data-step><div class="l">Hold half for follow-on checks <i>(reserves)</i></div><div class="v">$43M</div></div><div class="r step " data-step><div class="l">Average first check about $2M</div><div class="v">~20 companies</div></div><div class="r step " data-step><div class="l">All-in per company <i>(first check + follow-ons: $86M ÷ 20)</i></div><div class="v">~$4.3M</div></div><div class="r step " data-step><div class="l">For LPs to net 3x, the fund must return <i>(slide 5)</i></div><div class="v">$350M</div></div><div class="r step " data-step><div class="l">The other 19 return <i>(6 × $4.3M back + 3 × $12.9M)</i></div><div class="v">~$65M</div></div><div class="r step ans" data-step><div class="l">So the winner must return</div><div class="v">~$285M</div></div><div class="r step ans" data-step><div class="l">At 15% ownership, that's an exit of</div><div class="v">≈ $1.9B</div></div></div></div>
+      <div class="col" style="flex:.85">
+        <div class="kicker">How the 20 turn out</div>
+        <div class="pgrid"><div class="pc lose">0</div><div class="pc lose">0</div><div class="pc lose">0</div><div class="pc lose">0</div><div class="pc lose">0</div><div class="pc lose">0</div><div class="pc lose">0</div><div class="pc lose">0</div><div class="pc lose">0</div><div class="pc lose">0</div><div class="pc back">1x</div><div class="pc back">1x</div><div class="pc back">1x</div><div class="pc back">1x</div><div class="pc back">1x</div><div class="pc back">1x</div><div class="pc three">3x</div><div class="pc three">3x</div><div class="pc three">3x</div><div class="pc win">?</div></div>
+        <div class="pkey"><span class="k1">10 lose it all</span><span class="k2">6 return their money</span><span class="k3">3 return 3x</span><span class="k4">1 = ?</span></div>
+      </div>
+    </div>
+    <div class="sourcestrip" style="margin-top:1.4vh"><div class="sslabel">Source</div><div class="ssbody">Illustrative $100M fund; every input is an assumption. Losers return $0; 6 × $4.3M = $25.8M; 3 × (3 × $4.3M) = $38.7M; other 19 ≈ $64.5M. $350M − $65M ≈ $285M (about 66x on $4.3M). $285M ÷ 0.15 ≈ $1.9B.</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Part 2</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Fund dynamics</h4><p>Walk the chain one click at a time. The grid on the right is the portfolio.</p><p><b>Reserves:</b> plant it. Half the money is held back for follow-on checks in the winners. It pays off on the stage ladder after the break.</p><p><b>The $4.3M row:</b> $86M invested across 20 companies is $4.3M each on average, counting the first check and the follow-ons.</p><p><b>The $350M:</b> same fund as slide 5. That's what gets LPs to 3x after carry.</p><p><b>The $65M, if asked:</b> ten companies return nothing. Six return their money, 6 × $4.3M ≈ $26M. Three return 3x, 3 × $12.9M ≈ $39M. Together about $65M from nineteen companies.</p><p><b>Predict on the last two rows:</b> "How big does the winner have to be?" The room will guess low.</p><p>$1.9 billion. That's a unicorn. And it's the outcome a VC needs to believe in before writing your check.</p><p>The winner has to return about 66 times the money put into it.</p></div>
+</section>
+<!-- 8 · ONE CHECK -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Part 3 · The dream and the reality</div>
+  <h2>One Check: First Round Capital and Uber</h2>
+  <div class="body">
+    <div class="tl">
+      <div class="card step" data-step><div class="yr">2010</div><div class="ev"><b>$510K</b> into UberCab's seed round</div></div>
+      <div class="card step" data-step><div class="yr">2018</div><div class="ev">Sold about 40% in the SoftBank tender. <b>~$800M in cash</b></div></div>
+      <div class="card step" data-step><div class="yr">2019</div><div class="ev">IPO at $45. The rest worth <b>~$1.7B</b></div></div>
+    </div>
+    <div class="payoff step" data-step><div class="bignum">≈ $2.5B. <span class="g">Nearly 5,000x.</span></div></div>
+    <div class="sourcestrip" style="margin-top:1.4vh"><div class="sslabel">Source</div><div class="ssbody">Inquirer, May 13, 2019 ($510K seed; 37.7M shares held; WSJ estimate ≈ $2.5B, nearly 5,000x). TechCrunch, Jan 5, 2018 (sold close to 40% in the SoftBank tender, reportedly ~$800M). 37.7M × $45 ≈ $1.7B. First Round raised a $126M fund in late 2010 (VentureBeat).</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Part 3</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>One check</h4><p><b>Predict first:</b> "What do you think First Round put in?" Let them guess millions. Then click.</p><p>A Philadelphia firm, in a Philadelphia room.</p><p>"The fund First Round raised that year was $126 million. This one check was worth about 20 of those funds." Don't name which fund made the investment. That isn't confirmed.</p><p>2018 matters. They sold part of the stake in a private tender before the IPO. That's paper turning into cash. It comes back when we talk about picking your investor.</p><p><b>Story slot:</b> what you know about First Round and the Philly scene.</p><p>This is the "1 = ?" on the last slide. Now the reality check.</p></div>
+</section>
+<!-- 9 · INDEX FUND -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Part 3 · The dream and the reality</div>
+  <h2>Your Competition Is an Index Fund</h2>
+  <div class="body">
+    <div class="cols" style="align-items:center">
+      <div class="col" style="flex:1.3"><svg viewBox="0 0 900 430" width="100%" style="max-height:50vh" role="img" aria-label="VC versus S&amp;P 500 horizon returns">
+<line x1="60" x2="880" y1="370.0" y2="370.0" stroke="rgba(107,118,132,.18)"/>
+<text x="50" y="375.0" text-anchor="end" font-size="15" fill="#6B7684">0%</text>
+<line x1="60" x2="880" y1="287.5" y2="287.5" stroke="rgba(107,118,132,.18)"/>
+<text x="50" y="292.5" text-anchor="end" font-size="15" fill="#6B7684">5%</text>
+<line x1="60" x2="880" y1="205.0" y2="205.0" stroke="rgba(107,118,132,.18)"/>
+<text x="50" y="210.0" text-anchor="end" font-size="15" fill="#6B7684">10%</text>
+<line x1="60" x2="880" y1="122.5" y2="122.5" stroke="rgba(107,118,132,.18)"/>
+<text x="50" y="127.5" text-anchor="end" font-size="15" fill="#6B7684">15%</text>
+<line x1="60" x2="880" y1="40.0" y2="40.0" stroke="rgba(107,118,132,.18)"/>
+<text x="50" y="45.0" text-anchor="end" font-size="15" fill="#6B7684">20%</text>
+<rect x="88.7" y="237.7" width="69.7" height="132.3" rx="3" fill="#1B2A41"/>
+<text x="123.6" y="228.7" text-anchor="middle" font-size="19" font-weight="700" fill="#1B2A41">8.0%</text>
+<rect x="166.6" y="67.7" width="69.7" height="302.3" rx="3" fill="#C9A227"/>
+<text x="201.5" y="58.7" text-anchor="middle" font-size="19" font-weight="700" fill="#8a6d14">18.3%</text>
+<text x="162.5" y="400" text-anchor="middle" font-size="18" font-weight="600" fill="#22303F">3 years</text>
+<rect x="293.7" y="267.9" width="69.7" height="102.1" rx="3" fill="#1B2A41"/>
+<text x="328.6" y="258.9" text-anchor="middle" font-size="19" font-weight="700" fill="#1B2A41">6.2%</text>
+<rect x="371.6" y="171.0" width="69.7" height="199.0" rx="3" fill="#C9A227"/>
+<text x="406.5" y="162.0" text-anchor="middle" font-size="19" font-weight="700" fill="#8a6d14">12.1%</text>
+<text x="367.5" y="400" text-anchor="middle" font-size="18" font-weight="600" fill="#22303F">5 years</text>
+<rect x="498.7" y="154.5" width="69.7" height="215.5" rx="3" fill="#1B2A41"/>
+<text x="533.5" y="145.5" text-anchor="middle" font-size="19" font-weight="700" fill="#1B2A41">13.1%</text>
+<rect x="576.6" y="136.4" width="69.7" height="233.6" rx="3" fill="#C9A227"/>
+<text x="611.5" y="127.4" text-anchor="middle" font-size="19" font-weight="700" fill="#8a6d14">14.2%</text>
+<text x="572.5" y="400" text-anchor="middle" font-size="18" font-weight="600" fill="#22303F">10 years</text>
+<rect x="703.7" y="194.3" width="69.7" height="175.7" rx="3" fill="#1B2A41"/>
+<text x="738.6" y="185.3" text-anchor="middle" font-size="19" font-weight="700" fill="#1B2A41">10.7%</text>
+<rect x="781.6" y="196.3" width="69.7" height="173.7" rx="3" fill="#C9A227"/>
+<text x="816.5" y="187.3" text-anchor="middle" font-size="19" font-weight="700" fill="#8a6d14">10.5%</text>
+<text x="777.5" y="400" text-anchor="middle" font-size="18" font-weight="600" fill="#22303F">20 years</text>
+<line x1="60" x2="880" y1="370.0" y2="370.0" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="70" y="8" width="16" height="16" rx="3" fill="#1B2A41"/><text x="94" y="22" font-size="16" fill="#22303F">Venture capital (after fees)</text>
+<rect x="350" y="8" width="16" height="16" rx="3" fill="#C9A227"/><text x="374" y="22" font-size="16" fill="#22303F">S&amp;P 500</text>
+</svg></div>
+      <div class="col" style="flex:.9;display:flex;flex-direction:column;gap:1.6vh">
+        <div class="ask step" data-step><div class="al">Vintage by vintage</div><p>The S&amp;P 500 beat the average VC dollar in <b>12 of 20</b> fund vintages, 2001–2020.</p></div>
+        <div class="ask step" data-step><div class="al">And</div><p>You can sell the index fund tomorrow. A VC fund locks your money up for ten years.</p></div>
+      </div>
+    </div>
+    <div class="sourcestrip" style="margin-top:1.4vh"><div class="sslabel">Source</div><div class="ssbody">PitchBook Benchmarks Q1 2026 (global; data as of Mar 31, 2026). All fund returns are net of fees and carry. Horizon IRRs (p.8). Vintage comparison uses PitchBook&#39;s KS-PME vs. the S&amp;P 500, pooled across funds (p.21).</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Part 3</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Your competition is an index fund</h4><p><b>Predict before the bars:</b> "Ten years. VC or the S&amp;P 500?" Most will say VC.</p><p>VC loses over 3, 5 and 10 years. Twenty years is a tie, and the index never locked your money up.</p><p><b>Debate, 2 minutes:</b> "You have $100K. VC fund or index fund? Why?" Some of you will be asked to write angel checks. This is your slide too.</p><p>Say it as yours: Extended Market tells the same story. And most individual funds don't beat the index.</p><p>Careful with the words: the slide says "average VC dollar," because the PitchBook comparison is pooled. And these are after fees.</p><p>So why does anyone invest in VC? Because the best funds crush it. Next slide.</p></div>
+</section>
+<!-- 10 · HITS BUSINESS -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Part 3 · The dream and the reality</div>
+  <h2>A Hits Business</h2>
+  <div class="body">
+    <svg viewBox="0 0 1400 560" width="100%" style="max-height:52vh" role="img" aria-label="VC fund IRR dispersion by vintage, 2001 to 2020">
+<line x1="80" x2="1230" y1="466.4" y2="466.4" stroke="rgba(107,118,132,.18)"/>
+<text x="68" y="471.4" text-anchor="end" font-size="17" fill="#6B7684">-20%</text>
+<line x1="80" x2="1230" y1="399.3" y2="399.3" stroke="rgba(107,118,132,.18)"/>
+<text x="68" y="404.3" text-anchor="end" font-size="17" fill="#6B7684">-10%</text>
+<line x1="80" x2="1230" y1="332.1" y2="332.1" stroke="rgba(107,118,132,.18)"/>
+<text x="68" y="337.1" text-anchor="end" font-size="17" fill="#6B7684">0%</text>
+<line x1="80" x2="1230" y1="265.0" y2="265.0" stroke="rgba(107,118,132,.18)"/>
+<text x="68" y="270.0" text-anchor="end" font-size="17" fill="#6B7684">10%</text>
+<line x1="80" x2="1230" y1="197.9" y2="197.9" stroke="rgba(107,118,132,.18)"/>
+<text x="68" y="202.9" text-anchor="end" font-size="17" fill="#6B7684">20%</text>
+<line x1="80" x2="1230" y1="130.7" y2="130.7" stroke="rgba(107,118,132,.18)"/>
+<text x="68" y="135.7" text-anchor="end" font-size="17" fill="#6B7684">30%</text>
+<line x1="80" x2="1230" y1="63.6" y2="63.6" stroke="rgba(107,118,132,.18)"/>
+<text x="68" y="68.6" text-anchor="end" font-size="17" fill="#6B7684">40%</text>
+<line x1="80" x2="1230" y1="332.1" y2="332.1" stroke="#6B7684" stroke-width="1.5"/>
+<line x1="108.8" x2="108.8" y1="250.1" y2="435.8" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="91.5" y="287.8" width="34.5" height="88.0" rx="3" fill="#1B2A41"/>
+<circle cx="108.8" cy="250.1" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="108.8" cy="435.8" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="108.8" cy="319.4" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="108.8" y="528" text-anchor="middle" font-size="16" fill="#6B7684">2001</text>
+<line x1="166.2" x2="166.2" y1="249.2" y2="459.7" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="149.0" y="279.2" width="34.5" height="98.0" rx="3" fill="#1B2A41"/>
+<circle cx="166.2" cy="249.2" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="166.2" cy="459.7" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="166.2" cy="318.4" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="166.2" y="528" text-anchor="middle" font-size="16" fill="#6B7684">'02</text>
+<line x1="223.8" x2="223.8" y1="231.1" y2="445.5" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="206.5" y="287.8" width="34.5" height="114.9" rx="3" fill="#1B2A41"/>
+<circle cx="223.8" cy="231.1" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="223.8" cy="445.5" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="223.8" cy="319.5" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="223.8" y="528" text-anchor="middle" font-size="16" fill="#6B7684">2003</text>
+<line x1="281.2" x2="281.2" y1="183.2" y2="472.3" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="264.0" y="279.9" width="34.5" height="115.1" rx="3" fill="#1B2A41"/>
+<circle cx="281.2" cy="183.2" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="281.2" cy="472.3" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="281.2" cy="326.2" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="281.2" y="528" text-anchor="middle" font-size="16" fill="#6B7684">'04</text>
+<line x1="338.8" x2="338.8" y1="238.7" y2="396.1" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="321.5" y="266.5" width="34.5" height="65.9" rx="3" fill="#1B2A41"/>
+<circle cx="338.8" cy="238.7" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="338.8" cy="396.1" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="338.8" cy="308.2" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="338.8" y="528" text-anchor="middle" font-size="16" fill="#6B7684">2005</text>
+<line x1="396.2" x2="396.2" y1="222.6" y2="400.4" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="379.0" y="262.2" width="34.5" height="88.0" rx="3" fill="#1B2A41"/>
+<circle cx="396.2" cy="222.6" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="396.2" cy="400.4" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="396.2" cy="296.8" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="396.2" y="528" text-anchor="middle" font-size="16" fill="#6B7684">'06</text>
+<line x1="453.8" x2="453.8" y1="142.6" y2="396.5" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="436.5" y="214.4" width="34.5" height="118.2" rx="3" fill="#1B2A41"/>
+<circle cx="453.8" cy="142.6" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="453.8" cy="396.5" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="453.8" cy="258.6" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="453.8" y="528" text-anchor="middle" font-size="16" fill="#6B7684">2007</text>
+<line x1="511.2" x2="511.2" y1="135.8" y2="439.7" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="494.0" y="197.5" width="34.5" height="140.3" rx="3" fill="#1B2A41"/>
+<circle cx="511.2" cy="135.8" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="511.2" cy="439.7" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="511.2" cy="271.8" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="511.2" y="528" text-anchor="middle" font-size="16" fill="#6B7684">'08</text>
+<line x1="568.8" x2="568.8" y1="118.2" y2="329.7" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="551.5" y="172.7" width="34.5" height="127.6" rx="3" fill="#1B2A41"/>
+<circle cx="568.8" cy="118.2" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="568.8" cy="329.7" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="568.8" cy="259.3" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="568.8" y="528" text-anchor="middle" font-size="16" fill="#6B7684">2009</text>
+<line x1="626.2" x2="626.2" y1="55.2" y2="375.7" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="609.0" y="183.6" width="34.5" height="131.8" rx="3" fill="#1B2A41"/>
+<circle cx="626.2" cy="55.2" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="626.2" cy="375.7" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="626.2" cy="251.6" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="626.2" y="528" text-anchor="middle" font-size="16" fill="#6B7684">'10</text>
+<line x1="683.8" x2="683.8" y1="103.9" y2="353.4" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="666.5" y="184.4" width="34.5" height="95.6" rx="3" fill="#1B2A41"/>
+<circle cx="683.8" cy="103.9" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="683.8" cy="353.4" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="683.8" cy="231.8" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="683.8" y="528" text-anchor="middle" font-size="16" fill="#6B7684">2011</text>
+<line x1="741.2" x2="741.2" y1="50.0" y2="326.1" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="724.0" y="151.4" width="34.5" height="125.0" rx="3" fill="#1B2A41"/>
+<circle cx="741.2" cy="50.0" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="741.2" cy="326.1" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="741.2" cy="218.5" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="741.2" y="528" text-anchor="middle" font-size="16" fill="#6B7684">'12</text>
+<line x1="798.8" x2="798.8" y1="76.5" y2="305.8" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="781.5" y="146.2" width="34.5" height="117.5" rx="3" fill="#1B2A41"/>
+<circle cx="798.8" cy="76.5" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="798.8" cy="305.8" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="798.8" cy="223.0" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="798.8" y="528" text-anchor="middle" font-size="16" fill="#6B7684">2013</text>
+<line x1="856.2" x2="856.2" y1="103.6" y2="314.8" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="839.0" y="166.8" width="34.5" height="109.2" rx="3" fill="#1B2A41"/>
+<circle cx="856.2" cy="103.6" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="856.2" cy="314.8" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="856.2" cy="222.7" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="856.2" y="528" text-anchor="middle" font-size="16" fill="#6B7684">'14</text>
+<line x1="913.8" x2="913.8" y1="110.2" y2="319.7" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="896.5" y="190.3" width="34.5" height="82.5" rx="3" fill="#1B2A41"/>
+<circle cx="913.8" cy="110.2" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="913.8" cy="319.7" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="913.8" cy="234.1" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="913.8" y="528" text-anchor="middle" font-size="16" fill="#6B7684">2015</text>
+<line x1="971.2" x2="971.2" y1="96.8" y2="299.2" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="954.0" y="155.6" width="34.5" height="110.7" rx="3" fill="#1B2A41"/>
+<circle cx="971.2" cy="96.8" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="971.2" cy="299.2" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="971.2" cy="225.0" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="971.2" y="528" text-anchor="middle" font-size="16" fill="#6B7684">'16</text>
+<line x1="1028.8" x2="1028.8" y1="136.0" y2="324.0" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="1011.5" y="195.5" width="34.5" height="85.9" rx="3" fill="#1B2A41"/>
+<circle cx="1028.8" cy="136.0" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="1028.8" cy="324.0" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="1028.8" cy="235.5" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="1028.8" y="528" text-anchor="middle" font-size="16" fill="#6B7684">2017</text>
+<line x1="1086.2" x2="1086.2" y1="132.9" y2="334.6" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="1069.0" y="189.0" width="34.5" height="103.2" rx="3" fill="#1B2A41"/>
+<circle cx="1086.2" cy="132.9" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="1086.2" cy="334.6" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="1086.2" cy="255.3" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="1086.2" y="528" text-anchor="middle" font-size="16" fill="#6B7684">'18</text>
+<line x1="1143.8" x2="1143.8" y1="127.2" y2="330.2" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="1126.5" y="210.5" width="34.5" height="92.1" rx="3" fill="#1B2A41"/>
+<circle cx="1143.8" cy="127.2" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="1143.8" cy="330.2" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="1143.8" cy="263.0" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="1143.8" y="528" text-anchor="middle" font-size="16" fill="#6B7684">2019</text>
+<line x1="1201.2" x2="1201.2" y1="174.0" y2="351.3" stroke="#6B7684" stroke-width="1.5"/>
+<rect x="1184.0" y="221.0" width="34.5" height="95.7" rx="3" fill="#1B2A41"/>
+<circle cx="1201.2" cy="174.0" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="1201.2" cy="351.3" r="5.5" fill="#fff" stroke="#6B7684" stroke-width="2"/>
+<circle cx="1201.2" cy="281.1" r="7.5" fill="#C9A227" stroke="#fff" stroke-width="2"/>
+<text x="1201.2" y="528" text-anchor="middle" font-size="16" fill="#6B7684">'20</text>
+<g class="step" data-step>
+<line x1="80" x2="1230" y1="164.3" y2="164.3" stroke="#B3402F" stroke-width="3" stroke-dasharray="10 7"/>
+<text x="1242" y="171.3" font-size="20" font-weight="700" fill="#B3402F">25% target</text>
+<line x1="80" x2="1230" y1="265.0" y2="265.0" stroke="#6B7684" stroke-width="2.5" stroke-dasharray="4 6"/>
+<text x="1242" y="272.0" font-size="18" font-weight="700" fill="#6B7684">10%</text>
+</g></svg>
+    <div class="lg2"><span><i class="sw bar"></i>Middle half of funds (bottom to top quartile)</span><span><i class="sw med"></i>Median fund</span><span><i class="sw dec"></i>Top and bottom 10% of funds</span></div>
+    <div class="callouts step" data-step>
+      <div class="ask"><div class="al">Top quartile</div><p>Even a top-quarter fund landed under 25% in <b>17 of 20</b> vintages.</p></div>
+      <div class="ask"><div class="al">Bottom quartile</div><p>In <b>19 of 20</b>, at least a quarter of funds returned single digits or lost money.</p></div>
+    </div>
+    <div class="sourcestrip" style="margin-top:1.4vh"><div class="sslabel">Source</div><div class="ssbody">PitchBook Benchmarks Q1 2026 (global; data as of Mar 31, 2026). All fund returns are net of fees and carry. VC IRR quantiles by fund vintage (p.19). Funds started after 2020 left off: too young to judge.</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Part 3</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>A hits business</h4><p>Read the chart once: each bar is the middle half of funds started that year. Gold dot is the median fund. Open circles are the top and bottom 10%.</p><p><b>Predict before the lines:</b> "Where's the median fund against the 25% target?" Then click.</p><p>The target sits above almost everything. Only the top 10% clear it reliably. That's why a VC needs the Uber, and why it passes on a good business that can't get huge.</p><p>2001 to 2004 are the dot-com hangover. Real history.</p><p>Why stop at 2020: newer funds are mostly paper markups with almost no cash back yet.</p></div>
+</section>
+<!-- 11 · PROTECT THE OTHER 19 -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Part 3 · The dream and the reality</div>
+  <h2>How They Protect the Other 19</h2>
+  <div class="body">
+    <p class="read" style="max-width:1150px;margin-bottom:2.2vh">VCs buy <strong>preferred stock</strong>. Preferred gets paid before common, and that's what founders and employees hold.</p>
+    <div class="three-terms">
+      <div class="card step" data-step><div class="kicker">Economics</div><div class="tt">Participating preferred</div><p class="read">Their money back first, <strong>AND</strong> a share of what's left.</p><p class="read muted">AND. The multi-million dollar word.</p></div>
+      <div class="card step" data-step><div class="kicker">Economics</div><div class="tt">The coupon</div><p class="read">Simple interest that builds up and gets paid at the exit.</p><p class="read muted">8% a year on $5M for 4 years = $1.6M.</p></div>
+      <div class="card step" data-step><div class="kicker">Protection</div><div class="tt">Anti-dilution</div><p class="read">If the next round is priced lower, their price resets down.</p><p class="read muted">The founders pay for it.</p></div>
+    </div>
+    <div class="ask" style="margin-top:2.2vh;max-width:900px"><div class="al">Next</div><p>We take the term sheet apart in S13.</p></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Part 3</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>How they protect the other 19</h4><p>Setup: "If 16 of 20 deals don't win, how does the fund get more out of them?"</p><p>Preferred stock first, in one line. It gets paid before common.</p><p><b>Participating preferred.</b> Get the money back, AND share in the rest. That one word is worth millions in a middle-sized exit.</p><p><b>The coupon.</b> $5M at 8% for 4 years is $1.6M, paid before common sees anything.</p><p><b>Anti-dilution.</b> A down round resets their price. The founders' slice shrinks to pay for it.</p><p>What each one does for the fund only. No mechanics. The full term sheet is S13.</p><p>Then: break.</p></div>
+</section>
+<!-- BREAK -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Break</div>
+  <div class="body">
+    <h1 style="font-size:clamp(2.4rem,6vw,5rem);">Stand up.</h1>
+    <hr class="rule">
+    <p class="big" style="font-size:clamp(1.3rem,2.4vw,2rem);max-width:1000px;">Three minutes. Then: who's across the table at each stage, and what they own by the end.</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Break</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Break</h4><p>Three minutes. S11 ran 90 minutes without one. Not again.</p><p>Back in at about 6:51.</p></div>
+</section>
+<!-- 12 · STAGE LADDER -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Part 4 · Who's across the table</div>
+  <h2>The Stage Ladder</h2>
+  <div class="body">
+    <table class="lad">
+      <thead><tr><th>Stage</th><th>Median raise</th><th>Median post-money</th><th>Sold in the round</th><th>Who writes the check</th></tr></thead>
+      <tbody><tr class=""><th>Pre-seed</th><td class="n">~$500K</td><td class="n">$10–15M <span class="muted" style="font-size:.7em">SAFE cap</span></td><td class="n d">~13%</td><td>Angels, friends &amp; family, accelerators</td></tr><tr class="seed"><th>Seed</th><td class="n">$4.1M</td><td class="n">$24M</td><td class="n d">18%</td><td>Seed VCs, angels</td></tr><tr class=""><th>Series A</th><td class="n">$14.4M</td><td class="n">$80M</td><td class="n d">18%</td><td>Early-stage VCs</td></tr><tr class=""><th>Series B</th><td class="n">$25M</td><td class="n">$191M</td><td class="n d">12%</td><td>Growth VCs</td></tr><tr class=""><th>Series C</th><td class="n">~$40M</td><td class="n">$391M</td><td class="n d">~10%</td><td>Late-stage VCs, crossover funds</td></tr><tr class=""><th>Series D</th><td class="n">$63M</td><td class="n">$789M</td><td class="n d">8%</td><td>Late-stage, crossover, sovereign funds</td></tr></tbody>
+    </table>
+    <p class="note-sm"><b>Post-money</b> = what the company is worth right after the money goes in. <b>Sold in the round</b> = dilution. Pre-seed is a SAFE cap, not a priced round (S13); ~13% is illustrative.</p>
+    <div class="ask step" data-step style="margin-top:1.2vh"><div class="al">The seed fund's 18%, if it never invests again</div><p>18% × 0.82 × 0.88 × 0.90 × 0.92 ≈ <b>11% at a Series D exit.</b> That's why the fund holds half its money in reserve.</p></div>
+    <div class="sourcestrip" style="margin-top:1.4vh"><div class="sslabel">Source</div><div class="ssbody">Carta VC fundraising benchmarks, software rounds closed in the 6 months to July 2026; pre-seed from Carta, State of Pre-Seed: 2025 in review (as reported by WaveUp). Medians.</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Part 4</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>The stage ladder</h4><p>Two definitions first: post-money, and sold in the round.</p><p>Spoken over the table, the question each stage asks: <b>Can it work?</b> (pre-seed, angels). <b>Is it working?</b> (seed, A). <b>Will it scale?</b> (B and up).</p><p>Each round is priced at roughly 2 to 3 times the last. That's the growth an investor needs to see to mark you up.</p><p><b>Predict before the click:</b> "The seed fund buys 18%. If it never puts in another dollar, what does it own at a Series D exit?"</p><p>About 11%. Our 15% before the break was generous. Callback to reserves on the fund dynamics slide: follow-on checks defend the 18%.</p><p>Who you'll actually meet: partner, principal, associate. An associate can't say yes. Ask who decides, and how.</p><p>The founder's side of this math is S16, with cap tables.</p></div>
+</section>
+<!-- 13 · ANGELS -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Part 4 · Who's across the table</div>
+  <h2>What Great Angels Look For</h2>
+  <div class="body">
+    <div class="qs">
+      <div class="q"><div class="qn">1</div><div class="qt">Team first</div><p class="read">Great teams find a way when the plan changes</p></div>
+      <div class="q"><div class="qn">2</div><div class="qt">The founder fits the market</div><p class="read">Why are you the one to build this?</p></div>
+      <div class="q"><div class="qn">3</div><div class="qt">Room for a 10x</div><p class="read">A market big enough to multiply their money</p></div>
+      <div class="q"><div class="qn">4</div><div class="qt">More than money</div><p class="read">Intros, advice, pattern recognition</p></div>
+    </div>
+    <div class="ask" style="margin-top:2.4vh;max-width:1150px"><div class="al">Why it's different</div><p>It's their own money. An angel doesn't need a $1.9B exit, so an angel can say yes to deals a VC can't. The model: Ron Conway and SV Angel, the original super-angel.</p></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Part 4</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>What great angels look for</h4><p><b>Show of hands:</b> "Who here has been asked to write an angel check?" A few of you will be the angel. Read this both ways.</p><p>Team first. Your own view from the VC side: a great team can pivot to fit, a weak team fails even with a good product.</p><p>Ron Conway and SV Angel: the super-angel model. No quotes on his criteria; this is the syllabus framing.</p><p>Callback slide 7: the angel's math doesn't need a unicorn. That's why angels are the right money for a lot of this room.</p></div>
+</section>
+<!-- 14 · RETURN PATH -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Part 5 · Test 6 from the investor's chair</div>
+  <h2>Your Return Path</h2>
+  <div class="body">
+    <p class="read" style="margin-bottom:2vh">Test 6 from S11: <strong>"I can make money investing."</strong> Here's what they're checking.</p>
+    <div class="eqrow">
+      <div class="eqstat"><div class="v" style="font-size:clamp(1.3rem,2.4vw,2rem)">Price</div><div class="k">What they pay</div></div>
+      <div class="eqop">→</div>
+      <div class="eqstat"><div class="v" style="font-size:clamp(1.3rem,2.4vw,2rem)">Ownership</div><div class="k">What they get</div></div>
+      <div class="eqop">→</div>
+      <div class="eqstat"><div class="v" style="font-size:clamp(1.3rem,2.4vw,2rem)">Dilution</div><div class="k">What they keep</div></div>
+      <div class="eqop">→</div>
+      <div class="eqstat"><div class="v" style="font-size:clamp(1.3rem,2.4vw,2rem)">Exit</div><div class="k">Who buys, when, how much</div></div>
+    </div>
+    <div class="mad step" data-step style="margin-top:3.4vh;text-align:center;font-size:clamp(1.4rem,2.5vw,2.2rem) !important"><span class="open"></span> buys us for <span class="open"></span> by <span class="open"></span>.</div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Part 5</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Your return path</h4><p>Pays off S11 test 6. The Ask earned test 6 only if there was a credible path to a return. This is the path.</p><p><b>Beat, about 4 minutes:</b> everyone writes one line. Who buys us, for how much, by when.</p><p>Two or three read aloud. The room asks: "Would a VC take that? Would an angel?"</p><p>Push on "who buys." A name or a type of buyer, not "someone big."</p><p>Dilution details are S13 and S16. Here it's just: they keep less than they bought.</p></div>
+</section>
+<!-- 15 · ECLAT -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Part 5 · Test 6 from the investor's chair</div>
+  <h2>Why a VC Passes on Éclat</h2>
+  <div class="body">
+    <div class="cols" style="align-items:stretch">
+      <div class="col" style="flex:1.5">
+        <div class="kicker">Hypothetical: $500K for 18%, sold in year 7</div>
+        <table class="lad irrt">
+          <thead><tr><th>Outcome</th><th>Sale price</th><th>The 18% gets</th><th>Multiple</th><th>IRR</th></tr></thead>
+          <tbody><tr class=""><th>Typical sale</th><td>$5M</td><td>$0.9M</td><td>1.8x</td><td class="irr">9%</td></tr><tr class=""><th>Good sale</th><td>$10M</td><td>$1.8M</td><td>3.6x</td><td class="irr">20%</td></tr><tr class=""><th>Great sale</th><td>$20M</td><td>$3.6M</td><td>7.2x</td><td class="irr">33%</td></tr>
+            <tr class="vcrow step" data-step><th>The winner a VC needs</th><td>$1.9B</td><td>$285M</td><td>66x</td><td class="irr">82%</td></tr>
+          </tbody>
+        </table>
+        <p class="note-sm step" data-step style="font-size:clamp(.95rem,1.4vw,1.2rem);color:var(--ink);margin-top:1.4vh">Even the great sale is about <b>1%</b> of what the fund's winner must return. Good for an angel. Not a VC deal.</p>
+      </div>
+      <div class="col step" data-step style="flex:1">
+        <div class="kicker">Who should fund it</div>
+        <ul class="mini">
+          <li>A bank line for the holiday season</li>
+          <li>Equipment financing</li>
+          <li>Revenue-based financing</li>
+          <li>An angel who loves the product</li>
+        </ul>
+        <div class="ask" style="margin-top:1.6vh"><div class="al">The likely buyer</div><p>A strategic or a PE firm, not an IPO.</p></div>
+      </div>
+    </div>
+    <div class="sourcestrip" style="margin-top:1.4vh"><div class="sslabel">Source</div><div class="ssbody">Hypothetical. Not Éclat&#39;s numbers and not from Chris. IRR = multiple^(1/7) − 1, no dilution assumed. Winner row from slide 7: $285M on ~$4.3M all-in ≈ 66x.</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Part 5</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Why a VC passes on Éclat</h4><p><b>Predict:</b> "Would First Round write this check?"</p><p>Walk the three outcomes. A $20M sale would be a great result for a craft chocolatier: 7.2x and about a 33% IRR. That's a terrific angel investment.</p><p><b>Click: the VC row.</b> The fund needs one company to return about 66x, roughly an 82% IRR for seven years. Éclat's best case is $3.6M, about 1% of the $285M the winner has to deliver. And the realistic cases are 9 to 20%, which is index-fund territory. Callback slide 9.</p><p>It isn't the IRR alone. It's the ceiling. A VC can live with most deals going to zero. It can't live with a deal whose best case can't move the fund.</p><p>Callback S11: Éclat's ask was a lender's deal. Bank line, equipment, revenue share.</p><p>Spoken: for most businesses in this room, the buyer is a strategic or a PE firm, not the stock market.</p><p>Labeled hypothetical. None of it is Chris's.</p></div>
+</section>
+<!-- 16 · PICK YOUR INVESTOR -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Part 6 · Pick your investor</div>
+  <h2>They Choose You. You Choose Them.</h2>
+  <div class="body">
+    <div class="cols" style="align-items:center">
+      <div class="col" style="flex:.95">
+        <ul class="mini big-list">
+          <li>Call founders they backed, especially the ones that failed</li>
+          <li>You're getting married. Choose wisely.</li>
+          <li>Where are they in their fund?</li>
+          <li>Do they have reserves for your next round?</li>
+          <li>Life's too short. Pick people you enjoy.</li>
+        </ul>
+      </div>
+      <div class="col step" data-step style="flex:1.15">
+        <div class="kicker">Cash actually back to LPs · median fund, by vintage</div>
+        <svg viewBox="0 0 760 400" width="100%" style="max-height:44vh" role="img" aria-label="Median cash returned to LPs by vintage">
+<line x1="56" x2="744" y1="344.0" y2="344.0" stroke="rgba(107,118,132,.18)"/>
+<text x="48" y="349.0" text-anchor="end" font-size="14" fill="#6B7684">0.0x</text>
+<line x1="56" x2="744" y1="265.5" y2="265.5" stroke="rgba(107,118,132,.18)"/>
+<text x="48" y="270.5" text-anchor="end" font-size="14" fill="#6B7684">0.5x</text>
+<line x1="56" x2="744" y1="187.0" y2="187.0" stroke="rgba(107,118,132,.18)"/>
+<text x="48" y="192.0" text-anchor="end" font-size="14" fill="#6B7684">1.0x</text>
+<line x1="56" x2="744" y1="108.5" y2="108.5" stroke="rgba(107,118,132,.18)"/>
+<text x="48" y="113.5" text-anchor="end" font-size="14" fill="#6B7684">1.5x</text>
+<line x1="56" x2="744" y1="30.0" y2="30.0" stroke="rgba(107,118,132,.18)"/>
+<text x="48" y="35.0" text-anchor="end" font-size="14" fill="#6B7684">2.0x</text>
+<rect x="66.3" y="171.3" width="36.7" height="172.7" rx="3" fill="#1B2A41"/>
+<text x="84.7" y="164.3" text-anchor="middle" font-size="14" font-weight="500" fill="#22303F">1.10x</text>
+<text x="84.7" y="368" text-anchor="middle" font-size="14" fill="#6B7684">&#39;10</text>
+<rect x="123.7" y="97.5" width="36.7" height="246.5" rx="3" fill="#1B2A41"/>
+<text x="142.0" y="90.5" text-anchor="middle" font-size="14" font-weight="500" fill="#22303F">1.57x</text>
+<text x="142.0" y="368" text-anchor="middle" font-size="14" fill="#6B7684">&#39;11</text>
+<rect x="181.0" y="80.2" width="36.7" height="263.8" rx="3" fill="#1B2A41"/>
+<text x="199.3" y="73.2" text-anchor="middle" font-size="14" font-weight="500" fill="#22303F">1.68x</text>
+<text x="199.3" y="368" text-anchor="middle" font-size="14" fill="#6B7684">&#39;12</text>
+<rect x="238.3" y="146.2" width="36.7" height="197.8" rx="3" fill="#1B2A41"/>
+<text x="256.7" y="139.2" text-anchor="middle" font-size="14" font-weight="500" fill="#22303F">1.26x</text>
+<text x="256.7" y="368" text-anchor="middle" font-size="14" fill="#6B7684">&#39;13</text>
+<rect x="295.7" y="95.9" width="36.7" height="248.1" rx="3" fill="#1B2A41"/>
+<text x="314.0" y="88.9" text-anchor="middle" font-size="14" font-weight="500" fill="#22303F">1.58x</text>
+<text x="314.0" y="368" text-anchor="middle" font-size="14" fill="#6B7684">&#39;14</text>
+<rect x="353.0" y="218.4" width="36.7" height="125.6" rx="3" fill="#C9A227"/>
+<text x="371.3" y="211.4" text-anchor="middle" font-size="14" font-weight="700" fill="#8a6d14">0.80x</text>
+<text x="371.3" y="368" text-anchor="middle" font-size="14" fill="#6B7684">&#39;15</text>
+<rect x="410.3" y="204.3" width="36.7" height="139.7" rx="3" fill="#1B2A41"/>
+<text x="428.7" y="197.3" text-anchor="middle" font-size="14" font-weight="500" fill="#22303F">0.89x</text>
+<text x="428.7" y="368" text-anchor="middle" font-size="14" fill="#6B7684">&#39;16</text>
+<rect x="467.7" y="270.2" width="36.7" height="73.8" rx="3" fill="#1B2A41"/>
+<text x="486.0" y="263.2" text-anchor="middle" font-size="14" font-weight="500" fill="#22303F">0.47x</text>
+<text x="486.0" y="368" text-anchor="middle" font-size="14" fill="#6B7684">&#39;17</text>
+<rect x="525.0" y="303.2" width="36.7" height="40.8" rx="3" fill="#C9A227"/>
+<text x="543.3" y="296.2" text-anchor="middle" font-size="14" font-weight="700" fill="#8a6d14">0.26x</text>
+<text x="543.3" y="368" text-anchor="middle" font-size="14" fill="#6B7684">&#39;18</text>
+<rect x="582.3" y="326.7" width="36.7" height="17.3" rx="3" fill="#1B2A41"/>
+<text x="600.7" y="319.7" text-anchor="middle" font-size="14" font-weight="500" fill="#22303F">0.11x</text>
+<text x="600.7" y="368" text-anchor="middle" font-size="14" fill="#6B7684">&#39;19</text>
+<rect x="639.7" y="328.3" width="36.7" height="15.7" rx="3" fill="#1B2A41"/>
+<text x="658.0" y="321.3" text-anchor="middle" font-size="14" font-weight="500" fill="#22303F">0.10x</text>
+<text x="658.0" y="368" text-anchor="middle" font-size="14" fill="#6B7684">&#39;20</text>
+<text x="715.3" y="337.0" text-anchor="middle" font-size="14" font-weight="500" fill="#22303F">0.00x</text>
+<text x="715.3" y="368" text-anchor="middle" font-size="14" fill="#6B7684">&#39;21</text>
+<line x1="56" x2="744" y1="187.0" y2="187.0" stroke="#B3402F" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="740" y="179.0" text-anchor="end" font-size="15" font-weight="700" fill="#B3402F">Money back</text>
+<text x="400.0" y="394" text-anchor="middle" font-size="14" fill="#6B7684">Fund vintage year</text>
+<line x1="56" x2="744" y1="344.0" y2="344.0" stroke="#6B7684" stroke-width="1.5"/>
+</svg>
+        <p class="note-sm">2015 funds: 0.80x after eleven years. 2018 funds: 0.26x after eight.</p>
+      </div>
+    </div>
+    <div class="sourcestrip" style="margin-top:1.4vh"><div class="sslabel">Source</div><div class="ssbody">PitchBook Benchmarks Q1 2026 (global; data as of Mar 31, 2026). All fund returns are net of fees and carry. Median DPI (cash distributed ÷ capital paid in) by vintage (p.23).</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Part 6</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Pick your investor</h4><p><b>Show of hands:</b> "Who's checked an investor's references?" Then: the best reference is a founder whose company failed with that investor on the board.</p><p>"You're getting married." The board detail is S13.</p><p><b>Click for the chart.</b> DPI is cash actually handed back. The 2018 funds have returned 26 cents on the dollar after eight years. A year-8 fund needs exits. That's who pushes you to sell early.</p><p>Callback slide 8: First Round's 2018 tender turned paper into cash.</p><p>Reserves: an investor with no money left can't help in the next round, and sometimes that hurts you.</p></div>
+</section>
+<!-- 17 · WRAP -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Before next session</div>
+  <h2>Know Their Math.</h2>
+  <div class="body">
+    <div class="hw">
+      <div class="h"><div class="n">1</div><div class="t">Your return path: who buys you, for how much, by when</div></div>
+      <div class="h"><div class="n">2</div><div class="t">Where your money should come from on the capital map, and why</div></div>
+      <div class="h"><div class="n">3</div><div class="t">AI: find 5 investors who fit your stage and sector, and say why each fits</div></div>
+    </div>
+    <p class="read" style="margin-top:4vh;color:#C9D2DE;max-width:1150px;font-size:clamp(1.05rem,1.6vw,1.35rem);">Most of you shouldn't raise VC, and now you know why. Some of you should, and now you know what they need to hear.</p>
+  </div>
+  <div class="footer"><span>community.fitlermba.com</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Wrap</h4><p>Restate the BLUF for anyone leaving at 7:30.</p><p>Three things. The AI prompt goes up on the community site with the deck: "Here's my business, stage and sector. Find five investors who invest at this stage in this sector, and for each tell me why they fit and what they'd need to believe."</p><p><b>Pitch Builder:</b> give the status update.</p><p>Next: S13, fundraising mechanics. SAFEs, notes, priced rounds and the term sheet.</p><p>Then: "Stay if you want to talk term sheets or war stories."</p></div>
+</section>
+<!-- 18 · OVERFLOW -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Overflow</div>
+  <div class="body">
+    <h1 style="font-size:clamp(2rem,4.6vw,3.8rem);">Ask Me Anything</h1>
+    <hr class="rule">
+    <ul class="mini" style="color:#E6E1D4;max-width:1000px">
+      <li>Term sheet questions</li>
+      <li>Live AI: research First Round's thesis, then fit-check someone's business</li>
+      <li>VC war stories</li>
+      <li>So you want to be a VC</li>
+    </ul>
+  </div>
+  <div class="footer"><span>Fitler MBA · S12 · Overflow</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Overflow</h4><p>Term sheet Q&amp;A is the natural follow-on to slide 11. Keep it to what and why; mechanics are S13.</p><p>Live AI demo: ask Claude for First Round's current thesis and stage, then fit-check a volunteer's business against it. Treat the output as assumptions to check.</p><p>Also on hand: PE fund dispersion on the same scale as the hits chart (PE's spread is much tighter). Roles in a VC firm, how people get in. <i>Something Ventured</i>.</p></div>
+</section>
+</div>
+<div class="notesbox" id="notesbox"></div>
+<div class="hintbar">→ / space: advance · ← back · N notes · F fullscreen · Home/End</div>
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('[data-slide]'));
+  var idx = 0;
+  var notesbox = document.getElementById('notesbox');
+  var notesOn = false;
+  function stepsOf(slide){ return Array.prototype.slice.call(slide.querySelectorAll('[data-step]')); }
+  function paint(){
+    slides.forEach(function(s,i){ s.classList.toggle('active', i===idx); });
+    slides.forEach(function(s){
+      s.querySelectorAll('[data-counter]').forEach(function(c){ c.textContent = (idx+1) + ' / ' + slides.length; });
+    });
+    var n = slides[idx].querySelector('.notes');
+    notesbox.innerHTML = n ? n.innerHTML : '<p>No notes.</p>';
+  }
+  function advance(){
+    var pending = stepsOf(slides[idx]).filter(function(el){ return !el.classList.contains('shown'); });
+    if(pending.length){ pending[0].classList.add('shown'); return; }
+    if(idx < slides.length-1){ idx++; paint(); }
+  }
+  function back(){
+    var shown = stepsOf(slides[idx]).filter(function(el){ return el.classList.contains('shown'); });
+    if(shown.length){ shown[shown.length-1].classList.remove('shown'); return; }
+    if(idx > 0){ idx--; stepsOf(slides[idx]).forEach(function(el){ el.classList.add('shown'); }); paint(); }
+  }
+  function goto_(i, revealAll){
+    idx = Math.max(0, Math.min(slides.length-1, i));
+    stepsOf(slides[idx]).forEach(function(el){ el.classList.toggle('shown', !!revealAll); });
+    paint();
+  }
+  document.addEventListener('keydown', function(e){
+    switch(e.key){
+      case 'ArrowRight': case ' ': case 'PageDown': e.preventDefault(); advance(); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); back(); break;
+      case 'Home': e.preventDefault(); goto_(0,false); break;
+      case 'End': e.preventDefault(); goto_(slides.length-1,true); break;
+      case 'n': case 'N': notesOn = !notesOn; notesbox.classList.toggle('on', notesOn); break;
+      case 'f': case 'F': if(document.fullscreenElement){document.exitFullscreen();} else {document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();} break;
+    }
+  });
+  document.addEventListener('click', function(e){
+    if(e.target.closest('#notesbox, .noadv')) return;
+    if(e.clientX < window.innerWidth/3){ back(); } else { advance(); }
+  });
+  paint();
+})();
+
+</script>
+</body>
+</html>
