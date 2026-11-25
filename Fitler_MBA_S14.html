@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitler MBA · S14 · Funding Your Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A41; --navy-deep:#111D2E; --ivory:#F7F3E9; --gold:#C9A227; --gold-soft:#D9BC5F;
+    --ink:#22303F; --muted:#6B7684; --red:#B3402F; --green:#2E7D5B;
+    --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --sans:'Inter', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{background:var(--navy-deep);font-family:var(--sans);color:var(--ink);overflow:hidden}
+  .deck{position:relative;width:100vw;height:100vh}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;padding:4vh 5.5vw;background:var(--ivory)}
+  .slide.active{display:flex}
+  .slide.dark{background:var(--navy);color:var(--ivory)}
+  .slide.dark .eyebrow{color:var(--gold-soft)}
+  .slide.dark h2{color:var(--ivory)}
+  .slide.dark .muted{color:#9AA6B5}
+
+  .eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2vh}
+  h1{font-family:var(--serif);font-weight:600;color:var(--ivory);line-height:1.04}
+  h2{font-family:var(--serif);font-weight:600;color:var(--navy);font-size:clamp(1.7rem,3.2vw,2.7rem);line-height:1.1;margin-bottom:1.8vh}
+  .muted{color:var(--muted)}
+  .rule{height:2px;background:var(--gold);width:64px;margin:1.5vh 0 2.2vh;border:0}
+  .body{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+  .footer{display:flex;justify-content:space-between;align-items:center;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-top:1.4vh;border-top:1px solid rgba(107,118,132,.25)}
+  .slide.dark .footer{border-top-color:rgba(247,243,233,.18);color:#8D99A9}
+  .counter{font-variant-numeric:tabular-nums}
+
+  .step{opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
+  .step.shown{opacity:1;transform:none}
+
+  .slide > *{width:100%;max-width:1280px;margin-left:auto;margin-right:auto}
+  .slide.wide > *{max-width:1580px}
+
+  .cols{display:flex;gap:2.4vw;align-items:stretch}
+  .col{flex:1;min-width:0}
+  .card{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:2.2vh 1.6vw;box-shadow:0 1px 3px rgba(17,29,46,.06)}
+  .slide.dark .card{background:rgba(247,243,233,.06);border-color:rgba(247,243,233,.16);box-shadow:none}
+  .card.lit{border:2px solid var(--gold);box-shadow:0 0 0 4px rgba(201,162,39,.18)}
+  .card.dim{opacity:.55}
+  .boxtitle{font-family:var(--serif);font-weight:700;font-size:clamp(1.25rem,2vw,1.7rem);color:var(--navy);line-height:1.15;margin-bottom:1vh}
+  .slide.dark .boxtitle{color:var(--ivory)}
+  .kicker{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.6vh}
+  .read{font-size:clamp(.95rem,1.45vw,1.22rem);line-height:1.5;color:var(--ink)}
+  .slide.dark .read{color:#D6DDE6}
+  .read strong{color:var(--navy)}
+  .slide.dark .read strong{color:var(--ivory)}
+  .big{font-family:var(--serif);font-size:clamp(1.5rem,2.9vw,2.6rem);line-height:1.25;color:var(--navy);font-weight:500}
+  .slide.dark .big{color:var(--ivory)}
+  .big .g{color:var(--gold)}
+  .slide.dark .big .g{color:var(--gold-soft)}
+  .quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.15rem,2.1vw,1.7rem);line-height:1.35;color:var(--navy)}
+  .slide.dark .quote{color:var(--ivory)}
+
+  ul.mini{list-style:none}
+  ul.mini li{position:relative;padding:.55vh 0 .55vh 1.35em;font-size:clamp(.95rem,1.45vw,1.2rem);line-height:1.45}
+  ul.mini li::before{content:"";position:absolute;left:0;top:.8em;width:.55em;height:2px;background:var(--gold)}
+
+  .kv{display:flex;gap:1vw;padding:.7vh 0;border-bottom:1px solid rgba(107,118,132,.16);font-size:clamp(.95rem,1.4vw,1.15rem);line-height:1.45}
+  .kv:last-child{border-bottom:0}
+  .kv .k{flex:0 0 7.5em;font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding-top:.35em}
+  .kv .v{flex:1;color:var(--ink)}
+  .kv .v strong{color:var(--navy)}
+
+  .ask{background:rgba(201,162,39,.10);border:1px solid rgba(201,162,39,.45);border-radius:10px;padding:1.5vh 1.4vw}
+  .ask .al{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:#8a6d14;font-weight:700;margin-bottom:.5vh}
+  .slide.dark .ask .al{color:var(--gold-soft)}
+  .ask p{font-size:clamp(1rem,1.6vw,1.35rem);line-height:1.45;color:var(--ink)}
+  .slide.dark .ask p{color:#E6E1D4}
+
+  .sourcestrip{background:#FDFBF5;border:1px solid rgba(201,162,39,.45);border-radius:8px;padding:1.1vh 1vw}
+  .slide.dark .sourcestrip{background:rgba(247,243,233,.05);border-color:rgba(217,188,95,.4)}
+  .sslabel{font-size:.63rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:.5vh}
+  .ssbody{font-size:clamp(.82rem,1.15vw,1rem);line-height:1.5;color:var(--ink)}
+  .slide.dark .ssbody{color:#C9D2DE}
+
+  /* five-across cards */
+  .five{display:grid;grid-template-columns:repeat(5,1fr);gap:1vw}
+  .five .card{padding:2vh 1vw;display:flex;flex-direction:column;gap:.6vh}
+  .five .n{font-family:var(--serif);font-weight:700;font-size:clamp(1.4rem,2.4vw,2.1rem);color:var(--gold);line-height:1}
+  .five .t{font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);line-height:1.35;min-height:2.7em}
+  .five .m{font-family:var(--serif);font-style:italic;font-size:clamp(1rem,1.6vw,1.35rem);line-height:1.3;color:var(--navy);margin-top:auto}
+
+  /* journey strip */
+  .journey{display:grid;grid-template-columns:repeat(5,1fr);gap:.8vw;align-items:stretch}
+  .stage{background:#fff;border:1px solid rgba(107,118,132,.2);border-top:5px solid var(--gold);border-radius:10px;padding:1.8vh 1vw;display:flex;flex-direction:column;gap:.8vh}
+  .stage .sn{font-size:.66rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .stage .st{font-family:var(--serif);font-weight:700;font-size:clamp(1.15rem,1.9vw,1.6rem);color:var(--navy);line-height:1.1}
+  .stage .sm{font-size:clamp(.88rem,1.25vw,1.05rem);line-height:1.45;color:var(--ink)}
+  .stage .sj{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-top:auto;padding-top:.6vh}
+
+  /* equation row */
+  .eqrow{display:flex;align-items:stretch;justify-content:center;gap:1.3vw}
+  .eqstat{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:2.6vh 1.4vw;text-align:center;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+  .eqstat .v{font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,4.2vw,3.5rem);line-height:1;color:var(--navy);font-variant-numeric:tabular-nums}
+  .eqstat .k{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:1.1vh;line-height:1.5}
+  .eqstat .n{font-size:.8rem;color:var(--muted);margin-top:.6vh;line-height:1.45}
+  .eqop{font-family:var(--serif);font-size:clamp(1.5rem,2.8vw,2.4rem);color:var(--gold);font-weight:600;flex:none;display:flex;align-items:center}
+  .eqstat.answer{background:rgba(201,162,39,.12);border-color:rgba(201,162,39,.5)}
+  .eqstat.answer .v,.eqstat.answer .k{color:var(--gold)}
+
+  .teach{display:flex;gap:2.8vw;align-items:center;width:100%}
+  .teach .left{flex:1.1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2vh}
+  .teach .right{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+  svg text{font-family:var(--sans)}
+  svg .serif{font-family:var(--serif)}
+
+  .tools{display:grid;grid-template-columns:repeat(5,1fr);gap:.8vw}
+  .tool{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:8px;padding:1.3vh .9vw;font-size:clamp(.82rem,1.15vw,1rem);line-height:1.4;color:var(--ink)}
+  .tool b{display:block;color:var(--navy);font-weight:600;margin-bottom:.3vh}
+
+  /* facilitator notes overlay (N key) */
+  .notes{display:none}
+  .notesbox{position:fixed;right:0;top:0;bottom:0;width:38vw;background:rgba(17,29,46,.96);color:#E6E1D4;padding:3vh 2vw;overflow:auto;z-index:100;font-size:.9rem;line-height:1.55;border-left:3px solid var(--gold);display:none}
+  .notesbox.on{display:block}
+  .notesbox h4{font-family:var(--serif);color:var(--gold-soft);font-size:1.3rem;margin-bottom:1vh}
+  .notesbox b{color:var(--gold-soft);font-weight:600}
+  .notesbox p{margin-bottom:1.2vh}
+  .hintbar{position:fixed;bottom:10px;right:14px;font-size:.6rem;color:#5c6b7d;letter-spacing:.1em;text-transform:uppercase;opacity:.5;z-index:50}
+  @media (prefers-reduced-motion: reduce){.step{transition:none}}
+
+  
+  /* ---- S11 additions ---- */
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4vw}
+  .aud{background:#fff;border:1px solid rgba(107,118,132,.2);border-top:5px solid var(--gold);border-radius:10px;padding:2.2vh 1.4vw;display:flex;flex-direction:column;gap:1.2vh}
+  .aud .at{font-family:var(--serif);font-weight:700;font-size:clamp(1.4rem,2.3vw,2rem);color:var(--navy);line-height:1.1}
+  .aud .aw{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700}
+
+  table.av{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;overflow:hidden}
+  table.av th,table.av td{padding:1.55vh 1.3vw;text-align:left;vertical-align:top;border-bottom:1px solid rgba(107,118,132,.16);font-size:clamp(1rem,1.5vw,1.25rem);line-height:1.35}
+  table.av tr:last-child th,table.av tr:last-child td{border-bottom:0}
+  table.av thead th{font-family:var(--serif);font-size:clamp(1.3rem,2.1vw,1.8rem);font-weight:700;color:var(--ivory);background:var(--navy)}
+  table.av thead th:first-child{background:#FBF8F0}
+  table.av tbody th{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;width:19%;padding-top:1.9vh}
+  table.av td{width:40.5%}
+
+  .strip{display:grid;grid-template-columns:repeat(9,1fr);gap:.5vw}
+  .strip .s{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:8px;padding:1.6vh .5vw;text-align:center;display:flex;flex-direction:column;gap:.7vh;min-height:16vh}
+  .strip .s .sn{font-family:var(--serif);font-weight:700;font-size:clamp(1.3rem,2.2vw,1.9rem);color:var(--muted);line-height:1}
+  .strip .s .sl{font-size:clamp(.8rem,1.15vw,1rem);line-height:1.3;color:var(--ink);font-weight:500}
+  .strip .s.hot{border:2px solid var(--gold);background:rgba(201,162,39,.08)}
+  .strip .s.hot .sn{color:var(--gold)}
+  .bracket{display:grid;grid-template-columns:repeat(9,1fr);gap:.5vw;margin-top:1vh}
+  .bracket .b{grid-column:1 / span 4;border-top:3px solid var(--gold);padding-top:1vh;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:#8a6d14;font-weight:700;text-align:center}
+  .bracket .b2{grid-column:5 / span 5;border-top:3px solid rgba(107,118,132,.35);padding-top:1vh;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;text-align:center}
+
+  .yeses{display:grid;grid-template-columns:repeat(7,1fr);gap:.8vw}
+  .yes{background:rgba(247,243,233,.06);border:1px solid rgba(247,243,233,.18);border-radius:10px;padding:2.2vh .8vw;display:flex;flex-direction:column;gap:1.2vh;min-height:26vh}
+  .yes .yn{font-family:var(--serif);font-weight:700;font-size:clamp(2rem,3.6vw,3.2rem);color:var(--gold-soft);line-height:1}
+  .yes .yt{font-family:var(--serif);font-size:clamp(1.05rem,1.75vw,1.5rem);line-height:1.2;color:var(--ivory);font-weight:500}
+
+  .qs{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2vw}
+  .qs .q{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:2.4vh 1.2vw;display:flex;flex-direction:column;gap:1vh;min-height:24vh}
+  .qs .q .qn{font-family:var(--serif);font-weight:700;font-size:clamp(1.6rem,2.8vw,2.4rem);color:var(--gold);line-height:1}
+  .qs .q .qt{font-family:var(--serif);font-weight:600;font-size:clamp(1.2rem,2vw,1.7rem);line-height:1.2;color:var(--navy)}
+
+  .mad{font-family:var(--serif);font-size:clamp(1.05rem,1.75vw,1.5rem);line-height:1.75;color:var(--navy)}
+  .mad .bl{display:inline-block;border-bottom:2px solid var(--gold);min-width:6em;padding:0 .2em;color:var(--muted);font-family:var(--sans);font-size:.62em;letter-spacing:.04em;line-height:1.4;vertical-align:baseline}
+  .mad .fill{border-bottom:2px solid var(--gold);color:var(--navy);font-weight:600}
+  .mad .open{display:inline-block;border-bottom:2px dashed var(--muted);min-width:5em}
+
+  .stack{display:grid;grid-template-columns:repeat(5,1fr);gap:1vw;align-items:end}
+  .stack .d{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:1.8vh 1vw;display:flex;flex-direction:column;gap:.8vh;justify-content:flex-end}
+  .stack .d .dt{font-family:var(--serif);font-weight:700;font-size:clamp(1.15rem,1.9vw,1.6rem);color:var(--navy);line-height:1.1}
+  .stack .d .dw{font-size:clamp(.85rem,1.2vw,1.02rem);line-height:1.4;color:var(--ink)}
+  .stack .d .dk{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
+
+  .seq{display:grid;grid-template-columns:repeat(4,1fr);gap:.9vw}
+  .seq .sq{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:1.5vh 1vw;display:flex;align-items:center;gap:.8vw;min-height:10vh}
+  .seq .sq .no{font-family:var(--serif);font-weight:700;font-size:clamp(1.3rem,2.2vw,1.9rem);color:var(--muted);width:1.4em;flex:none;line-height:1}
+  .seq .sq .nm{font-family:var(--serif);font-weight:700;font-size:clamp(1.15rem,1.85vw,1.6rem);color:var(--navy);line-height:1.1;flex:1}
+  .seq .sq.add{background:#ECE7DA;border:1px dashed #8a6d14}
+  .seq .sq.add .no{color:#8a6d14}
+  .seq .sq .tag{font-family:var(--serif);font-weight:700;font-size:clamp(1rem,1.6vw,1.35rem);color:var(--gold);white-space:nowrap}
+  .seq .sq .tag.step{transform:none}
+  .legend{display:flex;gap:2vw;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-top:1.4vh}
+  .legend span::before{content:"";display:inline-block;width:.9em;height:.9em;border-radius:3px;margin-right:.5em;vertical-align:-.1em;background:#fff;border:1px solid rgba(107,118,132,.4)}
+  .legend span.a::before{background:#ECE7DA;border:1px dashed #8a6d14}
+
+  /* SOM gates */
+  .gates{display:grid;grid-template-columns:repeat(4,1fr);gap:1vw}
+  .gate{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:1.8vh 1vw;display:flex;flex-direction:column;gap:.7vh;transition:border-color .3s, box-shadow .3s, background .3s}
+  .gate .gn{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .gate .gt{font-family:var(--serif);font-weight:700;font-size:clamp(1.25rem,2vw,1.7rem);color:var(--navy);line-height:1.1}
+  .gate .gm{font-size:clamp(.82rem,1.15vw,.98rem);line-height:1.45;color:var(--ink);min-height:4.4em}
+  .gate .gv{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,3.8vw,3.2rem);line-height:1;color:var(--navy);font-variant-numeric:tabular-nums;margin-top:auto}
+  .gate .gu{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .gate.bind{border:2px solid var(--gold);background:rgba(201,162,39,.10);box-shadow:0 0 0 4px rgba(201,162,39,.16)}
+  .gate.bind .gv{color:#8a6d14}
+  .gate.bind .gn::after{content:" · this one limits you";color:#8a6d14}
+  .ctl{display:flex;gap:2vw;align-items:center;flex-wrap:wrap;margin-top:1.6vh}
+  .knob{display:flex;align-items:center;gap:.8vw;background:#fff;border:1px solid rgba(107,118,132,.25);border-radius:999px;padding:.6vh .6vw .6vh 1.2vw}
+  .knob .kl{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .knob .kv2{font-family:var(--serif);font-weight:700;font-size:clamp(1.1rem,1.7vw,1.45rem);color:var(--navy);min-width:4.6em;text-align:center;font-variant-numeric:tabular-nums}
+  .knob button{font:inherit;font-size:1.2rem;width:2.1em;height:2.1em;border-radius:50%;border:1px solid rgba(201,162,39,.6);background:#FDFBF5;color:var(--navy);cursor:pointer;line-height:1}
+  .knob button:hover{background:rgba(201,162,39,.18)}
+  .somout{margin-left:auto;font-family:var(--serif);font-size:clamp(1.2rem,2vw,1.7rem);color:var(--navy)}
+  .somout b{color:#8a6d14}
+
+  .ft{display:grid;grid-template-columns:1fr auto 1fr;gap:1.6vw;align-items:stretch}
+  .ft .box{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:2.2vh 1.4vw}
+  .ft .box.to{border:2px solid var(--gold)}
+  .ft .arrow{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.4rem);color:var(--gold);display:flex;align-items:center}
+
+  .dd{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:1.2vw}
+  .dd .grp{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:2vh 1.2vw}
+  .dd .grp .kicker{margin-bottom:1vh}
+  .dd li{list-style:none;position:relative;padding:.75vh 0 .75vh 1.35em;font-size:clamp(1rem,1.5vw,1.25rem);line-height:1.35;color:var(--ink)}
+  .dd li::before{content:"";position:absolute;left:0;top:1.15em;width:.55em;height:2px;background:var(--gold)}
+  .dd.no li::before{background:var(--red)}
+  .dd li i{display:block;font-family:var(--serif);font-size:.95em;color:var(--muted);margin-top:.2vh}
+  .fine{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+  .seq .sq .tag{opacity:0;transition:opacity .4s ease}
+  .seqtrig{height:0;margin:0;padding:0}
+  .seqtrig.shown + .seq .tag{opacity:1}
+
+  /* ---- sizing pass after render check ---- */
+  .slide.dark .kv{border-bottom-color:rgba(247,243,233,.14)}
+  .slide.dark .kv .k{color:#9AA6B5}
+  .slide.dark .kv .v{color:#E6E1D4}
+  .slide.dark .kv .v strong{color:var(--ivory)}
+  .strip .s{min-height:24vh;justify-content:center;gap:1.4vh}
+  .strip .s .sn{font-size:clamp(1.6rem,2.8vw,2.6rem)}
+  .strip .s .sl{font-size:clamp(.95rem,1.4vw,1.3rem)}
+  .bracket .b,.bracket .b2{font-size:.9rem}
+  .stack .d{padding:2.4vh 1.2vw}
+  .stack .d .dt{font-size:clamp(1.4rem,2.3vw,2rem)}
+  .stack .d .dw{font-size:clamp(1rem,1.45vw,1.25rem)}
+  .stack .d .dk{font-size:.78rem}
+  .seq{gap:1.1vw}
+  .seq .sq{min-height:15vh;padding:2vh 1.3vw}
+  .seq .sq .nm{font-size:clamp(1.35rem,2.3vw,2rem)}
+  .seq .sq .no{font-size:clamp(1.5rem,2.6vw,2.3rem)}
+  .seq .sq .tag{font-size:clamp(1.3rem,2.2vw,1.9rem)}
+  .legend{font-size:.85rem}
+  .mad{font-size:clamp(1.1rem,1.75vw,1.5rem) !important;line-height:1.85}
+  .mad .bl{font-size:.7em}
+  .dd li{font-size:clamp(1.15rem,1.8vw,1.55rem);padding:1.1vh 0 1.1vh 1.35em}
+  .dd .grp{padding:2.6vh 1.5vw}
+  .dd .grp .kicker{font-size:.8rem}
+  .tool{font-size:clamp(.95rem,1.4vw,1.2rem);padding:1.8vh 1.1vw}
+  .ft .box{padding:3vh 1.6vw}
+  .gate .gm{font-size:clamp(.9rem,1.3vw,1.1rem)}
+  .gate{padding:2.2vh 1.2vw;min-height:30vh}
+  .qs .q{min-height:28vh}
+  .qs .q .qt{font-size:clamp(1.35rem,2.3vw,2rem)}
+  table.av th,table.av td{padding:2vh 1.4vw;font-size:clamp(1.1rem,1.7vw,1.45rem)}
+  .aud{padding:3vh 1.6vw;min-height:30vh}
+  .aud .at{font-size:clamp(1.6rem,2.7vw,2.3rem)}
+  .yes{min-height:32vh}
+
+  /* ---- v2 round-1 edits ---- */
+  .ico{width:clamp(56px,6vw,96px);height:clamp(56px,6vw,96px);display:block;margin-bottom:1.2vh}
+  .aud ul.mini li{font-size:clamp(1.05rem,1.6vw,1.35rem)}
+  .aud .at{font-size:clamp(1.9rem,3.2vw,2.8rem)}
+  table.av thead th .hi{display:flex;align-items:center;gap:1vw}
+  table.av thead th svg{width:clamp(40px,4vw,64px);height:clamp(40px,4vw,64px);flex:none}
+
+  .chev{display:grid;grid-template-columns:3fr 1fr 2fr 3fr;gap:.6vw}
+  .phase{display:flex;flex-direction:column;gap:1vh}
+  .phase .ph{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--muted);padding:0 .3vw}
+  .phase .row{display:flex;gap:.4vw}
+  .phase .c{flex:1;background:#fff;border:1px solid rgba(107,118,132,.22);padding:2.4vh .6vw 2.4vh 1.4vw;min-height:22vh;display:flex;flex-direction:column;justify-content:center;gap:1vh;clip-path:polygon(0 0,88% 0,100% 50%,88% 100%,0 100%,12% 50%)}
+  .phase .c .n{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,2.6vw,2.3rem);color:var(--muted);line-height:1;padding-left:.6vw}
+  .phase .c .l{font-size:clamp(.9rem,1.35vw,1.2rem);line-height:1.25;font-weight:600;color:var(--ink);padding-left:.6vw;padding-right:1.4vw}
+  .pitchzone .c{background:var(--navy);border-color:var(--navy)}
+  .pitchzone .c .n{color:var(--gold-soft)}
+  .pitchzone .c .l{color:var(--ivory)}
+  .pitchzone .ph{color:#8a6d14}
+  .zonebar{display:grid;grid-template-columns:4fr 5fr;gap:.6vw;margin-top:1.6vh}
+  .zonebar div{padding-top:1vh;font-size:.9rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;text-align:center}
+  .zonebar .z1{border-top:4px solid var(--gold);color:#8a6d14}
+  .zonebar .z2{border-top:4px solid rgba(107,118,132,.35);color:var(--muted)}
+
+  .ylist{display:flex;flex-direction:column;gap:.9vh;max-width:1100px}
+  .yrow{display:flex;align-items:center;gap:1.6vw;background:rgba(247,243,233,.06);border:1px solid rgba(247,243,233,.16);border-radius:10px;padding:1.2vh 1.6vw}
+  .yrow .yn{font-family:var(--serif);font-weight:700;font-size:clamp(1.8rem,3vw,2.6rem);color:var(--gold-soft);width:1.4em;line-height:1}
+  .yrow .yt{font-family:var(--serif);font-size:clamp(1.3rem,2.2vw,1.9rem);color:var(--ivory);font-weight:500}
+  .yrow .yk{margin-left:auto;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#9AA6B5;font-weight:700}
+
+  .docs{display:grid;grid-template-columns:repeat(5,1fr);gap:1vw}
+  .doc{background:#fff;border:1px solid rgba(107,118,132,.2);border-top:5px solid var(--gold);border-radius:10px;padding:2.4vh 1.2vw 0;display:flex;flex-direction:column;min-height:44vh}
+  .doc .dt{font-family:var(--serif);font-weight:700;font-size:clamp(1.4rem,2.3vw,2rem);color:var(--navy);line-height:1.1;margin-bottom:1.2vh}
+  .doc ul.mini li{font-size:clamp(.98rem,1.4vw,1.2rem)}
+  .doc .sz{margin-top:auto;margin-left:-1.2vw;margin-right:-1.2vw;padding:1.4vh 1.2vw;background:#FBF8F0;border-top:1px solid rgba(107,118,132,.16);border-radius:0 0 10px 10px;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#8a6d14}
+
+  table.yg{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;overflow:hidden}
+  table.yg th,table.yg td{border-bottom:1px solid rgba(107,118,132,.14);padding:.62vh .6vw;text-align:center;vertical-align:middle}
+  table.yg thead th{font-size:clamp(.62rem,.85vw,.78rem);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;background:#FBF8F0;line-height:1.25;padding:1.1vh .4vw}
+  table.yg thead th b{display:block;font-family:var(--serif);font-size:clamp(1.2rem,1.9vw,1.6rem);color:var(--gold);letter-spacing:0;line-height:1;margin-bottom:.3vh}
+  table.yg tbody th{text-align:left;font-family:var(--serif);font-weight:700;font-size:clamp(1.05rem,1.65vw,1.4rem);color:var(--navy);white-space:nowrap;padding-left:1.2vw}
+  table.yg tbody th span{display:inline-block;width:2em;color:var(--muted);font-weight:600}
+  table.yg tr.add th,table.yg tr.add td{background:#F3EEDF}
+  table.yg tr:last-child th,table.yg tr:last-child td{border-bottom:0}
+  .dot{display:inline-block;width:1.05em;height:1.05em;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .4s ease;font-size:clamp(1rem,1.5vw,1.3rem);vertical-align:middle}
+  .ygtrig{height:0;margin:0;padding:0}
+  .ygtrig.shown + table .dot{opacity:1}
+
+  .tsr{display:flex;flex-direction:column;gap:1.4vh}
+  .tsr .r{display:flex;gap:1.4vw;align-items:center;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:1.6vh 1.4vw}
+  .tsr .r .ab{font-family:var(--serif);font-weight:700;font-size:clamp(1.8rem,3vw,2.6rem);color:var(--navy);width:2.6em;flex:none;line-height:1}
+  .tsr .r.som{border:2px solid var(--gold);background:rgba(201,162,39,.08)}
+  .tsr .r.som .ab{color:#8a6d14}
+  .tsr .r .nm{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:.4vh}
+  .tsr .r .fx{font-size:clamp(1rem,1.5vw,1.28rem);line-height:1.4;color:var(--ink)}
+  .tsr .r .fx b{color:var(--navy)}
+
+  .gate .gt{font-size:clamp(1.5rem,2.5vw,2.15rem)}
+  .headrow{display:flex;align-items:flex-end;justify-content:space-between;gap:2vw}
+  .headrow svg{width:clamp(90px,9vw,150px);height:auto;flex:none;margin-bottom:1vh}
+
+  .steps4{display:grid;grid-template-columns:1fr 1.25fr 1.5fr;gap:1.1vw}
+  .steps4 .card .kicker{font-size:.78rem}
+  .steps4 .card ul.mini li{font-size:clamp(.98rem,1.4vw,1.2rem)}
+  .moneyrow{display:flex;flex-direction:column;gap:.2vh}
+  .moneyrow .m{display:flex;justify-content:space-between;font-size:clamp(1rem,1.45vw,1.22rem);padding:.6vh 0;border-bottom:1px solid rgba(107,118,132,.14);font-variant-numeric:tabular-nums}
+  .moneyrow .m.t{border-bottom:0;border-top:2px solid var(--gold);font-weight:700;color:var(--navy);font-family:var(--serif);font-size:clamp(1.3rem,2.1vw,1.8rem);padding-top:1vh}
+
+  .hw{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6vw}
+  .hw .h{border-top:3px solid var(--gold-soft);padding-top:2vh}
+  .hw .h .n{font-family:var(--serif);font-weight:700;font-size:clamp(3rem,6vw,5rem);color:var(--gold-soft);line-height:1}
+  .hw .h .t{font-family:var(--serif);font-size:clamp(1.4rem,2.4vw,2.1rem);color:var(--ivory);line-height:1.2;margin-top:1vh}
+
+  .ft .box ul.mini li{font-size:clamp(1.1rem,1.7vw,1.45rem)}
+  .ft .box .kicker{font-size:.8rem}
+  .steps4 .card{padding:2.8vh 1.5vw}
+  .steps4 .card ul.mini li{font-size:clamp(1.08rem,1.6vw,1.38rem)}
+  .moneyrow .m{font-size:clamp(1.08rem,1.6vw,1.38rem)}
+  .tool b{font-size:clamp(1.05rem,1.55vw,1.32rem)}
+  .headrow svg{width:clamp(110px,11vw,180px)}
+
+  /* ---- round 2 ---- */
+  .chev{grid-template-columns:repeat(9,1fr) !important;align-items:end}
+  .chev .phase:nth-child(1){grid-column:span 3}
+  .chev .phase:nth-child(2){grid-column:span 1}
+  .chev .phase:nth-child(3){grid-column:span 2}
+  .chev .phase:nth-child(4){grid-column:span 3}
+  .phase .ph{min-height:2.8em;display:flex;align-items:flex-end;line-height:1.3}
+  .phase .row{gap:.6vw}
+  .phase .c{min-height:24vh;height:24vh}
+  .zonebar{grid-template-columns:4fr 5fr}
+  .ylist{gap:1.8vh}
+  .yrow{padding:1.5vh 1.6vw}
+  table.yg tr.add th,table.yg tr.add td{background:#FCF4DC}
+  table.yg tr.add th{box-shadow:inset 4px 0 0 var(--gold)}
+  table.yg tr.add th span{color:#8a6d14;font-weight:700}
+  .legend span.a::before{background:#FCF4DC;border:1px solid var(--gold);box-shadow:inset 3px 0 0 var(--gold)}
+
+  .pages{display:flex;gap:2vw;justify-content:center;align-items:flex-start;height:100%}
+  .pages img{height:74vh;max-width:46%;object-fit:contain;background:#fff;border:1px solid rgba(107,118,132,.25);box-shadow:0 6px 18px rgba(17,29,46,.14)}
+
+
+  /* ---- S12 additions ---- */
+  .capmap{display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:auto auto auto minmax(10vh,1fr) auto;gap:0 .7vw}
+  .cm{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:2.2vh .9vw;display:grid;grid-row:span 5;grid-template-rows:subgrid;row-gap:1.2vh;min-height:40vh}
+  .cm .cg{display:block}
+  .cm .cn{font-family:var(--serif);font-weight:700;font-size:clamp(1.15rem,1.85vw,1.6rem);color:var(--navy);line-height:1.1;align-self:start}
+  .cm .cw{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .cm .cv{font-size:clamp(.95rem,1.35vw,1.18rem);line-height:1.4;color:var(--ink)}
+  .cm .cb{align-self:end;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#8a6d14}
+  .cm.vc{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold);background:rgba(201,162,39,.08)}
+  .riskbar{display:flex;justify-content:space-between;align-items:center;margin-top:1.6vh;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+  .riskbar .line{flex:1;height:3px;margin:0 1.2vw;background:linear-gradient(90deg,rgba(107,118,132,.3),var(--gold))}
+
+  .lpgp{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:1.2vw;align-items:center}
+  .node{background:#fff;border:1px solid rgba(107,118,132,.2);border-top:5px solid var(--gold);border-radius:10px;padding:2.6vh 1.4vw;min-height:30vh;display:flex;flex-direction:column;gap:1vh}
+  .node .nt{font-family:var(--serif);font-weight:700;font-size:clamp(1.6rem,2.8vw,2.4rem);color:var(--navy);line-height:1.05}
+  .node .nw{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .arr{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.4rem);color:var(--gold)}
+  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2vw;margin-top:2.4vh}
+  .lpgp .node{min-height:24vh;padding:2vh 1.2vw}
+  .lpgp .node ul.mini li{font-size:clamp(.92rem,1.3vw,1.12rem);padding:.35vh 0 .35vh 1.35em}
+  .flow{display:flex;flex-direction:column;align-items:center;gap:0}
+  .flow .fl{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;white-space:nowrap}
+  .flow .arr{line-height:.9}
+  .flow .arr.back{color:var(--navy);opacity:.55}
+
+  .twenty{display:flex;gap:2.4vw;align-items:center}
+  .twenty .samimg{width:clamp(120px,11vw,190px);mix-blend-mode:multiply;flex:none}
+  .twenty .target{flex:0 0 31%;border:2px solid var(--gold);background:rgba(201,162,39,.08);padding:2vh 1.3vw}
+  .target .tv{font-family:var(--serif);font-weight:700;font-size:clamp(2rem,3.8vw,3.2rem);color:#8a6d14;line-height:1}
+  .target .tl2{font-size:clamp(.92rem,1.3vw,1.12rem);line-height:1.45;margin-top:1vh;color:var(--ink)}
+  .target .tl2 b{color:var(--navy)}
+  .bignum{font-family:var(--serif);font-weight:700;font-size:clamp(3.4rem,7vw,6rem);line-height:.9;color:var(--navy)}
+  .bignum .g{color:var(--gold)}
+
+  .wf{display:grid;grid-template-columns:repeat(4,1fr);gap:.9vw}
+  .wf .card{padding:1.8vh 1vw}
+  .wf .kicker{font-size:.72rem}
+  .wf .amt{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,2.6vw,2.2rem);color:var(--navy);line-height:1.1}
+  .wf .who{font-size:clamp(.9rem,1.3vw,1.1rem);color:var(--ink);line-height:1.4;margin-top:.6vh}
+  .tot{display:grid;grid-template-columns:1fr 1fr;gap:1.2vw;margin-top:1.6vh}
+  .tot .card{display:flex;align-items:baseline;gap:1vw;justify-content:center;padding:1.8vh 1vw}
+  .tot .t1{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .tot .t2{font-family:var(--serif);font-weight:700;font-size:clamp(1.6rem,2.8vw,2.4rem);color:var(--navy)}
+  .tot .t3{font-family:var(--serif);font-weight:700;font-size:clamp(1.3rem,2.2vw,1.9rem);color:#8a6d14}
+
+  .chain{display:flex;flex-direction:column;gap:.9vh}
+  .chain .r{display:flex;align-items:center;gap:1vw;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:8px;padding:1.1vh 1.2vw}
+  .chain .r .l{flex:1;font-size:clamp(.98rem,1.45vw,1.22rem);color:var(--ink);line-height:1.3}
+  .chain .r .l i{font-style:normal;color:var(--muted);font-size:.85em}
+  .chain .r .v{font-family:var(--serif);font-weight:700;font-size:clamp(1.3rem,2.2vw,1.9rem);color:var(--navy);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .chain .r.ans{border:2px solid var(--gold);background:rgba(201,162,39,.12)}
+  .chain .r.ans .v{color:#8a6d14;font-size:clamp(1.7rem,3vw,2.6rem)}
+  .pgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:.6vw}
+  .pc{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:clamp(1.1rem,1.9vw,1.6rem)}
+  .pc.lose{background:#E9E5DA;color:#9AA0A8}
+  .pc.back{background:#C9D2DE;color:var(--navy)}
+  .pc.three{background:var(--navy);color:var(--ivory)}
+  .pc.win{background:var(--gold);color:#fff;font-size:clamp(1.6rem,2.8vw,2.4rem)}
+  .pkey{display:grid;grid-template-columns:1fr 1fr;gap:.6vh 1vw;margin-top:1.4vh;font-size:clamp(.85rem,1.2vw,1rem);color:var(--ink)}
+  .pkey span::before{content:"";display:inline-block;width:.9em;height:.9em;border-radius:3px;margin-right:.5em;vertical-align:-.1em}
+  .pkey .k1::before{background:#E9E5DA}.pkey .k2::before{background:#C9D2DE}.pkey .k3::before{background:var(--navy)}.pkey .k4::before{background:var(--gold)}
+
+  .tl{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2vw}
+  .tl .card{border-top:5px solid var(--gold);padding:2.4vh 1.4vw;min-height:22vh}
+  .tl .yr{font-family:var(--serif);font-weight:700;font-size:clamp(2rem,3.6vw,3rem);color:var(--gold);line-height:1}
+  .tl .ev{font-size:clamp(1.05rem,1.6vw,1.35rem);line-height:1.4;color:var(--ink);margin-top:1vh}
+  .tl .ev b{color:var(--navy)}
+  .payoff{margin-top:2.4vh;text-align:center}
+  .payoff .bignum{font-size:clamp(3.4rem,7.5vw,6.2rem)}
+
+  .three-terms{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4vw}
+  .three-terms .card{border-top:5px solid var(--gold);padding:2.6vh 1.5vw;min-height:34vh;display:flex;flex-direction:column;gap:1.2vh}
+  .three-terms .tt{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,2.5vw,2.1rem);color:var(--navy);line-height:1.1}
+
+  table.lad{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;overflow:hidden}
+  table.lad th,table.lad td{padding:1.7vh 1.2vw;border-bottom:1px solid rgba(107,118,132,.14);text-align:left;font-size:clamp(1.08rem,1.6vw,1.38rem);line-height:1.3;font-variant-numeric:tabular-nums}
+  table.lad thead th{background:var(--navy);color:var(--ivory);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+  table.lad tbody th{font-family:var(--serif);font-weight:700;font-size:clamp(1.3rem,2.1vw,1.8rem);color:var(--navy);white-space:nowrap}
+  table.lad td.n{font-family:var(--serif);font-weight:600;font-size:clamp(1.3rem,2.1vw,1.8rem);color:var(--navy)}
+  table.lad td.d{color:#8a6d14}
+  table.lad tr:last-child th,table.lad tr:last-child td{border-bottom:0}
+  table.lad tr.seed th,table.lad tr.seed td{background:#FCF4DC}
+  table.irrt td{font-family:var(--serif);font-weight:600;font-size:clamp(1.25rem,2vw,1.7rem);color:var(--navy)}
+  table.irrt td.irr{color:#8a6d14;font-weight:700}
+  table.irrt tr.vcrow th,table.irrt tr.vcrow td{background:var(--navy);color:var(--ivory)}
+  table.irrt tr.vcrow td.irr{color:var(--gold-soft)}
+
+  .lg2{display:flex;gap:2.2vw;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-top:.4vh}
+  .lg2 .sw{display:inline-block;width:.9em;height:.9em;margin-right:.5em;vertical-align:-.1em}
+  .lg2 .sw.bar{background:var(--navy);border-radius:2px}
+  .lg2 .sw.med{background:var(--gold);border-radius:50%}
+  .lg2 .sw.dec{background:#fff;border:2px solid var(--muted);border-radius:50%}
+  .big-list li{font-size:clamp(1.15rem,1.75vw,1.5rem) !important;padding:1.1vh 0 1.1vh 1.35em !important}
+  .callouts{display:grid;grid-template-columns:1fr 1fr;gap:1.2vw;margin-top:1.4vh}
+  .note-sm{font-size:.78rem;color:var(--muted);line-height:1.4;margin-top:1vh}
+
+
+  /* ---- S13 additions ---- */
+  .chk{flex:none;align-self:center;background:rgba(201,162,39,.14);border:1px solid rgba(201,162,39,.6);border-radius:999px;padding:.8vh 1.2vw;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#8a6d14;white-space:nowrap;margin-bottom:1.8vh}
+  .slide.dark .chk{color:var(--gold-soft);border-color:rgba(217,188,95,.6)}
+  .headrow h2{flex:1}
+
+  .lmap{display:grid;grid-template-columns:repeat(9,1fr);gap:.6vw}
+  .lm{background:#fff;border:1px solid rgba(107,118,132,.2);border-top:5px solid var(--gold);border-radius:10px;padding:2vh .8vw 1.6vh;display:flex;flex-direction:column;gap:1vh;min-height:30vh}
+  .lm .lt{font-family:var(--serif);font-weight:700;font-size:clamp(1.35rem,2.2vw,1.95rem);color:var(--navy);line-height:1.05}
+  .lm .lj{font-size:clamp(.9rem,1.25vw,1.1rem);line-height:1.38;color:var(--ink)}
+  .lm .lw{margin-top:auto;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#8a6d14}
+  .lm.later{border-top-color:rgba(107,118,132,.45);background:#FBF8F0}
+  .lm.later .lw{color:var(--muted)}
+  .specs{display:flex;flex-wrap:wrap;gap:.7vw;align-items:center;margin-top:2.6vh}
+  .specs .spl{font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-right:.6vw}
+  .chip{background:var(--navy);color:var(--ivory);border-radius:999px;padding:.85vh 1.15vw;font-size:clamp(.88rem,1.25vw,1.1rem);font-weight:500;line-height:1.2}
+  .chip.lt{background:#fff;color:var(--navy);border:1px solid rgba(107,118,132,.3)}
+
+  table.ent{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;overflow:hidden;table-layout:fixed}
+  table.ent th,table.ent td{padding:1.75vh 1.1vw;text-align:left;vertical-align:top;border-bottom:1px solid rgba(107,118,132,.16);font-size:clamp(1rem,1.45vw,1.25rem);line-height:1.32}
+  table.ent tr:last-child th,table.ent tr:last-child td{border-bottom:0}
+  table.ent thead th{font-family:var(--serif);font-size:clamp(1.2rem,1.9vw,1.65rem);font-weight:700;color:var(--ivory);background:var(--navy);line-height:1.1;vertical-align:bottom}
+  table.ent thead th:first-child{background:#FBF8F0;width:15%}
+  table.ent tbody th{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;padding-top:2.1vh}
+  table.ent td.nope{color:var(--red);font-weight:600}
+  table.ent td.ok{color:var(--green);font-weight:600}
+  table.ent tr.fits td{background:#FCF4DC;font-family:var(--serif);font-weight:600;font-size:clamp(1.12rem,1.7vw,1.45rem);color:var(--navy)}
+  table.ent tr.fits th{background:#FCF4DC}
+  .qrow{display:flex;flex-wrap:wrap;gap:.7vw;align-items:center}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1vw}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:1vw}
+  .grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:1vw}
+  .grid6{display:grid;grid-template-columns:repeat(6,1fr);gap:.9vw}
+  .tile{background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:2.2vh 1.2vw;display:flex;flex-direction:column;gap:.9vh}
+  .tile.top{border-top:5px solid var(--gold)}
+  .tile .tn{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,2.5vw,2.2rem);color:var(--gold);line-height:1}
+  .tile .tt{font-family:var(--serif);font-weight:700;font-size:clamp(1.25rem,2vw,1.75rem);color:var(--navy);line-height:1.12}
+  .tile .ts{font-size:clamp(.95rem,1.35vw,1.18rem);line-height:1.4;color:var(--ink)}
+  .tile.case{background:rgba(201,162,39,.10);border:1px solid rgba(201,162,39,.55)}
+  .tile.case .ck{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:#8a6d14;font-weight:700}
+  .tile.case .ts{font-size:clamp(1rem,1.45vw,1.25rem);color:var(--ink)}
+  .tile.case .ts b{color:var(--navy)}
+  .tall .tile{min-height:26vh}
+  .mid .tile{min-height:17vh;justify-content:center}
+
+  .line{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(1.5rem,2.8vw,2.5rem);line-height:1.25;color:var(--navy)}
+  .line .who{display:block;font-family:var(--sans);font-style:normal;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-top:.8vh}
+
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:1.6vw;align-items:stretch}
+  .two .card{padding:2.8vh 1.8vw;display:flex;flex-direction:column;gap:1.4vh}
+  .sub{font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-top:.6vh}
+  ul.mini.red li::before{background:var(--red)}
+  ul.mini.lg li{font-size:clamp(1.12rem,1.7vw,1.45rem);padding:.9vh 0 .9vh 1.35em}
+  ul.mini.lg li::before{top:1.05em}
+
+  .own{display:flex;flex-direction:column;gap:1.3vh}
+  .own .o{display:grid;grid-template-columns:1.15fr auto 1fr;gap:1.4vw;align-items:center;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;padding:1.9vh 1.6vw}
+  .own .o .m{font-size:clamp(1.12rem,1.7vw,1.45rem);line-height:1.3;color:var(--ink)}
+  .own .o .ar{font-family:var(--serif);font-size:clamp(1.6rem,2.8vw,2.4rem);color:var(--gold);line-height:1}
+  .own .o .a{font-family:var(--serif);font-weight:700;font-size:clamp(1.35rem,2.2vw,1.95rem);color:var(--navy);line-height:1.15}
+  .own .o .a.bad{color:var(--red)}
+
+  .flowrow{display:flex;align-items:stretch;gap:.8vw}
+  .flowrow .fs{flex:1;background:var(--navy);color:var(--ivory);border-radius:10px;padding:2.2vh 1vw;font-family:var(--serif);font-weight:600;font-size:clamp(1.2rem,1.95vw,1.7rem);line-height:1.15;display:flex;align-items:center;justify-content:center;text-align:center;min-height:11vh}
+  .flowrow .fa{font-family:var(--serif);font-size:clamp(1.6rem,2.8vw,2.4rem);color:var(--gold);display:flex;align-items:center}
+  .flowrow .fs.end{background:var(--gold);color:#fff}
+
+  .ck12{display:grid;grid-template-columns:1fr 1fr;gap:.2vh 2.6vw}
+  .ck12 .c{display:flex;gap:1vw;align-items:baseline;padding:1.05vh 0;border-bottom:1px solid rgba(247,243,233,.14)}
+  .ck12 .c .n{font-family:var(--serif);font-weight:700;font-size:clamp(1.25rem,2vw,1.75rem);color:var(--gold-soft);width:1.5em;flex:none;text-align:right;font-variant-numeric:tabular-nums}
+  .ck12 .c .t{font-size:clamp(1rem,1.45vw,1.25rem);line-height:1.35;color:#E6E1D4}
+  .hwline{margin-top:2.2vh;font-size:clamp(.92rem,1.3vw,1.12rem);line-height:1.5;color:#C9D2DE}
+  .hwline b{color:var(--gold-soft);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.78em;margin-right:.6em}
+
+  .nt{display:grid;grid-template-columns:1fr 1fr;gap:1.2vh 1.6vw}
+  .nt .s{background:#fff;border:1px solid rgba(107,118,132,.2);border-left:5px solid var(--gold);border-radius:10px;padding:1.9vh 1.4vw;font-size:clamp(1.12rem,1.7vw,1.45rem);line-height:1.3;color:var(--navy);font-weight:500;display:flex;justify-content:space-between;align-items:center;gap:1vw}
+  .nt .s[data-goto]{cursor:pointer}
+  .nt .s[data-goto]:hover{background:#FCF4DC}
+  .nt .s .go{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#8a6d14;white-space:nowrap}
+  .where{margin-top:2.4vh;font-size:.86rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+  .where b{color:#8a6d14}
+  .jump{position:fixed;left:14px;bottom:10px;font-size:.7rem;letter-spacing:.1em;color:#8D99A9;z-index:60;display:none}
+  .jump.on{display:block}
+
+  /* ---- S13 sizing pass after render check: fill the slide, readable from the back ---- */
+  .chk{font-size:.84rem;padding:1vh 1.4vw}
+  .lmap{gap:.7vw}
+  .lm{min-height:42vh;padding:2.6vh .9vw 2vh;gap:1.4vh}
+  .lm .lt{font-size:clamp(1.5rem,2.45vw,2.3rem)}
+  .lm .lj{font-size:clamp(1.02rem,1.42vw,1.3rem)}
+  .lm .lw{font-size:.74rem}
+  .specs{margin-top:3vh;gap:.9vw 0.7vw}
+  .specs .spl{font-size:.84rem}
+  .chip{font-size:clamp(1.02rem,1.45vw,1.32rem);padding:1.1vh 1.3vw}
+  table.ent th,table.ent td{padding:2.7vh 1.3vw;font-size:clamp(1.15rem,1.75vw,1.58rem)}
+  table.ent thead th{font-size:clamp(1.4rem,2.2vw,2rem);padding:2.2vh 1.3vw}
+  table.ent tbody th{font-size:.8rem;padding-top:3.2vh}
+  table.ent tr.fits td{font-size:clamp(1.25rem,1.95vw,1.75rem)}
+  table.ent.ip th,table.ent.ip td{padding:2.9vh 1.3vw}
+  table.ent.ip tbody th{font-family:var(--serif);font-size:clamp(1.4rem,2.2vw,2rem);letter-spacing:0;text-transform:none;color:var(--navy);padding-top:2.6vh}
+  table.ent.ip thead th:first-child{width:19%}
+  .grid3{gap:1.3vw}.grid4{gap:1.2vw}.grid5{gap:1.1vw}.grid6{gap:1vw}
+  .tile{padding:3vh 1.5vw;gap:1.3vh}
+  .tile .tn{font-size:clamp(1.9rem,3.1vw,2.8rem)}
+  .tile .tt{font-size:clamp(1.5rem,2.45vw,2.25rem)}
+  .tile .ts{font-size:clamp(1.1rem,1.6vw,1.45rem)}
+  .tall .tile{min-height:40vh}
+  .mid .tile{min-height:22vh}
+  .grid6 .tile .tt,.grid5 .tile .tt{font-size:clamp(1.35rem,2.1vw,1.9rem)}
+  .grid5 .tile .ts{font-size:clamp(1rem,1.4vw,1.25rem)}
+  .tile.case{padding:2.4vh 1.5vw}
+  .tile.case .ck{font-size:.8rem}
+  .tile.case .ts{font-size:clamp(1.2rem,1.8vw,1.6rem);line-height:1.38}
+  .line{font-size:clamp(1.9rem,3.5vw,3.2rem)}
+  .two{gap:1.8vw}
+  .two .card{padding:3.6vh 2.2vw;gap:1.6vh}
+  .two .card .boxtitle{font-size:clamp(1.7rem,2.8vw,2.5rem)}
+  .two .card .kicker{font-size:.86rem;margin-bottom:1vh}
+  .sub{font-size:.84rem}
+  ul.mini.lg li{font-size:clamp(1.3rem,2vw,1.8rem);padding:1.15vh 0 1.15vh 1.35em}
+  .own{gap:1.7vh}
+  .own .o{padding:3vh 2vw}
+  .own .o .m{font-size:clamp(1.35rem,2.1vw,1.85rem)}
+  .own .o .a{font-size:clamp(1.7rem,2.8vw,2.5rem)}
+  .flowrow{gap:1vw}
+  .flowrow .fs{min-height:16vh;font-size:clamp(1.45rem,2.4vw,2.15rem);padding:2.4vh 1vw}
+  .ask{padding:2vh 1.6vw}
+  .ask .al{font-size:.82rem;margin-bottom:.9vh}
+  .ask p{font-size:clamp(1.2rem,1.85vw,1.65rem)}
+  .ck12{gap:.4vh 3vw}
+  .ck12 .c{padding:1.55vh 0}
+  .ck12 .c .n{font-size:clamp(1.5rem,2.4vw,2.15rem)}
+  .ck12 .c .t{font-size:clamp(1.12rem,1.65vw,1.48rem)}
+  .hwline{margin-top:3vh;font-size:clamp(1rem,1.4vw,1.25rem)}
+  .nt{gap:1.7vh 1.8vw}
+  .nt .s{padding:2.7vh 1.6vw;font-size:clamp(1.3rem,2vw,1.8rem);min-height:11.5vh}
+  .nt .s .go{font-size:.74rem}
+  .where{margin-top:3.4vh;font-size:1rem}
+  .grid3 .card{padding:3vh 1.6vw}
+  .grid3 .card .kicker{font-size:.86rem;margin-bottom:1vh}
+  .tall .tile{min-height:30vh}
+  .tile .ts.muted{color:var(--muted)}
+  .two.roomy .card{min-height:40vh;justify-content:center}
+  table.ent th,table.ent td{padding:2vh 1.3vw}
+  table.ent thead th{padding:1.8vh 1.3vw}
+  table.ent tbody th{padding-top:2.5vh}
+  table.ent.ip th,table.ent.ip td{padding:2.5vh 1.3vw}
+  table.ent.ip tbody th{padding-top:2.2vh}
+  .ck12 .c{padding:1.25vh 0}
+  .hwline{margin-top:2.2vh}
+  table.ent:not(.ip) th,table.ent:not(.ip) td{padding:1.55vh 1.2vw;font-size:clamp(1rem,1.6vw,1.52rem);line-height:1.28}
+  table.ent:not(.ip) thead th{font-size:clamp(1.25rem,2.05vw,1.95rem);padding:1.5vh 1.2vw}
+  table.ent:not(.ip) tbody th{font-size:.76rem;padding-top:2vh}
+  table.ent:not(.ip) tr.fits td{font-size:clamp(1.1rem,1.8vw,1.7rem)}
+  .ask .qrow .chip.lt{font-size:clamp(.9rem,1.28vw,1.22rem);padding:.8vh 1.1vw}
+  .ck12 .c{padding:1.05vh 0}
+  .ck12 .c .t{font-size:clamp(1rem,1.55vw,1.45rem)}
+  .hwline{margin-top:1.8vh;font-size:clamp(.92rem,1.3vw,1.2rem)}
+
+  /* ---- S13 v1.1: story image, legal map as rows, slide 9 ---- */
+  .story{display:grid;grid-template-columns:.78fr 1.22fr;gap:3.2vw;align-items:center}
+  .story figure{margin:0}
+  .story img{display:block;width:100%;max-height:66vh;object-fit:contain;object-position:center;border-radius:10px;box-shadow:0 14px 44px rgba(0,0,0,.4)}
+  .story figcaption{margin-top:1.2vh;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#8D99A9}
+  .lrows{display:flex;flex-direction:column;gap:.75vh}
+  .lhead,.lr{display:grid;grid-template-columns:15% 1fr 33% 10%;align-items:center;column-gap:1.4vw}
+  .lhead{padding:0 1.5vw .2vh calc(1.5vw + 5px);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+  .lr{background:#fff;border:1px solid rgba(107,118,132,.2);border-left:5px solid var(--gold);border-radius:10px;padding:1vh 1.5vw}
+  .lr .st{font-family:var(--serif);font-weight:700;font-size:clamp(1.35rem,2.25vw,2.05rem);color:var(--navy);line-height:1.1}
+  .lr .jb{font-size:clamp(1.05rem,1.6vw,1.45rem);line-height:1.25;color:var(--ink)}
+  .lr .sp{display:flex;flex-wrap:wrap;gap:.5vw}
+  .lr .sp .chip{font-size:clamp(.85rem,1.2vw,1.12rem);padding:.6vh 1vw}
+  .lr .wh{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#8a6d14;text-align:right;white-space:nowrap}
+  .lr.later{border-left-color:rgba(107,118,132,.45);background:#FBF8F0}
+  .lr.later .wh{color:var(--muted)}
+  .lrows + .specs{margin-top:1.6vh}
+  .lrows + .specs .chip{font-size:clamp(.85rem,1.2vw,1.12rem);padding:.6vh 1vw}
+  .s9.mid .tile{min-height:19vh}
+  .lr{padding:1.45vh 1.5vw}
+  .lrows{gap:.85vh}
+  .lr{padding:1.12vh 1.5vw}
+  .lrows{gap:.75vh}
+  /* v1.2: legal map without the when-column */
+  .lhead,.lr{grid-template-columns:16% 1fr 38%}
+
+  /* ---- S14 additions ---- */
+  .clause{background:#fff;border:1px solid rgba(107,118,132,.2);border-left:5px solid var(--gold);border-radius:10px;padding:2.6vh 1.8vw;display:flex;flex-direction:column;justify-content:center}
+  .clause .cr{font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:#8a6d14;margin-bottom:1vh}
+  .clause p{font-family:var(--serif);font-size:clamp(1.2rem,1.9vw,1.7rem);line-height:1.4;color:var(--navy)}
+  .clause .hit{transition:background .4s ease,box-shadow .4s ease;border-radius:4px}
+  .clause .hit.shown{background:rgba(201,162,39,.4);box-shadow:0 0 0 4px rgba(201,162,39,.4);font-weight:700}
+  .trg{height:0 !important;margin:0 !important;padding:0;overflow:hidden}
+  .rv{opacity:0;transition:opacity .45s ease}
+  .trg.t1.shown ~ * .r1,.trg.t2.shown ~ * .r2,.trg.t3.shown ~ * .r3{opacity:1}
+  table.lad.ctr td,table.lad.ctr thead th:not(:first-child){text-align:center}
+  table.lad thead th{font-size:.8rem;line-height:1.3;vertical-align:bottom}
+  table.lad thead th small{display:block;font-size:.86em;font-weight:600;letter-spacing:.08em;color:var(--gold-soft);margin-top:.35vh;text-transform:none}
+  table.lad td.n{font-size:clamp(1.4rem,2.3vw,2.05rem)}
+  table.lad tbody th{font-size:clamp(1.3rem,2.1vw,1.85rem)}
+  table.lad td.d{color:var(--red)}
+  table.lad.cap th,table.lad.cap td{padding:1.15vh 1.2vw}
+  table.lad.cap td.n{font-size:clamp(1.3rem,2.1vw,1.9rem)}
+  table.lad.cap tbody th{font-size:clamp(1.2rem,1.9vw,1.7rem)}
+  table.lad.cap tr.xr th,table.lad.cap tr.xr td{background:#FBF8F0;font-family:var(--sans);font-weight:500;font-size:clamp(.95rem,1.4vw,1.22rem);color:var(--ink)}
+  table.lad.cap tr.key th,table.lad.cap tr.key td{background:#FCF4DC}
+  table.lad.cap td.d{color:var(--green)}
+  table.tvn{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid rgba(107,118,132,.2);border-radius:10px;overflow:hidden}
+  table.tvn th,table.tvn td{padding:1.12vh 1.3vw;text-align:left;border-bottom:1px solid rgba(107,118,132,.14);font-size:clamp(1rem,1.5vw,1.36rem);line-height:1.22}
+  table.tvn thead th{background:var(--navy);color:var(--ivory);font-family:var(--serif);font-size:clamp(1.2rem,1.9vw,1.7rem);font-weight:700}
+  table.tvn tbody th{font-weight:700;color:var(--navy);width:23%}
+  table.tvn td.then{color:var(--red);width:35%}
+  table.tvn td.now{color:var(--green);font-weight:600}
+  table.tvn tr:last-child th,table.tvn tr:last-child td{border-bottom:0}
+  table.tvn tr.m th{box-shadow:inset 5px 0 0 var(--gold)}
+  table.ent.lle tbody th{font-family:var(--serif);font-size:clamp(1.3rem,2.05vw,1.85rem);letter-spacing:0;text-transform:none;color:var(--navy);width:22%}
+  table.ent.lle thead th:first-child{width:22%}
+  table.ent.lle td.amt{font-family:var(--serif);font-weight:700;font-size:clamp(1.3rem,2.1vw,1.9rem);color:#8a6d14}
+  .zonebar.s14z{grid-template-columns:6fr 3fr}
+  .journey .stage{min-height:30vh;padding:2.6vh 1.2vw}
+  .journey .stage .sn{font-size:.78rem}
+  .journey .stage .st{font-size:clamp(1.4rem,2.3vw,2.05rem)}
+  .journey .stage .sm{font-size:clamp(1rem,1.4vw,1.25rem);color:var(--muted)}
+  .journey .stage .sj{font-size:.8rem}
+  .eqstat .v{font-size:clamp(1.9rem,3.9vw,3.3rem)}
+  .eqstat .k{font-size:.84rem}
+  .tile .tn{font-variant-numeric:tabular-nums}
+  .grid3 .tile .ts,.two .tile .ts{font-size:clamp(1.12rem,1.65vw,1.5rem)}
+  .two .tile{justify-content:center}
+  .tile.case .tn{font-size:clamp(1.9rem,3.1vw,2.8rem)}
+
+  /* ---- S14 sizing pass after render check: fill the slide, readable from the back ---- */
+  .sourcestrip{padding:1.3vh 1.2vw}
+  .sslabel{font-size:.72rem}
+  .ssbody{font-size:clamp(.95rem,1.28vw,1.2rem);line-height:1.45}
+  .eqstat{padding:4.4vh 1.4vw}
+  .eqstat .v{font-size:clamp(2.3rem,4.5vw,4rem)}
+  .eqstat .k{font-size:.92rem;margin-top:1.6vh}
+  .eqstat .n{font-size:.95rem}
+  .eqop{font-size:clamp(2rem,3.4vw,3rem)}
+  .grid4.mid .tile{min-height:27vh;justify-content:center}
+  .grid4.mid .tile .tt{font-size:clamp(1.6rem,2.6vw,2.4rem)}
+  .grid4.tall .tile{min-height:38vh}
+  .grid4 .tile .ts{font-size:clamp(1.2rem,1.75vw,1.6rem)}
+  .grid6.tall .tile{min-height:40vh}
+  .grid6 .tile .tt{font-size:clamp(1.4rem,2.2vw,2rem)}
+  .grid6 .tile .ts{font-size:clamp(1.08rem,1.5vw,1.38rem)}
+  .grid3.tall .tile{min-height:36vh}
+  .grid3.tall .tile .ts{font-size:clamp(1.25rem,1.85vw,1.7rem)}
+  .grid5.mid .tile{min-height:32vh;justify-content:flex-start}
+  .grid5.mid .tile .ts{font-size:clamp(1.08rem,1.5vw,1.38rem)}
+  .journey{gap:1vw}
+  .journey .stage{min-height:42vh;padding:3vh 1.3vw;gap:1.2vh}
+  .journey .stage .sn{font-size:.86rem}
+  .journey .stage .st{font-size:clamp(1.6rem,2.6vw,2.35rem)}
+  .journey .stage .sm{font-size:clamp(1.1rem,1.55vw,1.4rem)}
+  .journey .stage .sj{font-size:.92rem;letter-spacing:.1em}
+  table.ent.roomy th,table.ent.roomy td{padding:2.5vh 1.4vw !important;font-size:clamp(1.2rem,1.85vw,1.7rem) !important}
+  table.ent.roomy thead th{font-size:clamp(1.5rem,2.4vw,2.2rem) !important}
+  table.ent.roomy tbody th{font-size:.84rem !important;padding-top:3.1vh !important}
+  table.lad.big th,table.lad.big td{padding:2.7vh 1.3vw}
+  table.lad.big td.n{font-size:clamp(1.7rem,2.8vw,2.5rem)}
+  table.lad.big tbody th{font-size:clamp(1.5rem,2.4vw,2.15rem)}
+  table.lad.big thead th{font-size:.9rem;padding:1.8vh 1.3vw}
+  table.lad.cap thead th{font-size:.86rem;padding:1.5vh 1.2vw}
+  table.lad.cap th,table.lad.cap td{padding:1.42vh 1.2vw}
+  .clause.wide p{font-size:clamp(1.2rem,1.85vw,1.65rem) !important;line-height:1.38}
+  .clause.wide{padding:2.2vh 1.8vw !important}
+  .two.tallc > *{min-height:54vh}
+  .two.tallc .clause p{font-size:clamp(1.35rem,2.15vw,1.95rem);line-height:1.45}
+  .two.tallc .card .read{font-size:clamp(1.15rem,1.7vw,1.5rem)}
+  table.tvn th,table.tvn td{padding:1.5vh 1.4vw;font-size:clamp(1.1rem,1.65vw,1.5rem)}
+  table.tvn thead th{font-size:clamp(1.3rem,2.05vw,1.85rem)}
+  table.ent.lle th,table.ent.lle td{padding:2.6vh 1.4vw !important;font-size:clamp(1.2rem,1.8vw,1.62rem) !important}
+  table.ent.lle thead th{font-size:clamp(1.4rem,2.25vw,2.05rem) !important}
+  table.ent.lle tbody th{font-size:clamp(1.4rem,2.2vw,2rem) !important;padding-top:2.6vh !important}
+  table.ent.lle td.amt{font-size:clamp(1.5rem,2.4vw,2.2rem) !important}
+  .read.intro{font-size:clamp(1.25rem,1.9vw,1.7rem);line-height:1.4}
+  .chev .phase .c{min-height:32vh;height:32vh}
+  .chev .phase .c .l{font-size:clamp(1rem,1.5vw,1.35rem)}
+  .zonebar div{font-size:1rem}
+  .two .tile .tt{font-size:clamp(1.6rem,2.6vw,2.35rem)}
+  .two .tile{min-height:20vh;padding:3vh 1.8vw}
+  .grid3 .tile{min-height:19vh}
+  .tile.case .ts{font-size:clamp(1.25rem,1.9vw,1.7rem)}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+<!-- 1 · TITLE -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Fitler MBA · Session 14</div>
+  <div class="body">
+    <h1 style="font-size:clamp(2.6rem,6.4vw,5.2rem);max-width:1100px;">Funding Your Business</h1>
+    <p style="font-family:var(--serif);font-size:clamp(1.4rem,2.9vw,2.4rem);color:var(--gold-soft);margin-top:1.2vh;font-weight:500;">The Terms Decide Who Gets Paid</p>
+    <hr class="rule">
+    <p class="read" style="font-size:clamp(1rem,1.6vw,1.3rem);max-width:1100px;color:#C9D2DE;">How much did I sell? · Who gets paid first? · Who's in charge? · How do I share it with my people?</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Funding Your Business</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Title</h4><p><b>Clock:</b> Question 1 starts 6:14. Liquidation preference (slide 13) at 6:31. Break around 6:46. Then vs now at 6:59. The $15M answer at 7:18. Wrap by 7:26.</p><p><b>Checkpoint:</b> if slide 13 starts after 6:36, cut slide 5 to one minute and slide 16 to vesting and drag-along.</p><p>Two handouts at every seat before the room fills: the term sheet and the deal workbook.</p><p>Every number tonight comes from one company, Callowhill. The numbers are worked out ahead of time and each computation slide has a source strip.</p><p>Simplifications you approved: the angels' shares are treated as common in the sale tables, and the whole option pool is counted.</p></div>
+</section>
+<!-- 2 · THE DEAL -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">A deal</div>
+  <div class="body">
+    <h1 style="font-size:clamp(2.4rem,5.6vw,4.8rem);">"We're in for $5 at $20."</h1>
+    <hr class="rule" style="margin-top:3vh;">
+    <p class="big step" data-step style="font-size:clamp(1.5rem,2.9vw,2.5rem);">Three years later the company sold for <span class="g">$15M</span>.</p>
+    <p class="big step" data-step style="font-size:clamp(1.5rem,2.9vw,2.5rem);margin-top:1.4vh;">The investor owned <span class="g">20%</span> and took <span class="g">53%</span>.</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · A deal</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>"We're in for $5 at $20"</h4><p><b>Story slot, two minutes.</b> The first time you heard that line across a table.</p><p><b>The company, one sentence:</b> "You call a plumber at night and nobody answers, so you call the next one. Callowhill answers." Dana and Marcus, two years in, Philadelphia.</p><p><b>Click twice.</b> Sold for $15M. Owned 20%, took 53%.</p><p><b>Predict, and leave it open:</b> "They owned 20%. How did they take more than half?" Take three answers. Don't resolve it.</p><p>"By 7:20 you'll work it out yourselves." Slide 21 closes it.</p></div>
+</section>
+<!-- 3 · BLUF -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">The bottom line</div>
+  <div class="body">
+    <p class="big" style="font-size:clamp(1.9rem,3.8vw,3.3rem);max-width:1200px;">The valuation is the <span class="g">headline</span>.</p>
+    <p class="big" style="font-size:clamp(1.9rem,3.8vw,3.3rem);max-width:1200px;margin-top:1.6vh;">The terms decide who gets <span class="g">paid</span> and who's in <span class="g">control</span>.</p>
+    <p class="big" style="font-size:clamp(1.9rem,3.8vw,3.3rem);max-width:1200px;margin-top:1.6vh;">Know the <span class="g">math</span> before you're in the room.</p>
+    <hr class="rule" style="margin-top:3.5vh;">
+    <p class="read muted" style="max-width:1150px;">1 How much did I sell? · 2 Who gets paid first? · 3 Who's in charge? · 4 How do I share it with my people?</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · The bottom line</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>BLUF</h4><p>Say the three lines once. They come back at the wrap.</p><p><b>The handouts:</b> "Handout 1 is this deal on today's terms. On the slides you'll see what the same paragraph said when I was writing them at Cross Atlantic. Handout 2 is where you do the math. Write on both."</p><p>The gold tag under each term in Handout 1 is the paragraph of the old sheet it replaces.</p><p><b>Callback S13, bonus slide 24:</b> last session you got the labels. Tonight you get the mechanics.</p><p>Four questions. That's the whole night.</p></div>
+</section>
+<!-- 4 · WHO FUNDS WHAT -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Where the money comes from</div>
+  <h2>Who Funds What, and How</h2>
+  <div class="body">
+    <div class="journey">
+      <div class="stage"><div class="sn">You</div><div class="st">Your own money and revenue</div><div class="sj">No paper</div></div>
+      <div class="stage"><div class="sn">The bank</div><div class="st">Debt</div><div class="sm">Session 6</div><div class="sj">A loan</div></div>
+      <div class="stage"><div class="sn">Friends, family, angels</div><div class="st">First outside money</div><div class="sj">SAFE or note</div></div>
+      <div class="stage"><div class="sn">Seed</div><div class="st">First fund</div><div class="sj">SAFE or priced round</div></div>
+      <div class="stage"><div class="sn">Series A and on</div><div class="st">Venture rounds</div><div class="sj">Preferred stock · a full term sheet</div></div>
+    </div>
+    <div class="ask step" data-step style="margin-top:2.6vh"><div class="al">For this room</div><p>Most of you will never sign a VC term sheet. You will sell a piece of your company, or give one to someone.</p></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Where the money comes from</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Who funds what, and how</h4><p><b>Three shows of hands:</b> "Who expects to raise outside money in the next three years? Who expects to give a partner or an employee a piece? Who might sell the business someday?" Nearly every hand should be up by the third.</p><p><b>Click.</b> The same terms show up when a partner buys in, when a buyer asks you to keep a stake, and when a bank writes covenants.</p><p>Each part tonight ends with one line on where a business that never raises meets it.</p></div>
+</section>
+<!-- 5 · WHY THESE TERMS -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Ground rules</div>
+  <h2>Why Investors Write These Terms</h2>
+  <div class="body">
+    <div class="grid4 mid">
+      <div class="tile top"><div class="tt">A 10-year fund</div></div>
+      <div class="tile top"><div class="tt">2% fee, 20% of the profit</div></div>
+      <div class="tile top"><div class="tt">Invest years 1–4, harvest years 5–10</div></div>
+      <div class="tile top"><div class="tt">A few big wins pay for everything</div></div>
+    </div>
+    <div class="ask step" data-step style="margin-top:2.6vh"><div class="al">Every term does one of three jobs</div>
+      <div class="qrow"><span class="chip">Protect the money if it goes badly</span><span class="chip">Share the upside if it goes well</span><span class="chip">Have a say in between</span></div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Ground rules</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Why investors write these terms</h4><p>This is a one-slide recap of S12 (the fund, 2 and 20, the hits business). Two to three minutes.</p><p><b>Predict:</b> "A fund makes 20 investments. How many have to work?" One or two, big.</p><p><b>Click.</b> So every term on the sheet does one of three jobs. Keep that list. The room sorts each term into it all night.</p><p>The fund's 10-year clock is why the old sheet has redemption at year five. That comes up on slide 13.</p><p>Return expectations are spoken, not printed. The 2012 deck's numbers need a current check before you say them.</p><p><b>If long:</b> cut to the three jobs, one minute.</p></div>
+</section>
+<!-- 6 · SIX WORDS -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Ground rules</div>
+  <h2>Six Words for Tonight</h2>
+  <div class="body">
+    <div class="grid6 tall">
+      <div class="tile top"><div class="tt">Share</div><div class="ts">A unit of ownership</div></div>
+      <div class="tile top"><div class="tt">Common and preferred</div><div class="ts">Founders and employees hold common. Investors buy preferred.</div></div>
+      <div class="tile top"><div class="tt">Fully diluted</div><div class="ts">Count everything that could become a share</div></div>
+      <div class="tile top"><div class="tt">Pre-money and post-money</div><div class="ts">Before the check, and after it</div></div>
+      <div class="tile top"><div class="tt">Option pool</div><div class="ts">Shares set aside for future hires</div></div>
+      <div class="tile top"><div class="tt">Cap table</div><div class="ts">Who owns what</div></div>
+    </div>
+    <div class="ask step" data-step style="margin-top:2.2vh"><div class="al">Callowhill's cap table at founding</div><p>Dana 4,500,000 shares · Marcus 3,000,000 shares · 7,500,000 in all · the founders own 100%</p></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Ground rules</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Six words for tonight</h4><p>The base before any example. Three minutes.</p><p><b>Preferred</b> is the same share plus the extra rights on the term sheet. Callback S12 slide 11 and S13 slide 10.</p><p><b>Fully diluted:</b> every share, plus the SAFE, plus the whole option pool, issued or not.</p><p><b>Cap table:</b> rows are holders, columns are shares and percent.</p><p><b>Click.</b> The first column of tonight's cap table. Dana is CEO with 60% of the founders' stock. Marcus is CTO with 40%.</p><p><b>Workbook:</b> the founding column is already filled in. The word list is on the last page.</p></div>
+</section>
+<!-- 7 · THREE INSTRUMENTS -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Question 1 · How much did I sell?</div>
+  <h2>Three Ways to Take Early Money</h2>
+  <div class="body">
+    <table class="ent roomy">
+      <thead><tr><th></th><th>SAFE</th><th>Convertible note</th><th>Priced round</th></tr></thead>
+      <tbody>
+        <tr><th>What it is</th><td>A right to future shares</td><td>A loan that turns into shares</td><td>Shares, today</td></tr>
+        <tr><th>Interest, due date</th><td class="ok">None</td><td class="nope">Yes, and yes</td><td class="ok">None</td></tr>
+        <tr><th>Valuation set now?</th><td>A cap, not a price</td><td>A cap, not a price</td><td>Yes</td></tr>
+        <tr><th>Paperwork</th><td>A few pages</td><td>A few pages</td><td>A full set, both sides' lawyers</td></tr>
+        <tr class="fits"><th>Where you see it</th><td>Pre-seed, seed</td><td>Less every year</td><td>Seed and later</td></tr>
+      </tbody>
+    </table>
+    <div class="sourcestrip step" data-step style="margin-top:1.6vh"><div class="sslabel">Source</div><div class="ssbody">93% of pre-seed rounds in Q2 2026 were SAFEs, and 91% of those SAFEs were post-money (Carta, State of Pre-Seed, Q2 2026).</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Question 1</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Three ways to take early money</h4><p><b>Predict before the click:</b> "Which one does almost every first round use now?"</p><p><b>Click.</b> The SAFE: 93% of pre-seed rounds.</p><p>A note is debt. If it comes due before a round, the holder can ask for the money back.</p><p>A priced round is the only one that sets a price today. That's where the term sheet comes in, two slides from now.</p><p>S13 bonus slide 24 gave these three as labels. This is the detail.</p></div>
+</section>
+<!-- 8 · THE SAFE -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Question 1 · How much did I sell?</div>
+  <h2>The SAFE</h2>
+  <div class="body">
+    <div class="eqrow">
+      <div class="eqstat"><div class="v">$1M</div><div class="k">The angels' check</div></div>
+      <div class="eqop">÷</div>
+      <div class="eqstat"><div class="v">$10M</div><div class="k">Post-money cap</div></div>
+      <div class="eqop">=</div>
+      <div class="eqstat answer step" data-step><div class="v">10%</div><div class="k">Of the company</div><div class="n">No shares yet</div></div>
+    </div>
+    <div class="qrow" style="margin-top:2.2vh"><span class="chip lt">Valuation cap</span><span class="chip lt">Discount (often none)</span><span class="chip lt">Most-favored nation</span></div>
+    <div class="ask step" data-step style="margin-top:2vh"><div class="al">Six months later</div><p>A second $1M SAFE on the same cap. Who gives up that 10%?</p></div>
+    <div class="sourcestrip" style="margin-top:1.6vh"><div class="sslabel">Source</div><div class="ssbody">$1M ÷ $10M post-money cap = 10%. The median cap in 2025 was about $10M for a raise of $250K to $1M (Carta, State of Pre-Seed 2025).</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Question 1</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>The SAFE</h4><p>Four angels, $250K each, in year one.</p><p><b>Predict:</b> "$1M on a $10M post-money cap. What did you sell?" <b>Click.</b> 10%, fixed the day you sign.</p><p><b>Click, second predict:</b> "Who gives up that 10%?" You do. The first angel still gets 10%. Dana and Marcus would finish the seed at 53.3% instead of 60%.</p><p>Stacked SAFEs are where founders lose track.</p><p>If the next round prices above the cap, the SAFE converts at the cap. Most do: in 2026 only 29% of seed rounds after a SAFE priced below the cap (Carta).</p><p>A discount, when there is one, is usually 20%.</p><p><b>Workbook:</b> write 10% in the SAFE line.</p></div>
+</section>
+<!-- 9 · WHAT A TERM SHEET IS -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Question 1 · How much did I sell?</div>
+  <h2>What a Term Sheet Is</h2>
+  <div class="body">
+    <div class="two tallc">
+      <div class="card"><div class="kicker">Not binding</div><div class="boxtitle">A basis for discussion</div><p class="read">Two kinds of terms: money and control.</p>
+        <div class="kicker" style="margin-top:1.6vh">Except</div><ul class="mini lg"><li>You can't shop the deal</li><li>You pay the costs</li><li>You keep it quiet</li></ul></div>
+      <div class="clause"><div class="cr">The 2021 sheet · paragraph Q · Exclusivity</div>
+        <p>"The conditions set forth below … are intended to <span class="hit" data-step>extend to the closing</span> of the transaction contemplated hereby. The exclusivity rights set forth below <span class="hit" data-step>shall not be terminated due to any delay in closing</span> …"</p>
+        <p class="step" data-step style="font-family:var(--sans);font-size:clamp(1rem,1.5vw,1.3rem);color:var(--ink);margin-top:1.6vh"><b style="color:var(--navy)">No end date.</b> Handout 1, section 21: 30 days.</p></div>
+    </div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Question 1</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>What a term sheet is</h4><p>Two minutes. The priced round starts with this document.</p><p><b>Find it:</b> "Read the clause on the right. When does the exclusivity end?" Give them fifteen seconds.</p><p><b>Click, click.</b> It runs to the closing, and a delay doesn't end it. There's no date.</p><p><b>Click.</b> Handout 1 says 30 days. The Series Seed form documents use 30 days too.</p><p>Paragraph P of the old sheet: the company pays all of the investor's lawyers and experts, with no cap. Callback S13 slide 18: cap it. Handout 1 caps it at $35,000.</p><p>Everything else is a handshake until the Stock Purchase Agreement is signed.</p><p><b>If long:</b> speak this off the next slide.</p></div>
+</section>
+<!-- 10 · $5 AT $20 -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Question 1 · How much did I sell?</div>
+  <h2>$5 at $20</h2>
+  <div class="body">
+    <div class="eqrow">
+      <div class="eqstat"><div class="v">$20M</div><div class="k">Pre-money</div></div>
+      <div class="eqop">÷</div>
+      <div class="eqstat"><div class="v">10,000,000</div><div class="k">Shares before the round</div></div>
+      <div class="eqop">=</div>
+      <div class="eqstat answer step" data-step><div class="v">$2.00</div><div class="k">A share</div></div>
+    </div>
+    <div class="grid3 step" data-step style="margin-top:1.8vh">
+      <div class="tile"><div class="tn">2,500,000</div><div class="ts">New shares: $5M ÷ $2.00</div></div>
+      <div class="tile"><div class="tn">$25M</div><div class="ts">Post-money: $20M + $5M</div></div>
+      <div class="tile case"><div class="tn" style="color:#8a6d14">20%</div><div class="ts"><b>WVC owns:</b> $5M ÷ $25M</div></div>
+    </div>
+    <div class="sourcestrip step" data-step style="margin-top:1.6vh"><div class="sslabel">The angels' SAFE converts now</div><div class="ssbody">$10M cap ÷ 10,000,000 shares = <b>$1.00 a share</b>. $1M buys 1,000,000 shares. The 10,000,000 shares before the round: 7,500,000 founders + 1,000,000 SAFE + 1,500,000 option pool.</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Question 1</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>$5 at $20</h4><p>Handout 1, sections 1 to 4. They fill in the blanks as you go.</p><p>Price = pre-money ÷ fully diluted shares before the round. <b>Predict the price, click.</b> $2.00.</p><p><b>Predict:</b> "What does WVC own?" <b>Click.</b> 5 ÷ 25 = 20%.</p><p><b>Predict:</b> "The SAFE converts now. What price did the angels pay?" <b>Click.</b> $1.00, half of WVC's price. That's what the cap bought them for going in a year earlier.</p><p>WVC puts in $3M of the $5M and two other funds take the rest. On the slides "WVC" stands for all of them.</p><p><b>Round sizing, payoff of S11:</b> raise for 18 to 24 months of runway and the milestones that earn the next round. The old template's $5M minimum and $7.5M maximum is how a lead leaves room for others.</p><p>$20M pre-money is a normal seed number today.</p><p><b>Story slot:</b> a round sized too small.</p></div>
+</section>
+<!-- 11 · OPTION POOL -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Question 1 · How much did I sell?</div>
+  <h2>Who Pays for the Option Pool?</h2>
+  <div class="body">
+    <div class="eqrow">
+      <div class="eqstat"><div class="v">1,500,000</div><div class="k">Pool shares, counted in the $20M</div></div>
+      <div class="eqop">×</div>
+      <div class="eqstat"><div class="v">$2.00</div><div class="k">A share</div></div>
+      <div class="eqop">=</div>
+      <div class="eqstat answer step" data-step><div class="v">$3M</div><div class="k">Paid by the founders and the angels</div></div>
+    </div>
+    <div class="two step" data-step style="margin-top:1.8vh">
+      <div class="tile"><div class="tt">The headline: $20M pre-money</div><div class="ts">What the founders and angels already own is priced at <b>$17M</b>.</div></div>
+      <div class="tile case"><div class="ck">WVC's first ask: a 20% pool</div><div class="ts">Price drops to <b>$1.76</b>. Founders finish at <b>52.9%</b>, not 60%. What they already own is priced at <b>$15M</b>.</div></div>
+    </div>
+    <div class="sourcestrip step" data-step style="margin-top:1.6vh"><div class="sslabel">Dana's answer</div><div class="ssbody">Her hiring plan for the next 18 months adds up to 7.2% of the company. "I'll give you 12." The median option pool after a seed round is about 12% (Carta).</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Question 1</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Who pays for the option pool?</h4><p>Handout 1, section 13.</p><p><b>Predict:</b> "WVC wants a pool for future hires and wants it counted before their money goes in. Who pays for it?" <b>Click.</b> Everyone who was there before WVC. $3M of the $20M.</p><p><b>Click.</b> Same headline, and what you already own is priced at $17M. Then the what-if: a 20% pool costs $5M.</p><p>The 2012 deck called this the second most negotiated item. Still true.</p><p><b>Click.</b> Go in with a hiring plan and size the pool to it. The plan is in the workbook: Sam, a VP of Sales, a head of engineering, four engineers, six other hires, two advisors.</p><p><b>Then vs now:</b> the old sheet put the pool in the pre-money and so does Handout 1. That hasn't changed. What changed is the size founders accept.</p></div>
+</section>
+<!-- 12 · THE CAP TABLE -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Question 1 · How much did I sell?</div>
+  <h2>The Cap Table</h2>
+  <div class="body">
+    <div class="trg t1" data-step></div><div class="trg t2" data-step></div>
+    <table class="lad ctr cap">
+      <thead><tr><th></th><th>Founding</th><th>Before the seed</th><th>After the seed<small>$5 at $20</small></th><th>After a Series A<small>$15 at $60</small></th></tr></thead>
+      <tbody>
+        <tr class="key"><th>Founders</th><td class="n">100%</td><td class="n"><span class="rv r1">75%</span></td><td class="n"><span class="rv r1">60%</span></td><td class="n"><span class="rv r2">48%</span></td></tr>
+        <tr><th>Angels (SAFE)</th><td class="n">—</td><td class="n"><span class="rv r1">10%</span></td><td class="n"><span class="rv r1">8%</span></td><td class="n"><span class="rv r2">6.4%</span></td></tr>
+        <tr><th>Option pool</th><td class="n">—</td><td class="n"><span class="rv r1">15%</span></td><td class="n"><span class="rv r1">12%</span></td><td class="n"><span class="rv r2">9.6%</span></td></tr>
+        <tr><th>Seed investors (WVC)</th><td class="n">—</td><td class="n">—</td><td class="n"><span class="rv r1">20%</span></td><td class="n"><span class="rv r2">16%</span></td></tr>
+        <tr><th>Series A investor</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n"><span class="rv r2">20%</span></td></tr>
+        <tr class="xr"><th>Total shares</th><td>7,500,000</td><td>10,000,000</td><td><span class="rv r1">12,500,000</span></td><td><span class="rv r2">15,625,000</span></td></tr>
+        <tr class="xr"><th>Price per share</th><td>—</td><td><span class="rv r1">$1.00</span></td><td><span class="rv r1">$2.00</span></td><td><span class="rv r2">$4.80</span></td></tr>
+        <tr class="key"><th>Founders' stake, on paper</th><td class="n">—</td><td class="n">—</td><td class="n"><span class="rv r1">$15M</span></td><td class="n d"><span class="rv r2">$36M</span></td></tr>
+      </tbody>
+    </table>
+    <div class="sourcestrip" style="margin-top:1.2vh"><div class="sslabel">Source</div><div class="ssbody">Callowhill's numbers from slides 8 to 11. Series A: $60M ÷ 12,500,000 shares = $4.80; $15M buys 3,125,000 shares. For comparison, founding teams hold a median 56% after a seed round and 36% after a Series A (Carta, Founder Ownership Report 2026).</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Question 1</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>The cap table</h4><p><b>Write first:</b> the room fills the two middle columns in the workbook from what they just worked out. One minute. <b>Then click.</b></p><p><b>Predict for the last column:</b> "The Series A is $15M at a $60M pre-money. Founders go from 60% to what, and is that bad?" <b>Click.</b> 48%, worth $36M instead of $15M.</p><p>Dilution with a rising price is fine. Dilution with a falling price is slide 14.</p><p>Dana and Marcus do better than the Carta medians because they signed one SAFE and didn't top up the pool at the Series A.</p><p><b>Rules:</b> always fully diluted. Keep it current from day one (S13 slide 10). A spreadsheet until it hurts, then Carta.</p><p><b>Not raising?</b> Selling 20% to a partner is the same math: pre, post, what you sold.</p><p>Photograph this one.</p></div>
+</section>
+<!-- 13 · LIQUIDATION PREFERENCE -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Question 2 · Who gets paid first?</div>
+  <h2>Liquidation Preference</h2>
+  <div class="body">
+    <div class="clause wide"><div class="cr">The 2021 sheet · paragraph E(3)</div>
+      <p >"… the holders of the Preferred will be entitled to receive, prior and in preference to any distribution … an amount equal to the Purchase Price plus all accrued or declared but unpaid 8% cumulative dividends … <span class="hit" data-step>and then to share</span> with the holders of the Common … in the remaining assets on an as converted basis."</p></div>
+    <div class="trg t1" data-step></div><div class="trg t2" data-step></div>
+    <table class="lad ctr big" style="margin-top:1.6vh">
+      <thead><tr><th>WVC owns 20% for $5M</th><th>1x, non-participating<small>Handout 1</small></th><th>1x, participating</th><th>The 2021 sheet<small>1x + 8% dividends + participating, year 3</small></th></tr></thead>
+      <tbody>
+        <tr><th>Sold for $60M</th><td class="n"><span class="rv r1">$12.0M · 20%</span></td><td class="n"><span class="rv r1">$16.0M · 27%</span></td><td class="n"><span class="rv r1">$17.0M · 28%</span></td></tr>
+        <tr class="seed"><th>Sold for $15M</th><td class="n"><span class="rv r2">$5.0M · 33%</span></td><td class="n"><span class="rv r2">$7.0M · 47%</span></td><td class="n d"><span class="rv r2">$8.0M · 53%</span></td></tr>
+      </tbody>
+    </table>
+    <div class="sourcestrip" style="margin-top:1.2vh"><div class="sslabel">Source</div><div class="ssbody">Non-participating: the greater of $5M or 20% of the price. Participating: $5M plus 20% of the rest. The 2021 sheet: $5M + $1.2M of dividends (8% × 3 years) + 20% of the rest. In the first half of 2026, 97% of financings were non-participating and 1% had cumulative dividends (Wilson Sonsini, Entrepreneurs Report, Q2 2026).</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Question 2</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Liquidation preference</h4><p>Nine minutes. The center of the night. Handout 1, sections 6, 7 and 10.</p><p><b>Find the word:</b> "One word in this clause is worth two to four million dollars. You heard it in S12. Find it." <b>Click.</b> "And," as in "and then to share." The multi-million-dollar word.</p><p><b>Non-participating:</b> the investor takes the money back or converts to common, whichever is more. <b>Participating:</b> takes the money back and then shares in the rest.</p><p><b>Click:</b> the $60M row. Walk it left to right.</p><p><b>Predict before the next click:</b> "It sells for $15M. WVC owns 20%. What do they take?" <b>Click.</b> There's the 53% from slide 2.</p><p>The preference bites hardest at the small sale, and the small sale is the common one.</p><p><b>$25M is the line.</b> Below the post-money, WVC takes its $5M off the top. Above it, WVC converts and takes 20%.</p><p><b>Dividends, the third column:</b> 8% a year, cumulative. $1.2M due in cash at year three, then $400K a year. S12 called it the coupon.</p><p><b>Redemption, one line:</b> at year five the old sheet let the investors make the company buy the stock back, and if it couldn't, they took the board (E8). That's the fund's clock from slide 5. Rare now: 5% of deals.</p><p><b>Story slot:</b> a sale where the preference decided the checks.</p><p><b>Not raising?</b> A buyer who asks you to keep a stake will often give themselves a preference. Ask the $15M question.</p></div>
+</section>
+<!-- 14 · ANTI-DILUTION -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Question 2 · Who gets paid first?</div>
+  <h2>If the Next Round Is Cheaper</h2>
+  <div class="body">
+    <div class="clause wide"><div class="cr">The 2021 sheet · paragraph E(6) · Anti-dilution</div>
+      <p >"The Conversion Price of the Preferred will be subject to adjustment on a <span class="hit" data-step>fully ratcheted down</span> basis … in the event that the Company issues additional equity securities at a purchase price less than the applicable Conversion Price."</p></div>
+    <div class="trg t1" data-step></div>
+    <table class="lad ctr big" style="margin-top:1.6vh">
+      <thead><tr><th>A $2.5M bridge at $1.00 a share</th><th>No protection</th><th>Weighted average<small>Handout 1 · part of the way</small></th><th>Full ratchet<small>The 2021 sheet · all the way down</small></th></tr></thead>
+      <tbody>
+        <tr><th>WVC's shares count as</th><td class="n">2,500,000</td><td class="n"><span class="rv r1">2,727,273</span></td><td class="n d"><span class="rv r1">5,000,000</span></td></tr>
+        <tr><th>WVC owns</th><td class="n"><span class="rv r1">16.7%</span></td><td class="n"><span class="rv r1">17.9%</span></td><td class="n d"><span class="rv r1">28.6%</span></td></tr>
+        <tr class="seed"><th>Founders own</th><td class="n"><span class="rv r1">50.0%</span></td><td class="n"><span class="rv r1">49.3%</span></td><td class="n d"><span class="rv r1">42.9%</span></td></tr>
+      </tbody>
+    </table>
+    <div class="sourcestrip" style="margin-top:1.2vh"><div class="sslabel">Source</div><div class="ssbody">Callowhill misses its numbers and sells 2,500,000 new shares at $1.00, half the seed price. Illustrative: the new investor's price is held at $1.00. In the first half of 2026, 98% of financings used broad-based weighted average and 1% used a full ratchet (Wilson Sonsini, Entrepreneurs Report, Q2 2026).</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Question 2</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>If the next round is cheaper</h4><p>Six minutes. No formula on the slide and none spoken. Handout 1, section 9.</p><p>Slide 12 was the good future. This is the other one.</p><p>Anti-dilution: the investor's price gets marked down, and the founders pay for it. S12 named it. This is how it works.</p><p><b>Find the words. Click.</b> "Fully ratcheted down."</p><p><b>Predict:</b> "The bridge is at half the price. Under the old sheet, what happens to WVC's 2,500,000 shares?" <b>Click.</b> They count as 5,000,000, as if WVC had paid $1.00 too. Founders lose seven points on top of the new round's dilution.</p><p><b>Weighted average</b> adjusts for how much money came in at the low price, so a small down round costs a little.</p><p><b>Pay-to-play, one line:</b> protection only for investors who put more money in. Bonus slide 24.</p><p><b>If long:</b> show and explain, no predict.</p></div>
+</section>
+<!-- BREAK -->
+<section class="slide dark" data-slide data-nonum="Break">
+  <div class="eyebrow">Break</div>
+  <div class="body">
+    <h1 style="font-size:clamp(2.4rem,6vw,5rem);">Stand up.</h1>
+    <hr class="rule">
+    <p class="big" style="font-size:clamp(1.3rem,2.4vw,2rem);max-width:1000px;">Three minutes. Then: who's in charge, then versus now, and how you share ownership with your people.</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Break</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Break</h4><p>Three minutes, around 6:46. Questions 1 and 2 are done: how much you sold and who gets paid first.</p><p>If you are past 6:50 here, take the cuts on slide 16 and slide 19.</p></div>
+</section>
+<!-- 15 · BOARD AND VETOES -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Question 3 · Who's in charge?</div>
+  <h2>The Board and the Vetoes</h2>
+  <div class="body">
+    <div class="two">
+      <div class="card"><div class="kicker">The board</div>
+        <div class="qrow" style="margin:.6vh 0 1.4vh"><span class="chip">Dana</span><span class="chip">Marcus</span><span class="chip lt">WVC's partner</span></div>
+        <p class="read">Two founders, one investor.</p><p class="read muted">The 2021 sheet adds a WVC observer, monthly meetings, and WVC's director on every committee.</p>
+        <div class="ask step" data-step style="margin-top:1.8vh"><div class="al">A buyer offers $15M</div><p>Who wants to sell? Who can stop it?</p></div></div>
+      <div class="card"><div class="kicker">The 2021 sheet: WVC's consent is needed to</div>
+        <ul class="mini lg"><li>Change their stock</li><li>Issue new stock</li><li>Sell or merge</li><li>Change the charter</li></ul>
+        <div class="step" data-step><div class="sub" style="color:var(--red);margin-top:1vh">Gone from Handout 1</div>
+        <ul class="mini lg red"><li>Borrow or spend over $100K outside the plan</li><li>Hire anyone paid $100K or more</li><li>Go over the monthly budget</li></ul></div></div>
+    </div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Question 3</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>The board and the vetoes</h4><p>Handout 1, sections 11 and 12.</p><p><b>Vote:</b> "Founders hold two of three board seats. Who controls the company? Hands for the founders. Hands for WVC."</p><p><b>Then:</b> "Dana wants to hire a $120K VP of Sales. Who has to say yes?" Under the old sheet, WVC: paragraph E(7)(vii). <b>Click</b> on the right card.</p><p>Control sits in the veto list more than in the board count. The first four are normal and are in Handout 1. The spending, hiring and budget lines are operating control, and they're gone.</p><p>Option grants also needed the investor director's yes (paragraph K).</p><p><b>Click, the boardroom question:</b> "On today's terms the founders get $7.5M and want to sell. WVC gets its $5M back after three years, no gain, and has a veto on a sale. What happens next?" Take a few answers. It pays off on slide 21.</p><p>Callback S12 slide 16 and S13 bonus slide 23: an investor director owes duties to the company and still answers to the fund.</p><p>2012 deck: choose your board wisely, and be careful with observers.</p><p><b>Story slot:</b> a board that worked, or one that didn't.</p><p><b>Not raising?</b> Bank covenants and a minority partner's consent rights are the same list.</p></div>
+</section>
+<!-- 16 · STRINGS -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Question 3 · Who's in charge?</div>
+  <h2>Strings on Your Own Shares</h2>
+  <div class="body">
+    <div class="grid4 tall">
+      <div class="tile top"><div class="tt">Founder vesting</div><div class="ts">25% at closing. The rest monthly over four years.</div></div>
+      <div class="tile top"><div class="tt">First refusal and co-sale</div><div class="ts">Investors can buy first, and sell alongside you.</div><div class="ts muted">The 2021 sheet: founders can't sell more than 25% for four years.</div></div>
+      <div class="tile top"><div class="tt">Drag-along</div><div class="ts">If the required groups approve a sale, everyone goes along.</div><div class="ts muted">Not in the 2021 sheet.</div></div>
+      <div class="tile top"><div class="tt">After you leave</div><div class="ts">A one-year non-solicit.</div><div class="ts muted">The 2021 sheet: a one-year non-compete.</div></div>
+    </div>
+    <div class="tile case" style="margin-top:1.8vh"><div class="ck">Marcus leaves two years after the seed</div><div class="ts">How many of his 3,000,000 shares does he keep? <span class="step" data-step><b>1,875,000.</b> The other 1,125,000 go back to the company.</span></div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Question 3</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Strings on your own shares</h4><p>Handout 1, sections 14 to 18.</p><p><b>Hands:</b> "Who knew your own founder shares can go back on a vesting clock when you take the money?" Investors are buying the team, so the team has to stay.</p><p>Handout 1: 25% vested at closing, the other 75% monthly over four years. The 2012 deck said three years with a cliff.</p><p><b>Predict, then click:</b> Marcus keeps 1,875,000. That's 750,000 at closing plus 24 months at 46,875 a month.</p><p><b>Acceleration, one line:</b> at the $15M sale the founders are 81% vested, and the other 19% is about $1.4M. Single trigger pays it at the sale. Double trigger pays it only if they're also let go. Handout 1 is double trigger.</p><p><b>Drag-along:</b> the old sheet had none. WVC could block a sale but couldn't force one. Ask: "Why would a founder want a drag-along?" So one small holder can't hold up a sale.</p><p><b>Super pro rata, one line from the 2012 deck:</b> beware. It scares off the next lead. Handout 1 section 16 says no.</p><p>Registration rights only matter at an IPO. Skip.</p><p>Non-compete: callback S13 slide 14.</p><p><b>If long:</b> vesting and drag-along only.</p></div>
+</section>
+<!-- 17 · THEN VS NOW -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Then vs now</div>
+  <h2 style="margin-bottom:1.2vh">Then vs Now</h2>
+  <div class="body">
+    <div class="trg t1" data-step></div>
+    <table class="tvn">
+      <thead><tr><th>Term</th><th>The 2021 sheet</th><th>Handout 1, the market now</th></tr></thead>
+      <tbody>
+        <tr class="m"><th>Liquidation preference</th><td class="then">1x plus dividends, participating</td><td class="now"><span class="rv r1">1x, non-participating</span></td></tr>
+        <tr class="m"><th>Dividends</th><td class="then">8% cumulative, paid in cash</td><td class="now"><span class="rv r1">Only if the board declares them</span></td></tr>
+        <tr class="m"><th>Anti-dilution</th><td class="then">Full ratchet</td><td class="now"><span class="rv r1">Broad-based weighted average</span></td></tr>
+        <tr><th>Redemption</th><td class="then">At year 5, or the investors take the board</td><td class="now"><span class="rv r1">None</span></td></tr>
+        <tr><th>Vetoes</th><td class="then">Includes hires and the budget</td><td class="now"><span class="rv r1">Stock, charter, sale, debt</span></td></tr>
+        <tr><th>Option pool</th><td class="then">In the pre-money</td><td class="now"><span class="rv r1">Still in the pre-money. Size it to a hiring plan.</span></td></tr>
+        <tr><th>Exclusivity</th><td class="then">No end date</td><td class="now"><span class="rv r1">30 days</span></td></tr>
+        <tr><th>Investor's legal fees</th><td class="then">Company pays, no cap</td><td class="now"><span class="rv r1">Capped</span></td></tr>
+        <tr><th>Drag-along</th><td class="then">None</td><td class="now"><span class="rv r1">Included</span></td></tr>
+      </tbody>
+    </table>
+    <div class="sourcestrip" style="margin-top:1.1vh;padding:.8vh 1vw"><div class="ssbody">First half of 2026: 97% non-participating, 1% cumulative dividends, 98% broad-based weighted average, 5% with redemption rights (Wilson Sonsini, Entrepreneurs Report, Q2 2026). Exclusivity, fee caps and drag-along are market practice, not survey data. The gold bar marks the three that move the most money.</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Then vs now</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Then vs now</h4><p>Seven minutes, starting about 6:59.</p><p><b>Write, two minutes:</b> the room fills the right column in the workbook from Handout 1 before you click.</p><p><b>Click.</b> Check it.</p><p><b>Pairs, 90 seconds:</b> "You're Dana and you've been handed the old sheet. You can change two lines. Which two?" Take four or five answers and tally them out loud.</p><p><b>Your answer and why.</b> You won't win all nine, so know which ones move money (the first three) and trade the rest.</p><p><b>Your framing:</b> the old template was written to protect the fund in a hard market. In 2026 founders have the leverage at seed and Series A, and that will turn again.</p><p>Exclusivity, fee caps and drag-along are your read of market practice.</p><p>Photograph this one.</p></div>
+</section>
+<!-- 18 · STOCK OPTION -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Question 4 · How do I share it with my people?</div>
+  <h2>What a Stock Option Is</h2>
+  <div class="body">
+    <div class="grid4 mid">
+      <div class="tile top"><div class="tt">The right to buy a share later at today's price</div></div>
+      <div class="tile top"><div class="tt">Comes out of the pool</div></div>
+      <div class="tile top"><div class="tt">Sam's 1% = 125,000 options</div></div>
+      <div class="tile top"><div class="tt">Strike price $0.50</div><div class="ts muted">WVC paid $2.00</div></div>
+    </div>
+    <div class="eqrow step" data-step style="margin-top:2vh">
+      <div class="eqstat"><div class="v">$4.80 − $0.50</div><div class="k">Sale price a share, less the strike</div></div>
+      <div class="eqop">×</div>
+      <div class="eqstat"><div class="v">125,000</div><div class="k">Options</div></div>
+      <div class="eqop">=</div>
+      <div class="eqstat answer"><div class="v">$537,500</div><div class="k">Sam's 1% at a $60M sale</div></div>
+    </div>
+    <div class="ask step" data-step style="margin-top:1.8vh"><div class="al">The offer</div><p>"We're giving you 125,000 options." Good offer?</p></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Question 4</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>What a stock option is</h4><p>Sam is engineer number one.</p><p><b>Predict:</b> "WVC paid $2.00 a share. Why is Sam's price $0.50?" Common has no preference (slide 13), so an outside valuation, the 409A, prices it lower.</p><p><b>Predict:</b> "Callowhill sells at $4.80 a share. What's Sam's 1% worth?" <b>Click.</b> $537,500. Worth the difference, and only if the company sells for more than the strike.</p><p>Hold the small-sale version for slide 21.</p><p><b>Click, hands:</b> "Good offer?" Nobody can tell without the total share count. Always give the percent.</p><p>Callback S13 slide 10: employee and advisor equity was owed to tonight.</p></div>
+</section>
+<!-- 19 · THE RULES -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Question 4 · How do I share it with my people?</div>
+  <h2>The Rules That Matter</h2>
+  <div class="body">
+    <div class="grid4 tall">
+      <div class="tile top"><div class="tt">Vesting</div><div class="ts">Four years, one-year cliff</div></div>
+      <div class="tile top"><div class="tt">Leaving</div><div class="ts">You usually have 90 days to buy what's vested</div></div>
+      <div class="tile top"><div class="tt">Two kinds</div><div class="ts">ISO for employees. NSO for contractors and advisors.</div></div>
+      <div class="tile top"><div class="tt">Every grant</div><div class="ts">Board approval and a current 409A</div></div>
+    </div>
+    <div class="tile case" style="margin-top:1.8vh"><div class="ck">Sam leaves at 18 months</div><div class="ts">46,875 options are vested. <span class="step" data-step>To keep them, Sam writes a check for <b>$23,438</b> within 90 days.</span></div></div>
+    <div class="sourcestrip" style="margin-top:1.4vh"><div class="sslabel">Source</div><div class="ssbody">18 of 48 months = 37.5% of 125,000 = 46,875 options × $0.50 = $23,438. Option pools: a median of about 12% after a seed round, growing to about 19% by Series D (Carta).</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Question 4</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>The rules that matter</h4><p><b>Hands:</b> "Who has held options at a company? Who left some behind?"</p><p>The 90-day window is where employees get hurt. <b>Click.</b> Sam writes a $23,438 check before anyone knows what the options will be worth.</p><p>Longer windows exist. It's the founder's choice.</p><p>ISO or NSO decides the employee's tax bill. One line, then "ask your CPA."</p><p>Restricted stock and early exercise: the 30-day 83(b) line from S13.</p><p>Every grant needs the board. Under the old sheet it also needed WVC's director.</p><p><b>Story slot:</b> options that made someone money, or didn't.</p><p><b>If long:</b> fold this into the slide before it, spoken.</p></div>
+</section>
+<!-- 20 · LLC EQUITY -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Question 4 · How do I share it with my people?</div>
+  <h2>No Stock? Alicia Asks for 5%</h2>
+  <div class="body">
+    <p class="read intro" style="margin-bottom:2vh">Dana's family's HVAC company. A 22-person LLC worth about <strong>$4M</strong>. Alicia runs it. Five years later it sells for <strong>$6M</strong>.</p>
+    <div class="trg t1" data-step></div>
+    <table class="ent lle">
+      <thead><tr><th></th><th>What Alicia gets</th><th>An owner?</th><th>At the $6M sale</th></tr></thead>
+      <tbody>
+        <tr><th>Profits interest</th><td>A share of the growth above today's $4M</td><td>Yes</td><td class="amt"><span class="rv r1">$100,000</span></td></tr>
+        <tr><th>Phantom equity</th><td>A cash bonus equal to 5% of the sale price</td><td>No</td><td class="amt"><span class="rv r1">$300,000</span></td></tr>
+        <tr><th>A real 5% stake, today</th><td>5% of everything, now</td><td>Yes</td><td class="amt"><span class="rv r1">$300,000</span></td></tr>
+        <tr><th>Profit sharing</th><td>5% of each year's profit</td><td>No</td><td class="amt"><span class="rv r1">Nothing at the sale</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Question 4</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>No stock? Alicia asks for 5%</h4><p><b>Protected slide.</b> This is where most of the room lives.</p><p>Dana's brother runs the family HVAC company. Alicia, the general manager, wants a piece.</p><p><b>Predict:</b> "Alicia asks for 5%. Which 5%?" Take answers. <b>Click.</b></p><p>Profits interest: 5% of the $2M of growth. Phantom equity or a real stake: 5% of the whole $6M. Profit sharing: a cut every year, nothing at the sale. Same word, three different checks.</p><p>A profits interest and a real stake make her a partner. Callback S13 slide 9: owners' agreement, buy-sell.</p><p>Vesting from the slide before applies to all four.</p><p><b>Tax, two or three sentences, yours.</b> Nothing on the slide. "Talk to your CPA before you promise anything."</p><p><b>Story slot:</b> an equity promise made on a handshake.</p><p>The numbers are an illustration. The family company is made up.</p></div>
+</section>
+<!-- 21 · THE ANSWER -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">The answer</div>
+  <h2>It Sells for $15M</h2>
+  <div class="body">
+    <div class="trg t1" data-step></div><div class="trg t2" data-step></div>
+    <table class="lad ctr big">
+      <thead><tr><th>Three years after the seed</th><th>Handout 1 terms</th><th>The 2021 sheet</th></tr></thead>
+      <tbody>
+        <tr><th>WVC · owns 20%</th><td class="n"><span class="rv r1">$5.0M · 33%</span></td><td class="n d"><span class="rv r2">$8.0M · 53%</span></td></tr>
+        <tr class="seed"><th>Founders · own 60%</th><td class="n"><span class="rv r1">$7.5M · 50%</span></td><td class="n d"><span class="rv r2">$5.3M · 35%</span></td></tr>
+        <tr><th>Sam · 1%</th><td class="n"><span class="rv r1">$62,500</span></td><td class="n d"><span class="rv r2">$25,500</span></td></tr>
+      </tbody>
+    </table>
+    <div class="ask step" data-step style="margin-top:1.6vh"><div class="al">Sold for $60M instead</div><p>WVC $12.0M or $17.0M · Founders $36.0M or $32.3M · Sam $537,500 or $475,500</p></div>
+    <div class="sourcestrip" style="margin-top:1.2vh"><div class="sslabel">Source</div><div class="ssbody">Handout 1: WVC takes the greater of $5M or 20% of $15M, so $5M. The other $10M ÷ 10,000,000 shares = $1.00 a share. The 2021 sheet: $5M + $1.2M + 20% of $8.8M = $7.96M. The other $7.04M ÷ 10,000,000 = $0.70 a share. Sam: (price a share − $0.50) × 125,000. The angels' shares are treated as common and the whole pool is counted.</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · The answer</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>It sells for $15M</h4><p>Starts about 7:18. <b>Pairs, three minutes, last page of the workbook.</b> Handout 1 column first, then the old sheet with the dividend number given.</p><p><b>Click:</b> Handout 1. WVC $5M. Founders $7.5M: Dana $4.5M, Marcus $3.0M. The angels get exactly their $1M back.</p><p><b>Click:</b> the 2021 sheet. Same company, same valuation, same sale. $2.2M less for the founders: Dana $3.2M, Marcus $2.1M. Sam's 1% is cut by more than half.</p><p>That closes slide 2.</p><p><b>Back to the boardroom question from slide 15:</b> who wants this sale now? Under the old sheet WVC takes 53% and is happy to sell.</p><p><b>Click:</b> at $60M the gap is about 10%. Terms matter most when the outcome is ordinary.</p><p>If someone asks: at a $10M sale Sam's options are worth nothing under either sheet, and the founders still split $3.75M on today's terms.</p><p>Photograph this one.</p></div>
+</section>
+<!-- 22 · BEFORE YOU SIGN -->
+<section class="slide dark wide" data-slide>
+  <div class="eyebrow">Before you sign</div>
+  <h2 style="margin-bottom:1.2vh">The Valuation Is the Headline. The Terms Decide Who Gets Paid.</h2>
+  <div class="body">
+    <div class="ck12">
+      <div class="c"><span class="n">1</span><span class="t">I know my post-money and what I sold</span></div>
+      <div class="c"><span class="n">6</span><span class="t">I've read every veto against my operating plan</span></div>
+      <div class="c"><span class="n">2</span><span class="t">The pool is sized to a hiring plan</span></div>
+      <div class="c"><span class="n">7</span><span class="t">Exclusivity has an end date and the legal bill has a cap</span></div>
+      <div class="c"><span class="n">3</span><span class="t">1x, non-participating</span></div>
+      <div class="c"><span class="n">8</span><span class="t">I ran the sale at a small number</span></div>
+      <div class="c"><span class="n">4</span><span class="t">No cumulative dividends, no redemption</span></div>
+      <div class="c"><span class="n">9</span><span class="t">My people know their percent, their vesting and their window</span></div>
+      <div class="c"><span class="n">5</span><span class="t">Weighted average, not a ratchet</span></div>
+      <div class="c"><span class="n">10</span><span class="t">I'd want this investor on my board for ten years</span></div>
+    </div>
+    <p class="hwline"><b>Before next session</b>Build your own cap table: today, and after your next check or equity grant · AI: paste a public term sheet template and have it mark each term against tonight's then-vs-now list · Read the term sheet chapters of <i>Venture Deals</i></p>
+  </div>
+  <div class="footer"><span>community.fitlermba.com</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Before you sign</h4><p><b>Write:</b> check what you could answer for your own business today. The list is on the last page of the workbook.</p><p><b>Homework:</b> (1) your own cap table, today and after the next check or grant. (2) The AI prompt: public documents only, nothing under NDA. (3) <i>Venture Deals</i>, the term sheet chapters.</p><p>If the Round Simulator is posted by then, point them to it for homework 1.</p><p><b>Close, from the 2012 deck, in your words:</b> raise more than you need. Don't obsess about valuation. Pick an investor you like and check references. Close fast, but not too fast.</p></div>
+</section>
+<!-- WRAP UP -->
+<section class="slide dark" data-slide data-nonum="Wrap up">
+  <div class="eyebrow">Wrap up</div>
+  <div class="body">
+    <h1 style="font-size:clamp(2.1rem,4.6vw,3.9rem);max-width:1150px;">The Terms Decide Who Gets Paid</h1>
+    <hr class="rule" style="margin-top:3vh;">
+    <p class="big" style="font-size:clamp(1.5rem,2.9vw,2.5rem);">Know what you <span class="g">sold</span>.</p>
+    <p class="big" style="font-size:clamp(1.5rem,2.9vw,2.5rem);margin-top:1.2vh;">Run the sale at a <span class="g">small number</span>.</p>
+    <p class="big" style="font-size:clamp(1.5rem,2.9vw,2.5rem);margin-top:1.2vh;">Raising, giving someone equity, or holding a term sheet? <span class="g">Let's talk</span>.</p>
+    <p class="read muted" style="margin-top:3.4vh;max-width:1100px;">Advisory sessions · Tuesdays at the Club · Fridays 11:00–1:00 by Zoom</p>
+  </div>
+  <div class="footer"><span>community.fitlermba.com</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Wrap up</h4><p>One minute. This is the 7:30 landing.</p><p>An advisory session is where you bring your own term sheet, your own cap table, or the equity promise you're about to make. It's coaching, not legal advice.</p><p>For the room that stays: the bonus slides are 23 to 26. Type the number and Enter.</p></div>
+</section>
+<!-- BLANK -->
+<section class="slide dark" data-slide data-nonum="">
+  <div class="body"></div>
+  <div class="footer" style="visibility:hidden"><span></span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Blank</h4><p>Bonus slides follow: 23 the nine steps, 24 down rounds, 25 the rest of the sheet, 26 your numbers.</p></div>
+</section>
+<!-- 23 · NINE STEPS (bonus) -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Bonus · The process</div>
+  <h2>The Nine Steps of a VC Deal</h2>
+  <div class="body">
+    <div class="chev">
+      <div class="phase"><div class="ph">Get noticed</div><div class="row">
+        <div class="c"><div class="n">1</div><div class="l">Initial contact</div></div>
+        <div class="c"><div class="n">2</div><div class="l">Evaluation</div></div>
+        <div class="c"><div class="n">3</div><div class="l">Screening</div></div></div></div>
+      <div class="phase"><div class="ph">Win the meeting</div><div class="row">
+        <div class="c"><div class="n">4</div><div class="l">Initial meeting</div></div></div></div>
+      <div class="phase"><div class="ph">Earn conviction</div><div class="row">
+        <div class="c"><div class="n">5</div><div class="l">Company visit</div></div>
+        <div class="c"><div class="n">6</div><div class="l">Partner meeting</div></div></div></div>
+      <div class="phase pitchzone"><div class="ph">Close</div><div class="row">
+        <div class="c"><div class="n">7</div><div class="l">Term sheet</div></div>
+        <div class="c"><div class="n">8</div><div class="l">Due diligence</div></div>
+        <div class="c"><div class="n">9</div><div class="l">Closing</div></div></div></div>
+    </div>
+    <div class="zonebar s14z step" data-step><div class="z2">S11: your pitch gets you here</div><div class="z1">Tonight: the term sheet to the wire</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Bonus</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>The nine steps of a VC deal</h4><p>Owed since S11 slide 5. Same nine steps. Tonight is the last three.</p><p><b>Term sheet:</b> signed, the exclusivity clock starts. Handout 1 section 21.</p><p><b>Due diligence:</b> the old sheet's paragraph N. Legal, financial, background checks on the founders. S13's checkup is the list they work from.</p><p><b>Closing:</b> the Stock Purchase Agreement and the rest of the document set (paragraph L), then the wire.</p><p>How long each takes: your numbers.</p></div>
+</section>
+<!-- 24 · DOWN ROUNDS (bonus) -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Bonus · When it goes badly</div>
+  <h2>Down Rounds and Recaps</h2>
+  <div class="body">
+    <div class="grid3 tall">
+      <div class="tile top"><div class="tt">Pay-to-play</div><div class="ts">Put more money in, or lose your preferred rights.</div></div>
+      <div class="tile top"><div class="tt">Recapitalization</div><div class="ts">The cap table gets rebuilt so new money will come in.</div></div>
+      <div class="tile top"><div class="tt">Who protects whom</div><div class="ts">Anti-dilution protects earlier investors. The founders and the pool pay for it.</div></div>
+    </div>
+    <div class="sourcestrip" style="margin-top:1.8vh"><div class="sslabel">Source</div><div class="ssbody">Pay-to-play appeared in 11% of Series B and later financings in the first half of 2026 (Wilson Sonsini, Entrepreneurs Report, Q2 2026).</div></div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Bonus</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Down rounds and recaps</h4><p>Back to slide 14: the bridge at half the price.</p><p>Pay-to-play was in your 2012 deck: an investor who doesn't put in its share of the next round converts to common.</p><p>The option pool usually gets refilled in a recap, because the old options are under water.</p><p><b>Story slot:</b> a down round.</p></div>
+</section>
+<!-- 25 · THE REST OF THE SHEET (bonus) -->
+<section class="slide wide" data-slide>
+  <div class="eyebrow">Bonus · The 2021 sheet</div>
+  <h2>The Rest of the Sheet</h2>
+  <div class="body">
+    <div class="grid5 mid">
+      <div class="tile"><div class="tt">Registration rights</div><div class="ts">Paragraph F. Matters at an IPO.</div></div>
+      <div class="tile"><div class="tt">Information rights</div><div class="ts">Paragraph G. Financials, and the right to inspect.</div></div>
+      <div class="tile"><div class="tt">Conditions to closing</div><div class="ts">Paragraph N. Diligence, audited financials, background checks.</div></div>
+      <div class="tile"><div class="tt">Key man insurance</div><div class="ts">Paragraph O. On the CEO's life.</div></div>
+      <div class="tile"><div class="tt">Conversion</div><div class="ts">Paragraphs E(4) and E(5). Automatic at an IPO.</div></div>
+    </div>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Bonus</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>The rest of the sheet</h4><p>The boilerplate from the 2012 deck, with the old sheet's paragraph letters.</p><p>Audited financials as a closing condition: callback S04 and S05.</p><p>The key man policy in the old sheet was escrowed to fund redemptions. That's the year-five clock again.</p><p>Automatic conversion in the old sheet needed a public offering of at least $50M at a $125M valuation.</p></div>
+</section>
+<!-- 26 · YOUR NUMBERS (bonus) -->
+<section class="slide dark" data-slide>
+  <div class="eyebrow">Bonus</div>
+  <div class="body">
+    <h1 style="font-size:clamp(2.4rem,5.6vw,4.8rem);">Your numbers.</h1>
+    <hr class="rule" style="margin-top:3vh;">
+    <p class="big" style="font-size:clamp(1.4rem,2.6vw,2.2rem);max-width:1100px;">One volunteer. A real or planned raise, or an equity grant. We work it on the board.</p>
+  </div>
+  <div class="footer"><span>Fitler MBA · S14 · Bonus</span><span class="counter" data-counter></span></div>
+  <div class="notes"><h4>Your numbers</h4><p>Four questions in order: what are you selling, who gets paid first, who decides, who else gets a piece.</p><p>Use the cap table page of the workbook as the board layout.</p></div>
+</section>
+</div>
+
+<div class="notesbox" id="notesbox"></div>
+<div class="jump" id="jump"></div>
+<div class="hintbar">→ / space: advance · ← back · N notes · F fullscreen · number + Enter: go to slide</div>
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('[data-slide]'));
+  var idx = 0;
+  var notesbox = document.getElementById('notesbox');
+  var jump = document.getElementById('jump');
+  var notesOn = false;
+  var buf = '';
+  // number only the real slides; the break slide carries its own label
+  var total = 0;
+  slides.forEach(function(s){ if(!s.hasAttribute('data-nonum')){ total++; s.setAttribute('data-n', total); } });
+  function stepsOf(slide){ return Array.prototype.slice.call(slide.querySelectorAll('[data-step]')); }
+  function label(s){ return s.hasAttribute('data-nonum') ? s.getAttribute('data-nonum') : (s.getAttribute('data-n') + ' / ' + total); }
+  function paint(){
+    slides.forEach(function(s,i){ s.classList.toggle('active', i===idx); });
+    slides.forEach(function(s){
+      s.querySelectorAll('[data-counter]').forEach(function(c){ c.textContent = label(s); });
+    });
+    var n = slides[idx].querySelector('.notes');
+    notesbox.innerHTML = n ? n.innerHTML : '<p>No notes.</p>';
+  }
+  function advance(){
+    var pending = stepsOf(slides[idx]).filter(function(el){ return !el.classList.contains('shown'); });
+    if(pending.length){ pending[0].classList.add('shown'); return; }
+    if(idx < slides.length-1){ idx++; paint(); }
+  }
+  function back(){
+    var shown = stepsOf(slides[idx]).filter(function(el){ return el.classList.contains('shown'); });
+    if(shown.length){ shown[shown.length-1].classList.remove('shown'); return; }
+    if(idx > 0){ idx--; stepsOf(slides[idx]).forEach(function(el){ el.classList.add('shown'); }); paint(); }
+  }
+  function goto_(i, revealAll){
+    idx = Math.max(0, Math.min(slides.length-1, i));
+    stepsOf(slides[idx]).forEach(function(el){ el.classList.toggle('shown', !!revealAll); });
+    paint();
+  }
+  function gotoNum(n){
+    for(var i=0;i<slides.length;i++){ if(slides[i].getAttribute('data-n') === String(n)){ goto_(i, false); return; } }
+  }
+  function showBuf(){ jump.textContent = buf ? ('Go to slide ' + buf + '  ⏎') : ''; jump.classList.toggle('on', !!buf); }
+  document.addEventListener('keydown', function(e){
+    if(/^[0-9]$/.test(e.key)){ buf = (buf + e.key).slice(-2); showBuf(); return; }
+    if(e.key === 'Enter' && buf){ e.preventDefault(); gotoNum(parseInt(buf,10)); buf=''; showBuf(); return; }
+    if(e.key === 'Escape'){ buf=''; showBuf(); return; }
+    buf=''; showBuf();
+    switch(e.key){
+      case 'ArrowRight': case ' ': case 'PageDown': e.preventDefault(); advance(); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); back(); break;
+      case 'Home': e.preventDefault(); goto_(0,false); break;
+      case 'End': e.preventDefault(); goto_(slides.length-1,true); break;
+      case 'n': case 'N': notesOn = !notesOn; notesbox.classList.toggle('on', notesOn); break;
+      case 'f': case 'F': if(document.fullscreenElement){document.exitFullscreen();} else {document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();} break;
+    }
+  });
+  document.addEventListener('click', function(e){
+    var g = e.target.closest('[data-goto]');
+    if(g){ gotoNum(g.getAttribute('data-goto')); return; }
+    if(e.target.closest('#notesbox, .noadv, .nt')) return;
+    if(e.clientX < window.innerWidth/3){ back(); } else { advance(); }
+  });
+  paint();
+})();
+</script>
+</body>
+</html>
